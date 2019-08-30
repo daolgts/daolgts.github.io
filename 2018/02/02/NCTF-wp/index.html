@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    NCTF wp | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  writeup
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1517559831000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1517559831000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>NCTF wp</h1>
+    <a id="more"></a>
+<h2 id="1-NCTF-php-decode"><a href="#1-NCTF-php-decode" class="headerlink" title="1. NCTF php decode"></a>1. NCTF php decode</h2><ul>
+<li><p>见到的一个类似编码的shell，请解码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function CLsI($ZzvSWE) &#123;</span><br><span class="line"></span><br><span class="line">    $ZzvSWE = gzinflate(base64_decode($ZzvSWE));</span><br><span class="line"></span><br><span class="line">    for ($i = 0; $i &lt; strlen($ZzvSWE); $i++) &#123;</span><br><span class="line"></span><br><span class="line">        $ZzvSWE[$i] = chr(ord($ZzvSWE[$i]) - 1);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return $ZzvSWE;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">eval(CLsI(&quot;+7DnQGFmYVZ+eoGmlg0fd3puUoZ1fkppek1GdVZhQnJSSZq5aUImGNQBAA==&quot;));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>把eval改为echo就能进行解密，得到flag</p>
+</li>
+</ul>
+<h2 id="2-NCTF-文件包含"><a href="#2-NCTF-文件包含" class="headerlink" title="2. NCTF 文件包含"></a>2. NCTF 文件包含</h2><ul>
+<li>题目地址 <a href="http://4.chinalover.sinaapp.com/web7/index.php" target="_blank" rel="noopener">http://4.chinalover.sinaapp.com/web7/index.php</a></li>
+<li><blockquote>
+<p>没错 这就是传说中的LFI</p>
+</blockquote>
+</li>
+<li>文件包含漏洞，可以通过构造含有漏洞的语句，查看想要看的代码</li>
+<li>file=php://filter/read=convert.base64-encode/resource=index.php</li>
+<li><ol>
+<li>php://filter/可用于处理打开的数据流，起到过滤作用。如果源文件为.php则很有可能在前台显示不出来。</li>
+<li>此时我们采用的方法是，先让文件转化为base64格式（convert.base64-encode）然后再输出，这样不论是什么格式的文件都可以在前台输出。</li>
+<li>再次解码就可得到源代码</li>
+</ol>
+</li>
+<li>得到<code>PGh0bWw+CiAgICA8dGl0bGU+YXNkZjwvdGl0bGU+CiAgICAKPD9waHAKCWVycm9yX3JlcG9ydGluZygwKTsKCWlmKCEkX0dFVFtmaWxlXSl7ZWNobyAnPGEgaHJlZj0iLi9pbmRleC5waHA/ZmlsZT1zaG93LnBocCI+Y2xpY2sgbWU/IG5vPC9hPic7fQoJJGZpbGU9JF9HRVRbJ2ZpbGUnXTsKCWlmKHN0cnN0cigkZmlsZSwiLi4vIil8fHN0cmlzdHIoJGZpbGUsICJ0cCIpfHxzdHJpc3RyKCRmaWxlLCJpbnB1dCIpfHxzdHJpc3RyKCRmaWxlLCJkYXRhIikpewoJCWVjaG8gIk9oIG5vISI7CgkJZXhpdCgpOwoJfQoJaW5jbHVkZSgkZmlsZSk7IAovL2ZsYWc6bmN0ZntlZHVsY25pX2VsaWZfbGFjb2xfc2lfc2lodH0KCj8+CjwvaHRtbD4=</code></li>
+<li>解码得到<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;title&gt;asdf&lt;/title&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">	error_reporting(0);</span><br><span class="line">	if(!$_GET[file])&#123;echo &apos;&lt;a href=&quot;./index.php?file=show.php&quot;&gt;click me? no&lt;/a&gt;&apos;;&#125;</span><br><span class="line">	$file=$_GET[&apos;file&apos;];</span><br><span class="line">	if(strstr($file,&quot;../&quot;)||stristr($file, &quot;tp&quot;)||stristr($file,&quot;input&quot;)||stristr($file,&quot;data&quot;))&#123;</span><br><span class="line">		echo &quot;Oh no!&quot;;</span><br><span class="line">		exit();</span><br><span class="line">	&#125;</span><br><span class="line">	include($file);</span><br><span class="line">//flag:nctf&#123;edulcni_elif_lacol_si_siht&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="3-NCTF-单身一百年也没用"><a href="#3-NCTF-单身一百年也没用" class="headerlink" title="3. NCTF 单身一百年也没用"></a>3. NCTF 单身一百年也没用</h2><ul>
+<li>题目地址 <a href="http://chinalover.sinaapp.com/web9/" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web9/</a></li>
+<li>找了挺长时间，没注意就在请求头里</li>
+<li><img src="https://s1.ax1x.com/2018/02/03/9elXuD.png" alt="9elXuD.png"></li>
+</ul>
+<h2 id="4-NCTF-Download"><a href="#4-NCTF-Download" class="headerlink" title="4. NCTF Download~!"></a>4. NCTF Download~!</h2><ul>
+<li><p>题目地址 <a href="http://way.nuptzj.cn/web6/" target="_blank" rel="noopener">http://way.nuptzj.cn/web6/</a></p>
+</li>
+<li><p>页面有两个链接，能下载两个mp3文件</p>
+</li>
+<li><p>查看源码，发现url的值是base64编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> &lt;p&gt;&lt;a href=&quot;download.php?url=eGluZ3hpbmdkaWFuZGVuZy5tcDM=&quot;target=&quot;_blank&quot;&gt;星星点灯&lt;/a&gt;&lt;/p&gt;</span><br><span class="line">&lt;p&gt;&lt;a href=&quot;download.php?url=YnV4aWFuZ3poYW5nZGEubXAz&quot;target=&quot;_blank&quot;&gt;不想长大&lt;/a&gt;&lt;/p&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>base64解码后发现url就是文件名，考虑下载downlo.php</p>
+</li>
+<li><p>将download.php进行base64编码ZG93bmxvYWQucGhw</p>
+</li>
+<li><p>url=<a href="https://way.nuptzj.cn/web6/download.php?url=ZG93bmxvYWQucGhw" target="_blank" rel="noopener">https://way.nuptzj.cn/web6/download.php?url=ZG93bmxvYWQucGhw</a></p>
+</li>
+<li><p>打开得到源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">??&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">include(&quot;hereiskey.php&quot;);</span><br><span class="line">$url=base64_decode($_GET[url]);</span><br><span class="line">if( $url==&quot;hereiskey.php&quot; || $url==&quot;buxiangzhangda.mp3&quot; || $url==&quot;xingxingdiandeng.mp3&quot; || $url==&quot;download.php&quot;)&#123;</span><br><span class="line">	$file_size = filesize($url);</span><br><span class="line">	header ( &quot;Pragma: public&quot; );</span><br><span class="line">	header ( &quot;Cache-Control: must-revalidate, post-check=0, pre-check=0&quot; );</span><br><span class="line">	header ( &quot;Cache-Control: private&quot;, false );</span><br><span class="line">	header ( &quot;Content-Transfer-Encoding: binary&quot; );</span><br><span class="line">	header ( &quot;Content-Type:audio/mpeg MP3&quot;);</span><br><span class="line">	header ( &quot;Content-Length: &quot; . $file_size);</span><br><span class="line">	header ( &quot;Content-Disposition: attachment; filename=&quot;.$url);</span><br><span class="line">	echo(file_get_contents($url));</span><br><span class="line">	exit;</span><br><span class="line">&#125;</span><br><span class="line">else &#123;</span><br><span class="line">	echo &quot;Access Forbidden!&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>源码包含了hereiskey.php，提示很明显了</p>
+</li>
+<li><p>下载hereiskey.php文件，url=aGVyZWlza2V5LnBocA==</p>
+</li>
+<li><p>打开得到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?&lt;?php</span><br><span class="line">//flag:nctf&#123;download_any_file_666&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="5-NCTF-MYSQL"><a href="#5-NCTF-MYSQL" class="headerlink" title="5. NCTF MYSQL"></a>5. NCTF MYSQL</h2><ul>
+<li><p>题目地址 <a href="http://chinalover.sinaapp.com/web11/" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web11/</a></p>
+</li>
+<li><p>打开链接，提示“Do you know robots.txt？”，并给出了robos.txt的百度</p>
+</li>
+<li><p>打开robots.txt，<a href="http://chinalover.sinaapp.com/web11/robots.txt" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web11/robots.txt</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">别太开心，flag不在这，这个文件的用途你看完了？</span><br><span class="line">在CTF比赛中，这个文件往往存放着提示信息</span><br><span class="line"></span><br><span class="line">TIP:sql.php</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">if($_GET[id]) &#123;</span><br><span class="line">   mysql_connect(SAE_MYSQL_HOST_M . &apos;:&apos; . SAE_MYSQL_PORT,SAE_MYSQL_USER,SAE_MYSQL_PASS);</span><br><span class="line">  mysql_select_db(SAE_MYSQL_DB);</span><br><span class="line">  $id = intval($_GET[id]);</span><br><span class="line">  $query = @mysql_fetch_array(mysql_query(&quot;select content from ctf2 where id=&apos;$id&apos;&quot;));</span><br><span class="line">  if ($_GET[id]==1024) &#123;</span><br><span class="line">      echo &quot;&lt;p&gt;no! try again&lt;/p&gt;&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">  else&#123;</span><br><span class="line">    echo($query[content]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示sql.php,并且</p>
+</li>
+<li><ol>
+<li>intval($_GET[id])为1024</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>$_GET[id]==1024为假</li>
+</ol>
+</li>
+<li><p>intval识别到非数字的那一位，而松散比较前的强制类型转换会把e当作科学计数法的一部分处理，所以可以提交id=1024e1</p>
+</li>
+<li><p>也可以提交id=1024.1</p>
+</li>
+<li><p>得到flag</p>
+</li>
+</ul>
+<h2 id="6-NCTF-GBK-Injection"><a href="#6-NCTF-GBK-Injection" class="headerlink" title="6. NCTF GBK Injection"></a>6. NCTF GBK Injection</h2><ul>
+<li>题目地址 <a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=1" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=1</a></li>
+<li>题目就提示了gbk宽字节注入</li>
+<li>id=1</li>
+<li>显示your sql:select id,title from news where id = ‘1’<br>Hello World!OVO</li>
+<li>id=2</li>
+<li>显示your sql:select id,title from news where id = ‘2’<br>gbk_sql_injection</li>
+<li>id=3</li>
+<li>显示your sql:select id,title from news where id = ‘3’<br>the fourth table，提示flag在第四个表里</li>
+<li>当id=1’时，显示your sql:select id,title from news where id = ‘1&#39;‘，<code>&#39;</code>被转义了</li>
+<li>id=%df’</li>
+<li>显示your sql:select id,title from news where id = ‘運’’，此时<code>&#39;</code>没有被转义，存在注入</li>
+<li>用sqlmap，得到flag</li>
+<li>python sqlmap.py -u “<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=1%d6&#39;&quot;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=1%d6&#39;&quot;</a> -T ctf4 -C flag –dump</li>
+</ul>
+<h2 id="7-NCTF-变量覆盖"><a href="#7-NCTF-变量覆盖" class="headerlink" title="7. NCTF 变量覆盖"></a>7. NCTF 变量覆盖</h2><ul>
+<li><p>题目地址 <a href="http://chinalover.sinaapp.com/web18/index.php" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web18/index.php</a></p>
+</li>
+<li><p>打开链接，点开souce.php出现源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">include(&quot;secret.php&quot;);</span><br><span class="line">?&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;head&gt;</span><br><span class="line">        &lt;title&gt;The Ducks&lt;/title&gt;</span><br><span class="line">        &lt;link href=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot; integrity=&quot;sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7&quot; crossorigin=&quot;anonymous&quot;&gt;</span><br><span class="line">        &lt;script src=&quot;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js&quot; integrity=&quot;sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;/head&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div class=&quot;container&quot;&gt;</span><br><span class="line">            &lt;div class=&quot;jumbotron&quot;&gt;</span><br><span class="line">                &lt;center&gt;</span><br><span class="line">                    &lt;h1&gt;The Ducks&lt;/h1&gt;</span><br><span class="line">                    &lt;?php if ($_SERVER[&quot;REQUEST_METHOD&quot;] == &quot;POST&quot;) &#123; ?&gt;</span><br><span class="line">                        &lt;?php</span><br><span class="line">                        extract($_POST);</span><br><span class="line">                        if ($pass == $thepassword_123) &#123; ?&gt;</span><br><span class="line">                            &lt;div class=&quot;alert alert-success&quot;&gt;</span><br><span class="line">                                &lt;code&gt;&lt;?php echo $theflag; ?&gt;&lt;/code&gt;</span><br><span class="line">                            &lt;/div&gt;</span><br><span class="line">                        &lt;?php &#125; ?&gt;</span><br><span class="line">                    &lt;?php &#125; ?&gt;</span><br><span class="line">                    &lt;form action=&quot;.&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">                        &lt;div class=&quot;row&quot;&gt;</span><br><span class="line">                            &lt;div class=&quot;col-md-6 col-md-offset-3&quot;&gt;</span><br><span class="line">                                &lt;div class=&quot;row&quot;&gt;</span><br><span class="line">                                    &lt;div class=&quot;col-md-9&quot;&gt;</span><br><span class="line">                                        &lt;input type=&quot;password&quot; class=&quot;form-control&quot; name=&quot;pass&quot; placeholder=&quot;Password&quot; /&gt;</span><br><span class="line">                                    &lt;/div&gt;</span><br><span class="line">                                    &lt;div class=&quot;col-md-3&quot;&gt;</span><br><span class="line">                                        &lt;input type=&quot;submit&quot; class=&quot;btn btn-primary&quot; value=&quot;Submit&quot; /&gt;</span><br><span class="line">                                    &lt;/div&gt;</span><br><span class="line">                                &lt;/div&gt;</span><br><span class="line">                            &lt;/div&gt;</span><br><span class="line">                        &lt;/div&gt;</span><br><span class="line">                    &lt;/form&gt;</span><br><span class="line">                &lt;/center&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;p&gt;</span><br><span class="line">                &lt;center&gt;</span><br><span class="line">                    source at &lt;a href=&quot;source.php&quot; target=&quot;_blank&quot;&gt;/source.php&lt;/a&gt;</span><br><span class="line">                &lt;/center&gt;</span><br><span class="line">            &lt;/p&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析代码，包含secret.php，如果$pass == $thepassword_123，就显示flag</p>
+</li>
+<li><p>extract() 函数从数组中将变量导入到当前的符号表</p>
+</li>
+<li><p>只需要覆盖$pass、$thepassword_123这两个变量使他们相等即可</p>
+</li>
+</ul>
+<h2 id="8-NCTF-变量覆盖"><a href="#8-NCTF-变量覆盖" class="headerlink" title="8. NCTF 变量覆盖"></a>8. NCTF 变量覆盖</h2><ul>
+<li>题目地址 <a href="http://chinalover.sinaapp.com/web4/xxx.php" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web4/xxx.php</a></li>
+<li>提示很明显了</li>
+<li>直接burpsuit截断添加 x-forwarded-for:127.0.0.1 ，得到flag</li>
+</ul>
+<h2 id="9-NCTF-SQL注入1"><a href="#9-NCTF-SQL注入1" class="headerlink" title="9.NCTF SQL注入1"></a>9.NCTF SQL注入1</h2><ul>
+<li><p>题目地址 <a href="http://chinalover.sinaapp.com/index.php" target="_blank" rel="noopener">http://chinalover.sinaapp.com/index.php</a></p>
+</li>
+<li><p>有源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">Secure Web Login</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">if($_POST[user] &amp;&amp; $_POST[pass]) &#123;</span><br><span class="line">    mysql_connect(SAE_MYSQL_HOST_M . &apos;:&apos; . SAE_MYSQL_PORT,SAE_MYSQL_USER,SAE_MYSQL_PASS);</span><br><span class="line">  mysql_select_db(SAE_MYSQL_DB);</span><br><span class="line">  $user = trim($_POST[user]);</span><br><span class="line">  $pass = md5(trim($_POST[pass]));</span><br><span class="line">  $sql=&quot;select user from ctf where (user=&apos;&quot;.$user.&quot;&apos;) and (pw=&apos;&quot;.$pass.&quot;&apos;)&quot;;</span><br><span class="line">    echo &apos;&lt;/br&gt;&apos;.$sql;</span><br><span class="line">  $query = mysql_fetch_array(mysql_query($sql));</span><br><span class="line">  if($query[user]==&quot;admin&quot;) &#123;</span><br><span class="line">      echo &quot;&lt;p&gt;Logged in! flag:******************** &lt;/p&gt;&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">  if($query[user] != &quot;admin&quot;) &#123;</span><br><span class="line">    echo(&quot;&lt;p&gt;You are not admin!&lt;/p&gt;&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">echo $query[user];</span><br><span class="line">?&gt;</span><br><span class="line">&lt;form method=post action=index.php&gt;</span><br><span class="line">&lt;input type=text name=user value=&quot;Username&quot;&gt;</span><br><span class="line">&lt;input type=password name=pass value=&quot;Password&quot;&gt;</span><br><span class="line">&lt;input type=submit&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;a href=&quot;index.phps&quot;&gt;Source&lt;/a&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sql语句中有括号，注意闭合</p>
+</li>
+<li><p>user=’ or 1=1 )#</p>
+</li>
+<li><p>user=admin’)#</p>
+</li>
+</ul>
+<h2 id="10-NCTF-pass-check"><a href="#10-NCTF-pass-check" class="headerlink" title="10.NCTF pass check"></a>10.NCTF pass check</h2><ul>
+<li><p>题目链接 <a href="http://chinalover.sinaapp.com/web21/" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web21/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$pass=@$_POST[&apos;pass&apos;];</span><br><span class="line">$pass1=***********;//被隐藏起来的密码</span><br><span class="line">if(isset($pass))</span><br><span class="line">&#123;</span><br><span class="line">if(@!strcmp($pass,$pass1))&#123;</span><br><span class="line">echo &quot;flag:nctf&#123;*&#125;&quot;;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">echo &quot;the pass is wrong!&quot;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;else&#123;</span><br><span class="line">echo &quot;please input pass!&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>strcmp函数在比较失败，即传入数组，时会返回null</p>
+</li>
+<li><p>post的数据为pass[]=</p>
+</li>
+</ul>
+<h2 id="11-NCTF-起名字真难"><a href="#11-NCTF-起名字真难" class="headerlink" title="11.NCTF 起名字真难"></a>11.NCTF 起名字真难</h2><ul>
+<li><p>题目链接 <a href="http://chinalover.sinaapp.com/web12/index.php" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web12/index.php</a></p>
+</li>
+<li><p>源码(php)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function noother_says_correct($number)</span><br><span class="line">&#123;</span><br><span class="line">       $one = ord(&apos;1&apos;);</span><br><span class="line">       $nine = ord(&apos;9&apos;);</span><br><span class="line">       for ($i = 0; $i &lt; strlen($number); $i++)</span><br><span class="line">       &#123;</span><br><span class="line">               $digit = ord($number&#123;$i&#125;);</span><br><span class="line">               if ( ($digit &gt;= $one) &amp;&amp; ($digit &lt;= $nine) )</span><br><span class="line">               &#123;</span><br><span class="line">                       return false;</span><br><span class="line">               &#125;</span><br><span class="line">       &#125;</span><br><span class="line">          return $number == &apos;54975581388&apos;;</span><br><span class="line">&#125;</span><br><span class="line">$flag=&apos;*******&apos;;</span><br><span class="line">if(noother_says_correct($_GET[&apos;key&apos;]))</span><br><span class="line">   echo $flag;</span><br><span class="line">else</span><br><span class="line">   echo &apos;access denied&apos;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分析代码，要求key值不能有1到9的数字，并且number == ‘54975581388’</p>
+</li>
+<li><p>用进制转换，又因为不能有1到9的数字，只能用16进制了</p>
+</li>
+<li><p>54975581388==0xccccccccc</p>
+</li>
+<li><p>构造url <a href="http://chinalover.sinaapp.com/web12/index.php?key=0xccccccccc" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web12/index.php?key=0xccccccccc</a> 得到flag</p>
+</li>
+</ul>
+<h2 id="12-NCTF-密码重置"><a href="#12-NCTF-密码重置" class="headerlink" title="12. NCTF 密码重置"></a>12. NCTF 密码重置</h2><ul>
+<li>题目链接 <a href="http://nctf.nuptzj.cn/web13/index.php?user1=Y3RmdXNlcg==" target="_blank" rel="noopener">http://nctf.nuptzj.cn/web13/index.php?user1=Y3RmdXNlcg==</a></li>
+<li><blockquote>
+<p>重置管理员账号：admin 的密码<br>你在点击忘记密码之后 你的邮箱收到了一封重置密码的邮件</p>
+</blockquote>
+</li>
+<li>打开链接，发现账号是只读的，而url1里user的值是ctfuser的base64编码</li>
+<li>上burpsuite，将user1改为admin的base64编码 user1=YWRtaW4=</li>
+<li>user=admin&amp;newpass=1&amp;vcode=1234，得到flag</li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

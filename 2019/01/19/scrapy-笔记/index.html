@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    scrapy 笔记 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  爬虫
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1547909587000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1547909587000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>scrapy 笔记</h1>
+    <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><code>pip install scrapy</code></p>
+<p>依赖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">lxml：一种高效的XML和HTML解析器，</span><br><span class="line">PARSEL：一个HTML / XML数据提取库，基于上面的lxml，</span><br><span class="line">w3lib：一种处理URL和网页编码多功能辅助</span><br><span class="line">twisted,：一个异步网络框架</span><br><span class="line">cryptography and pyOpenSSL，处理各种网络级安全需求</span><br></pre></td></tr></table></figure>
+
+<p>一般执行<code>pip install scrapy</code>会自动解决依赖</p>
+<h2 id="出现warning"><a href="#出现warning" class="headerlink" title="出现warning"></a>出现warning</h2><p>解决方法是升级<code>pyasn1</code>库:<code>pip install --upgrade pyasn1</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">λ scrapy version</span><br><span class="line">:0: UserWarning: You do not have a working installation of the service_identity module: &apos;cannot import name opentype&apos;.  Please install it from &lt;https://pypi.python.org/pypi/service_identity&gt; and make sure all of its dependencies are satisfied.  Without the service_identity module, Twisted can perform only rudimentary TLS client hostname verification.  Many valid certificate/hostname mappings may be rejected.</span><br><span class="line">Scrapy 1.5.1</span><br></pre></td></tr></table></figure>
+
+<h2 id="缺少win32api库"><a href="#缺少win32api库" class="headerlink" title="缺少win32api库"></a>缺少win32api库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ModuleNotFoundError: No module named &apos;win32api&apos;</span><br><span class="line"></span><br><span class="line">(spiderenv) λ pip install pypiwin32</span><br></pre></td></tr></table></figure>
+
+<h2 id="虚拟环境配置"><a href="#虚拟环境配置" class="headerlink" title="虚拟环境配置"></a>虚拟环境配置</h2><p>由于py2出现各种问题选择了py3的虚拟环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv --no-site-packages spiderenv</span><br></pre></td></tr></table></figure>
+
+<p>开启虚拟环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">F:\Python_env\spiderenv</span><br><span class="line">λ cd Scripts\</span><br><span class="line"></span><br><span class="line">F:\Python_env\spiderenv\Scripts</span><br><span class="line">λ .\activate.bat</span><br><span class="line"></span><br><span class="line">F:\Python_env\spiderenv\Scripts</span><br><span class="line">(spiderenv) λ python -V</span><br><span class="line">Python 3.7.0</span><br><span class="line"></span><br><span class="line">F:\Python_env\spiderenv\Scripts</span><br><span class="line">(spiderenv) λ pip -V</span><br><span class="line">pip 18.1 from f:\python_env\spiderenv\lib\site-packages\pip (python 3.7)</span><br></pre></td></tr></table></figure>
+
+<h2 id="vscode支持python虚拟环境"><a href="#vscode支持python虚拟环境" class="headerlink" title="vscode支持python虚拟环境"></a>vscode支持python虚拟环境</h2><p>设置<code>settings.json</code><br><img src="https://s2.ax1x.com/2019/01/19/kCisQU.png" alt="kCisQU.png"></p>
+<h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">(spiderenv) λ scrapy -h                                                         </span><br><span class="line">Scrapy 1.5.1 - project: prob_spider                                             </span><br><span class="line">                                                                                </span><br><span class="line">Usage:                                                                          </span><br><span class="line">  scrapy &lt;command&gt; [options] [args]                                             </span><br><span class="line">                                                                                </span><br><span class="line">Available commands:                                                             </span><br><span class="line">  bench         Run quick benchmark test                                        </span><br><span class="line">  check         Check spider contracts                                          </span><br><span class="line">  crawl         Run a spider                                                    </span><br><span class="line">  edit          Edit spider                                                     </span><br><span class="line">  fetch         Fetch a URL using the Scrapy downloader                         </span><br><span class="line">  genspider     Generate new spider using pre-defined templates                 </span><br><span class="line">  list          List available spiders                                          </span><br><span class="line">  parse         Parse URL (using its spider) and print the results              </span><br><span class="line">  runspider     Run a self-contained spider (without creating a project)        </span><br><span class="line">  settings      Get settings values                                             </span><br><span class="line">  shell         Interactive scraping console                                    </span><br><span class="line">  startproject  Create new project                                              </span><br><span class="line">  version       Print Scrapy version                                            </span><br><span class="line">  view          Open URL in browser, as seen by Scrapy                          </span><br><span class="line">                                                                                </span><br><span class="line">Use &quot;scrapy &lt;command&gt; -h&quot; to see more info about a command</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建一个scrapy项目"><a href="#创建一个scrapy项目" class="headerlink" title="创建一个scrapy项目"></a>创建一个scrapy项目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject demo</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建一个新的spider"><a href="#创建一个新的spider" class="headerlink" title="创建一个新的spider"></a>创建一个新的spider</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(spiderenv) λ cd demo</span><br><span class="line"></span><br><span class="line">(spiderenv) λ scrapy genspider example example.com</span><br><span class="line">Created spider &apos;example&apos; using template &apos;basic&apos; in module:</span><br><span class="line">  demo.spiders.example</span><br></pre></td></tr></table></figure>
+
+<h2 id="shell命令"><a href="#shell命令" class="headerlink" title="shell命令"></a>shell命令</h2><p>进入一个shell，方便调试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(spiderenv) λ scrapy shell http://example.com</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">[s] Available Scrapy objects:</span><br><span class="line">[s]   scrapy     scrapy module (contains scrapy.Request, scrapy.Selector, etc)</span><br><span class="line">[s]   crawler    &lt;scrapy.crawler.Crawler object at 0x000001C6828A2978&gt;</span><br><span class="line">[s]   item       &#123;&#125;</span><br><span class="line">[s]   request    &lt;GET http://example.com&gt;</span><br><span class="line">[s]   response   &lt;200 http://example.com&gt;</span><br><span class="line">[s]   settings   &lt;scrapy.settings.Settings object at 0x000001C6828A2B38&gt;</span><br><span class="line">[s]   spider     &lt;ExampleSpider &apos;example&apos; at 0x1c6833404e0&gt;</span><br><span class="line">[s] Useful shortcuts:</span><br><span class="line">[s]   fetch(url[, redirect=True]) Fetch URL and update local objects (by default, redirects are followed)</span><br><span class="line">[s]   fetch(req)                  Fetch a scrapy.Request and update local objects</span><br><span class="line">[s]   shelp()           Shell help (print this help)</span><br><span class="line">[s]   view(response)    View response in a browser</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用spider进行爬取"><a href="#使用spider进行爬取" class="headerlink" title="使用spider进行爬取"></a>使用spider进行爬取</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl myspider</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这里的<code>myspider</code>是spider的名字而不是项目的名字</li>
+</ul>
+<h1 id="编写"><a href="#编写" class="headerlink" title="编写"></a>编写</h1><h2 id="start-urls"><a href="#start-urls" class="headerlink" title="start_urls"></a>start_urls</h2><p>URL列表。当没有制定特定的URL时，spider将从该列表中开始进行爬取。</p>
+<h2 id="start-requests"><a href="#start-requests" class="headerlink" title="start_requests()"></a>start_requests()</h2><p>默认实现是使用<code>start_urls</code>的url生成Request,可以重写</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">   <span class="keyword">yield</span> scrapy.Request(url, callback=<span class="keyword">lambda</span> response, arg1=arg1: self.parse(response, arg1))</span><br><span class="line">   </span><br><span class="line">   </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response, arg1)</span>:</span></span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">    </span><br><span class="line">    item = exampleSpiderItem()</span><br><span class="line">    item[<span class="string">'name'</span>] = arg1</span><br><span class="line">    <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这里<code>scrapy.Request</code>的callback参数可以用lambda传入多个参数，在<code>parse</code>中使用</li>
+</ul>
+<h2 id="parse-response"><a href="#parse-response" class="headerlink" title="parse(response)"></a>parse(response)</h2><p>负责处理response并返回处理的数据以及(/或)跟进的URL。</p>
+<h2 id="数据提取工具-css-xpath"><a href="#数据提取工具-css-xpath" class="headerlink" title="数据提取工具 css/xpath"></a>数据提取工具 css/xpath</h2><p>css选择器：<a href="http://www.w3school.com.cn/cssref/css_selectors.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/cssref/css_selectors.asp</a></p>
+<p>xpath选择器：<a href="http://www.w3school.com.cn/xpath/xpath_syntax.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/xpath/xpath_syntax.asp</a></p>
+<p>提取标签里的内容 <code>//text()</code></p>
+<p>包含HTML标签的所有文字内容提取<code>string()</code></p>
+<p>提取真实的原文数据，需要调用<code>.extract()</code>方法</p>
+<p>提取第一个匹配到的元素, 调用<code>.extract_first()</code></p>
+<h2 id="Items"><a href="#Items" class="headerlink" title="Items"></a>Items</h2><p>为了定义常用的输出数据，Scrapy提供了<code>Item</code>类。 <code>Item</code>对象是种简单的容器，保存了爬取到得数据。</p>
+<p>在<code>items.py</code>中编写item</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import scrapy</span><br><span class="line"></span><br><span class="line">class ProbSpiderItem(scrapy.Item): </span><br><span class="line">    # define the fields for your item here like:</span><br><span class="line">    name = scrapy.Field()</span><br></pre></td></tr></table></figure>
+
+<p>在spider中为item赋值，需要import</p>
+<p><code>from examplespider.items import exampleSpiderItem</code></p>
+<h2 id="Item-Pipeline"><a href="#Item-Pipeline" class="headerlink" title="Item Pipeline"></a>Item Pipeline</h2><p>当Item在Spider中被收集之后，它将会被传递到Item Pipeline，一些组件会按照一定的顺序执行对Item的处理。</p>
+<p>将item存为json文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import json</span><br><span class="line"></span><br><span class="line">class ProbSpiderPipeline(object):</span><br><span class="line">    </span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.file = open(&apos;prob.json&apos;, &apos;a&apos;)</span><br><span class="line">    def process_item(self, item, spider):</span><br><span class="line">        content = json.dumps(dict(item), ensure_ascii=False) + &quot;\n&quot;</span><br><span class="line">        self.file.write(content)</span><br><span class="line">        return item</span><br><span class="line">    def close_spider(self, spider):</span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure>
+
+<p>还需要在<code>settings.py</code>中去掉<code>item pipelines</code>的注释来启用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># Configure item pipelines</span><br><span class="line"># See https://doc.scrapy.org/en/latest/topics/item-pipeline.html</span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">    &apos;prob_spider.pipelines.ProbSpiderPipeline&apos;: 300,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="实战项目"><a href="#实战项目" class="headerlink" title="实战项目"></a>实战项目</h1><p>用scrapy爬取百度知道上一些问题的相关问法</p>
+<p><a href="https://github.com/daolgts/prob_spider" target="_blank" rel="noopener">https://github.com/daolgts/prob_spider</a></p>
+<p>参考：<a href="https://scrapy-chs.readthedocs.io/zh_CN/1.0/topics/item-pipeline.html" target="_blank" rel="noopener">https://scrapy-chs.readthedocs.io/zh_CN/1.0/topics/item-pipeline.html</a></p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

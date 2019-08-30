@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    Overthewire bandit wp | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  writeup,Overthewire
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1534747674000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1534747674000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>Overthewire bandit wp</h1>
+    <ul>
+<li>看着网上的攻略和视频把这个通关了，学到了linux和git的命令，挺有意思的，一些简单的关卡就不写了，只写写学到的姿势</li>
+<li>url : <a href="http://overthewire.org/wargames/bandit/" target="_blank" rel="noopener">http://overthewire.org/wargames/bandit/</a></li>
+</ul>
+<a id="more"></a>
+
+<h3 id="level-1"><a href="#level-1" class="headerlink" title="level 1"></a>level 1</h3><p>每一关都需要找到ssh密码或者密钥文件进入下一关，给出了第一关的ssh密码,直接登陆</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh bandit0@bandit.labs.overthewire.org -p2220</span><br></pre></td></tr></table></figure>
+
+<p>之后每一关如此，只是用户名改为<code>bandit</code>+level</p>
+<h3 id="level-5"><a href="#level-5" class="headerlink" title="level 5"></a>level 5</h3><blockquote>
+<p>The password for the next level is stored in a file somewhere under the inhere directory and has all of the following properties:</p>
+<p>   human-readable</p>
+<p>   1033 bytes in size</p>
+<p>   not executable</p>
+</blockquote>
+<ol>
+<li><p>使用<code>du</code>  查看使用空间</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -a | grep &apos;1033&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>find</code> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find . -size 1033c</span><br><span class="line"></span><br><span class="line">-size&lt;文件大小&gt;：查找符合指定的文件大小的文件；</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="level-6"><a href="#level-6" class="headerlink" title="level 6"></a>level 6</h3><blockquote>
+<p>The password for the next level is stored somewhere on the server and has all of the following properties:</p>
+<p>   owned by user bandit7</p>
+<p>   owned by group bandit6</p>
+<p>   33 bytes in size</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-user&lt;拥有者名称&gt;：查找符和指定的拥有者名称的文件或目录；</span><br><span class="line">-group&lt;群组名称&gt;：查找符合指定之群组名称的文件或目录；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -user &apos;bandit7&apos; -group &apos;bandit6&apos; -size 33c | grep -v &apos;denied&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-8"><a href="#level-8" class="headerlink" title="level 8"></a>level 8</h3><p>找只出现一次的数据,可以用uniq找，但需要先用sort排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uniq</span><br><span class="line">-u或——unique：仅显示出一次的行列；</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat data.txt | sort | uniq -u</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-9"><a href="#level-9" class="headerlink" title="level  9"></a>level  9</h3><p>在乱码文件中找到可打印字符<br>用<code>strings</code>命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat data.txt | strings | grep &apos;=&apos;</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-10"><a href="#level-10" class="headerlink" title="level 10"></a>level 10</h3><p>base64解码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat data.txt | base64 -d</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-11"><a href="#level-11" class="headerlink" title="level 11"></a>level 11</h3><p>rot13解码</p>
+<blockquote>
+<p>tr命令可以对来自标准输入的字符进行替换、压缩和删除</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat data.txt | tr [a-z] [n-za-m] | tr [A-Z][N-ZA-M]</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-12"><a href="#level-12" class="headerlink" title="level 12"></a>level 12</h3><p>把16进制文件转回二进制文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxd -r data.txt data</span><br></pre></td></tr></table></figure>
+
+<p>接着用<code>file</code>文件类型，解包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gzip -d data.gz</span><br><span class="line">bzip2 -d data.bz2</span><br><span class="line">tar -xvf data.tar</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-13"><a href="#level-13" class="headerlink" title="level 13"></a>level 13</h3><p>用给出的ssh私钥<code>ssh_private</code>登陆<br>需要改私钥的权限，否则私钥不安全禁止登陆</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -i ./ssh_private bandit24@bandit.labs.overthewire.org</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-15"><a href="#level-15" class="headerlink" title="level 15"></a>level 15</h3><blockquote>
+<p>The password for the next level can be retrieved by submitting the password of the current level to port 30001 on localhost using SSL encryption.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl s_client -connect localhost:30001 -ign_eof</span><br><span class="line">openssl s_client -connect localhost:30001 -quiet</span><br></pre></td></tr></table></figure>
+
+<p><code>-quiet</code>用以关闭session和证书的信息，同时打开<code>-ign_eof</code>这个选项。前者可简化显示的界面，后者则保证在输入完成后不是立即断开连接，否则无法看到回显的下一个等级的密码</p>
+<h3 id="level-18"><a href="#level-18" class="headerlink" title="level 18"></a>level 18</h3><p>登陆之后会马上登出  </p>
+<ol>
+<li><p>通过ssh命令，在打开shell之前直接执行命令并获得输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh bandit18@bandit.labs.overthewire.org &apos;cat ./readme&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>scp命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp bandit18@bandit.labs.overthewire.org:.~/readme ./readme</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="level-22"><a href="#level-22" class="headerlink" title="level 22"></a>level 22</h3><p>同21关也是定时任务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ cat /usr/bin//cronjob_bandit23.sh </span><br><span class="line">#!/bin/bash</span><br><span class="line">myname=$(whoami)</span><br><span class="line">mytarget=$(echo I am user $myname | md5sum | cut -d &apos; &apos; -f 1)</span><br><span class="line">echo &quot;Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget&quot;</span><br><span class="line">cat /etc/bandit_pass/$myname &gt; /tmp/$mytarget</span><br></pre></td></tr></table></figure>
+
+<p>密码在/tmp中保存,文件名可以通过md5sum计算</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /tmp/`echo I am user bandit23 | md5sum`</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-24"><a href="#level-24" class="headerlink" title="level 24"></a>level 24</h3><p>爆破4位数字<br>在脚本中执行命令会巨慢，网络不好还会停。。<br>看了别人的操作，先把爆破好的密码+四位数字存到一个文件里，然后<br><code>cat a.txt|nc 127.0.0.1 30002</code><br>非常快</p>
+<h3 id="level-25"><a href="#level-25" class="headerlink" title="level 25"></a>level 25</h3><blockquote>
+<p>Logging in to bandit26 from bandit25 should be fairly easy… The shell for user bandit26 is not /bin/bash, but something else. Find out what it is, how it works and how to break out of it.</p>
+</blockquote>
+<p><code>cat /etc/passwd</code>查看使用的shell<br>cat一下发现用了more命令<br>more命令一次显示一屏文本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">V 调用vi编辑器</span><br><span class="line">!命令 调用Shell，并执行命令</span><br></pre></td></tr></table></figure>
+
+<p>试了试用<code>!</code>执行命令，但没有效果<br>按v进入vi编辑器，<code>:r /etc/bandit_pass/bandit26</code>读文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi执行命令</span><br><span class="line">:r !command</span><br><span class="line">:r file</span><br><span class="line">:!command</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-26"><a href="#level-26" class="headerlink" title="level 26"></a>level 26</h3><p>v进入编辑模式  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:set shell sh=/bin/sh</span><br><span class="line">:sh</span><br></pre></td></tr></table></figure>
+
+<p>得到shell</p>
+<h3 id="level-28"><a href="#level-28" class="headerlink" title="level 28"></a>level 28</h3><p>git回退版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br><span class="line">git checkout xxx</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-29"><a href="#level-29" class="headerlink" title="level 29"></a>level 29</h3><p>切换分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git branch -a</span><br><span class="line">git checkout xxx</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-30"><a href="#level-30" class="headerlink" title="level 30"></a>level 30</h3><p><code>git clone</code>之后还有一个<code>.git</code>目录，这个目录下包含了所有git正常工作所需要的信息 。包括对象存储，配置文件，分支和标签，HEAD 文件等 ，<code>git reflog</code> 可以查看所有分支的所有操作记录（包括提交、回退、已删除的提交操作记录等），<code>git show-ref</code>它的作用是显示本地存储库中可用的引用以及关联的提交 ID</p>
+<h3 id="level-31"><a href="#level-31" class="headerlink" title="level 31"></a>level 31</h3><p>读readme.md 要把内容为<code>May I come in?</code>的<code>key.txt</code>push到仓库<br><code>.gitignore</code>里是提交时忽略的文件<br><code>git add -f key.txt</code>强制提交  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add -f key.txt</span><br><span class="line">git commit</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-32"><a href="#level-32" class="headerlink" title="level 32"></a>level 32</h3><p>有一个<code>uppershell</code>把所有的命令都转为了大写并且执行</p>
+<ol>
+<li><p>写一个文件名为大写的脚本，执行<br>A.SH:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># /bin/bash</span><br><span class="line">bash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>$0</code><br>骚操作，指的是当前Shell本身的文件名 </p>
+</li>
+</ol>
+<p>$$<br>Shell本身的PID（ProcessID）<br>$!<br>Shell最后运行的后台Process的PID<br>$?<br>最后运行的命令的结束代码（返回值）<br>$-<br>使用Set命令设定的Flag一览<br>$*<br>所有参数列表。如”$*”用「”」括起来的情况、以”$1 $2 … $n”的形式输出所有参数。<br>$@<br>所有参数列表。如”$@”用「”」括起来的情况、以”$1” “$2” … “$n” 的形式输出所有参数。<br>$#<br>添加到Shell的参数个数<br>$0<br>Shell本身的文件名<br>$1～$n<br>添加到Shell的各参数值。$1是第1参数、$2是第2参数…。  </p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

