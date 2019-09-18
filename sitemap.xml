@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://daolgts.github.io/2019/09/18/bytectf2019-wp/</loc>
+    
+    <lastmod>2019-09-18T09:58:25.352Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://daolgts.github.io/2019/09/02/SoapClient%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-to-SSRF/</loc>
     
     <lastmod>2019-09-02T06:52:38.362Z</lastmod>
