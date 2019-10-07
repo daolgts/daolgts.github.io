@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    docker安全 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,docker
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 40 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 20 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1570410000000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1570410000000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>docker安全</h1>
+    <h2 id="Docker简介"><a href="#Docker简介" class="headerlink" title="Docker简介"></a>Docker简介</h2><h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>容器技术最早可以追述到1979年在Unix上的 <code>chroot</code>,<code>chroot</code> 之后的程序没法访问真实系统的的目录结构和文件。这种技术和思想经过发展，最后成为了 Linux 上的 <code>Namespace</code>，<code>Namespace</code> 和用于管理资源的 <code>CGroup</code> 以及 <code>AUFS</code> 类的 <code>Union FS</code> 等技术构成了 Linux 上的容器技术</p>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><blockquote>
+<p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中,然后发布到任何流行的Linux机器上,也可以实现虚拟化,容器是完全使用沙箱机制,相互之间不会有任何接口</p>
+</blockquote>
+<p>Docker 在容器的基础上，进行了进一步的封装，从文件系统、网络互联到进程隔离等等，极大的简化了容器的创建和维护。使得 Docker 技术比虚拟机技术更为轻便、快捷。</p>
+<p>Docker 和传统虚拟化方式也有不同之处：<br>传统虚拟机技术是虚拟出一套硬件后，在其上运行一个完整操作系统，在该系统上再运行所需应用进程；而容器内的应用进程直接运行于宿主的内核，容器内没有自己的内核，而且也没有进行硬件虚拟。</p>
+<p><img src="https://s2.ax1x.com/2019/10/05/uyrXg1.png" alt="uyrXg1.png"></p>
+<p><img src="https://s2.ax1x.com/2019/10/05/uyrO3R.png" alt="uyrO3R.png"></p>
+<h2 id="Docker组成"><a href="#Docker组成" class="headerlink" title="Docker组成"></a>Docker组成</h2><p>一个完整的 Docker 有以下几个部分组成：</p>
+<ol>
+<li><code>DockerClient</code> 客户端</li>
+<li><code>Docker Daemon</code> 守护进程</li>
+<li><code>Docker Image</code> 镜像</li>
+<li><code>DockerContainer</code> 容器</li>
+</ol>
+<p>Docker 镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数（如匿名卷、环境变量、用户等）。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</p>
+<p>镜像（<code>Image</code>）和容器（<code>Container</code>）的关系，就像是面向对象程序设计中的 <code>类</code> 和 <code>实例</code> 一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。</p>
+<h2 id="Docker架构"><a href="#Docker架构" class="headerlink" title="Docker架构"></a>Docker架构</h2><p>Docker采用 <code>C/S</code> 架构。<code>Docker Daemon</code> 作为服务端，接受来自<code>DockerClient</code> 客户端的请求。</p>
+<p>服务端可以通过三种不同类型方式来监听 <code>Docker Engine API</code> 请求：<code>unix</code>，<code>tcp</code> 和 <code>fd</code>。</p>
+<p><a href="https://docs.docker.com/engine/reference/commandline/dockerd/#examples" target="_blank" rel="noopener">https://docs.docker.com/engine/reference/commandline/dockerd/#examples</a></p>
+<h3 id="unix"><a href="#unix" class="headerlink" title="unix"></a><strong><code>unix</code></strong></h3><p>默认使用 unix domain socket <code>/var/run/docker.sock</code> 进行通信。</p>
+<p>客户端只能本地访问服务端，需要 root 权限或 Docker 组成员身份。</p>
+<h3 id="tcp"><a href="#tcp" class="headerlink" title="tcp"></a><strong><code>tcp</code></strong></h3><p>如果想要远程访问服务端，可以启用 <code>tcp</code> 方式，无加密监听在 <code>2375</code> 端口，使用 <code>HTTPS</code> 加密监听在 <code>2376</code> 端口</p>
+<h4 id="无加密"><a href="#无加密" class="headerlink" title="无加密"></a>无加密</h4><p>all network interfaces:<br><code>-H tcp://0.0.0.0:2375</code> </p>
+<p>指定：<br><code>-H tcp://192.168.59.103:2375</code></p>
+<h4 id="使用证书加密"><a href="#使用证书加密" class="headerlink" title="使用证书加密"></a>使用证书加密</h4><p>服务端<br><code>dockerd --tlsverify --tlscacert=ca.pem --tlscert=server-cert.pem --tlskey=server-key.pem -H=0.0.0.0:2376</code></p>
+<p>客户端<br><code>docker --tlsverify --tlscacert=ca.pem --tlscert=cert.pem --tlskey=key.pem -H=$HOST:2376 version</code></p>
+<p>具体见手册： <a href="https://docs.docker.com/engine/security/https/" target="_blank" rel="noopener">https://docs.docker.com/engine/security/https/</a></p>
+<h3 id="fd"><a href="#fd" class="headerlink" title="fd"></a><strong><code>fd</code></strong></h3><p>在基于 <code>Systemd</code> 的系统上，可以通过 <code>Systemd socket activation</code> 与服务端进行通信，</p>
+<p><code>dockerd -H fd://</code>，<code>dockerd -H fd://3</code></p>
+<h3 id="SSH"><a href="#SSH" class="headerlink" title="SSH"></a><strong><code>SSH</code></strong></h3><p>从 18.09 版本开始，Docker 客户端支持通过 SSH 连接到服务端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker -H ssh://me@example.com:22 ps</span><br><span class="line">docker -H ssh://me@example.com ps</span><br><span class="line">docker -H ssh://example.com ps</span><br></pre></td></tr></table></figure>
+
+<h2 id="Docker安全机制"><a href="#Docker安全机制" class="headerlink" title="Docker安全机制"></a>Docker安全机制</h2><p>Linux Kernel 从 2.2 版本开始，提供了 Capabilities 功能，它将root用户的权限细分为不同的领域，可以分别启用或禁用。把特权划分成不同单元，可以只授权程序所需的权限，而非所有特权。</p>
+<p><a href="http://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank" rel="noopener">http://man7.org/linux/man-pages/man7/capabilities.7.html</a></p>
+<p>Linux Capability 一共有38种，分别对应着一些系统调用，Docker 默认只开启了14种，这样就避免了很多安全的问题。</p>
+<h2 id="Docker-Remote-API-未授权访问-造成逃逸"><a href="#Docker-Remote-API-未授权访问-造成逃逸" class="headerlink" title="Docker Remote API 未授权访问 造成逃逸"></a>Docker Remote API 未授权访问 造成逃逸</h2><p>如果服务端监听方式配置为 <code>tcp</code> 且暴露在公网上，就能远程操作 docker </p>
+<p>服务端配置为 <code>-H tcp://0.0.0.0:2375</code></p>
+<p>客户端就可以远程访问</p>
+<p><code>docker -H tcp://192.168.214.145:2375 ps</code></p>
+<p>利用方式：</p>
+<ol>
+<li>运行一个容器，挂载 <code>/</code>，<code>/root</code>，<code>/home</code>,web目录或者其他目录,就能任意读写服务端的文件</li>
+<li>写入ssh公钥</li>
+<li>写入webshell</li>
+<li>写计划任务</li>
+<li>修改 <code>/etc/sudoer</code>，提权</li>
+</ol>
+<h2 id="配置特权模式造成逃逸"><a href="#配置特权模式造成逃逸" class="headerlink" title="配置特权模式造成逃逸"></a>配置特权模式造成逃逸</h2><p><code>--privileged</code> 与 <code>--cap-add</code></p>
+<p>当一个容器开启时加入了 <code>--privileged=true</code> 参数，就开启了所有的 Capability，允许容器内的 root 拥有宿主机的 root 权限。</p>
+<p>而 <code>--cap-add</code> 则可以加入 Capability，其中 <code>SYSADMIN</code> 意为container进程允许执行 <code>mount</code>、<code>umount</code> 等一系列系统管理操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -itd --privileged=<span class="literal">true</span> ubuntu:latest</span><br><span class="line">docker run -itd --<span class="built_in">cap</span>-add=SYS_ADMIN ubuntu:latest</span><br></pre></td></tr></table></figure>
+
+<p>这样开启了一个有特权模式的容器</p>
+<p>进入容器，挂载宿主机的硬盘，就能任意读写宿主机的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@ddef5f76cc36:/# mkdir test</span><br><span class="line">root@ddef5f76cc36:/# mount /dev/sda1 /test</span><br><span class="line">root@ddef5f76cc36:/# ls test/</span><br><span class="line">bin  boot  cdrom  core  dev  etc  flag  home  initrd.img  initrd.img.old  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  snap  srv  sys  tmp  usr  var  vmlinuz  vmlinuz.old</span><br><span class="line">root@ddef5f76cc36:/test# cat test/etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="Dirty-Cow漏洞"><a href="#Dirty-Cow漏洞" class="headerlink" title="Dirty Cow漏洞"></a>Dirty Cow漏洞</h2><p>CVE-2016-5195</p>
+<ul>
+<li><a href="https://www.anquanke.com/post/id/84866" target="_blank" rel="noopener">https://www.anquanke.com/post/id/84866</a></li>
+<li><a href="https://github.com/gebl/dirtycow-docker-vdso" target="_blank" rel="noopener">https://github.com/gebl/dirtycow-docker-vdso</a></li>
+<li><a href="https://github.com/scumjr/dirtycow-vdso" target="_blank" rel="noopener">https://github.com/scumjr/dirtycow-vdso</a></li>
+<li><a href="https://wohin.me/sec/2017/11/17/DirtyCoWDockerEscape.html" target="_blank" rel="noopener">https://wohin.me/sec/2017/11/17/DirtyCoWDockerEscape.html</a></li>
+</ul>
+<h2 id="runc中的容器逃逸漏洞"><a href="#runc中的容器逃逸漏洞" class="headerlink" title="runc中的容器逃逸漏洞"></a>runc中的容器逃逸漏洞</h2><p>CVE-2019-5736<br>当在容器内以root（UID 0）运行进程时，该进程可以利用runc中的错误来获取运行容器的主机的root权限</p>
+<ul>
+<li><a href="https://thinkycx.me/2019-05-23-CVE-2019-5736-docker-escape-recurrence.html" target="_blank" rel="noopener">https://thinkycx.me/2019-05-23-CVE-2019-5736-docker-escape-recurrence.html</a></li>
+<li><a href="https://bestwing.me/CVE-2019-5736-Docker-escape.html" target="_blank" rel="noopener">https://bestwing.me/CVE-2019-5736-Docker-escape.html</a></li>
+</ul>
+<p>poc:</p>
+<ul>
+<li><a href="https://github.com/jas502n/CVE-2019-5736" target="_blank" rel="noopener">https://github.com/jas502n/CVE-2019-5736</a></li>
+<li><a href="https://github.com/Frichetten/CVE-2019-5736-PoC" target="_blank" rel="noopener">https://github.com/Frichetten/CVE-2019-5736-PoC</a></li>
+</ul>
+<h2 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h2><ul>
+<li><a href="https://www.anquanke.com/post/id/179623" target="_blank" rel="noopener">https://www.anquanke.com/post/id/179623</a></li>
+<li><a href="https://xz.aliyun.com/t/6167" target="_blank" rel="noopener">https://xz.aliyun.com/t/6167</a></li>
+<li><a href="https://github.com/cr0hn/dockerscan" target="_blank" rel="noopener">https://github.com/cr0hn/dockerscan</a></li>
+<li><a href="https://seaii-blog.com/index.php/2017/01/31/26.html" target="_blank" rel="noopener">https://seaii-blog.com/index.php/2017/01/31/26.html</a></li>
+<li><a href="https://p0sec.net/index.php/archives/115/" target="_blank" rel="noopener">https://p0sec.net/index.php/archives/115/</a></li>
+<li><a href="https://yq.aliyun.com/articles/57126" target="_blank" rel="noopener">https://yq.aliyun.com/articles/57126</a></li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+<script>
+  (function() {
+    var cx = '005157513716557594323:jvii0oiejlb';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
