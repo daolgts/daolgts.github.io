@@ -156,13 +156,13 @@
     <li class="">
       <a href="/">Overview</a></li>
     <li class="selected">
-      <a href="/archives">Posts <span class="counter">42</span></a>
+      <a href="/archives">Posts <span class="counter">43</span></a>
     </li>
     <!-- <li class="">
       <a href="/categories">Categories <span
           class="counter">0</span></a></li> -->
     <li class="">
-      <a href="/tags">Tags <span class="counter">22</span></a></li>
+      <a href="/tags">Tags <span class="counter">23</span></a></li>
 
     <li class="">
       <a href="/links">Links</a></li>
@@ -173,6 +173,36 @@
 
     <div class="body-secondary">
       <ul class="archive-list">
+        
+        <li class="archive-list-item">
+          <h2><a href="/2020/04/06/百度搜索鸡肋xss/">百度搜索鸡肋xss</a></h2>
+          <p>
+             听说百度搜索  $file获取文件内容  有个xss，试了一下确实有，但是基本上没法利用 
+   
+ 为啥会出现呢，点开下边那个简书的链接   
+ 原来是百度直接展示了原文里的代码，解析成了html 
+ 好像是百度的功能吧，搜索问题直接给出答案   
+ 利用的话，提个问题，给出带xss的答案然后让...
+          </p>
+          <ul class="tag-list clearfix">
+            
+            <li class="tag-list-item"><a href="/tags/xss/">xss</a></li>
+            
+          </ul>
+          <div class="post-info">
+            <!-- <span>
+              
+              <i class="fa fa-folder-open"></i> Uncategorized
+              
+            </span> -->
+            <span>
+              <i class="fa fa-tag">xss</i>
+            </span>
+            <span>
+              Published {{moment(1586163623000).fromNow()}}
+            </span>
+          </div>
+        </li>
         
         <li class="archive-list-item">
           <h2><a href="/2019/10/10/redis rce/">redis rce</a></h2>
